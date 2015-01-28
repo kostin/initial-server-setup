@@ -1,0 +1,31 @@
+<VirtualHost 127.0.0.1:8080>
+	ServerName USER.HOSTNAME
+	ServerAlias ALIASES
+	<IfModule mpm_itk_module>
+	  AssignUserID USER USER
+	</IfModule>
+	DocumentRoot /var/www/USER/public
+	CustomLog /var/www/USER/logs/public-access.log combined
+	ErrorLog /var/www/USER/logs/public-error.log
+</VirtualHost>
+<VirtualHost 127.0.0.1:8080>
+  ServerName dev.USER.HOSTNAME
+	<IfModule mpm_itk_module>
+	  AssignUserID USER USER
+	</IfModule>
+  DocumentRoot /var/www/USER/dev
+  CustomLog /var/www/USER/logs/dev-access.log combined
+  ErrorLog /var/www/USER/logs/dev-error.log
+</VirtualHost>
+<Directory /var/www/USER>
+	php_admin_value open_basedir "/var/www/USER:."
+	php_admin_value upload_tmp_dir "/var/www/USER/tmp"
+	php_admin_value session.save_path "/var/www/USER/tmp"
+</Directory>
+<Directory /var/www/USER/dev>
+	Options +Indexes
+	AuthUserFile /var/www/USER/.htpasswd
+	AuthName "Password please"
+	AuthType Basic
+	Require valid-user 
+</Directory>
