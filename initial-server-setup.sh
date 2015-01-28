@@ -3,7 +3,7 @@
 DLPATH='https://github.com/kostin/initial-server-setup/raw/master'
 RPAF_IPS=`ip a | grep inet | awk '{print $2}' | awk -F/ '{print $1}' | sort -u | tr '\n' ' '`
 
-if [ -a /root/mysql-root-password.txt ]
+if [ -a /root/.mysql-root-password ]
 then
 	echo 'Already set up'
 	exit 0
