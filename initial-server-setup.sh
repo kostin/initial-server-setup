@@ -25,12 +25,21 @@ yum -y install epel-release
 sed -i "s/mirrorlist=https/mirrorlist=http/" /etc/yum.repos.d/epel.repo
 yum -y update
 yum -y install nano git mc rsync screen mailx pwgen nginx mysql-server phpMyAdmin proftpd psmisc net-tools httpd-itk mod_ssl php
-rpm -Uvh http://centalt.prounixadmin.ru/repository/centos/6/x86_64/mod_rpaf-0.6-2.el6.x86_64.rpm
+
+if [ `uname -m` == 'x86_64' ]
+then
+	rpm -Uvh http://centalt.prounixadmin.ru/repository/centos/6/x86_64/mod_rpaf-0.6-2.el6.x86_64.rpm
+else
+	rpm -Uvh http://www6.atomicorp.com/channels/atomic/centos/6/i386/RPMS/mod_rpaf-0.6-2.el6.art.i686.rpm
+fi
 
 sed -i "s/#HTTPD=\/usr\/sbin\/httpd.worker/HTTPD=\/usr\/sbin\/httpd.itk/" /etc/sysconfig/httpd
 MYSQLPASS=`pwgen 16 1`
 
-wget -O /etc/httpd/conf.d/rpaf.conf $DLPATH/rpaf.conf
+if [ `uname -m` == 'x86_64' ]
+then
+	wget -O /etc/httpd/conf.d/rpaf.conf $DLPATH/rpaf.conf
+fi	
 wget -O /etc/httpd/conf.d/php.conf $DLPATH/php.conf
 wget -O /etc/httpd/conf.d/phpMyAdmin.conf $DLPATH/phpMyAdmin.conf
 wget -O /etc/httpd/conf/httpd.conf $DLPATH/httpd.conf
