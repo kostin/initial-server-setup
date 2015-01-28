@@ -17,11 +17,12 @@ fi
 
 if [ "$2" ]
 then
-for i in $2
-do
-	ALIASES="$ALIASES $i www.$i"
-	echo $i >> /var/www/$USER/.domains
-done
+	touch /var/www/$USER/.domains
+	for i in $2
+	do
+		ALIASES="$ALIASES $i www.$i"
+		echo $i >> /var/www/$USER/.domains
+	done
 else
 	ALIASES="www.$USER.$HOST"
 fi
