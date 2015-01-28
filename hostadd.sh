@@ -19,10 +19,11 @@ if [ "$2" ]
 then
 for i in $2
 do
-        ALIASES="$ALIASES $i www.$i"
+	ALIASES="$ALIASES $i www.$i"
+	echo $i >> /var/www/$USER/.domains
 done
 else
-ALIASES="www.$USER.$HOST"
+	ALIASES="www.$USER.$HOST"
 fi
 
 #Check Virtual Host
@@ -79,3 +80,5 @@ echo "PWD=$PWD" > /var/www/$USER/.passwords
 echo "DBPWD=$DBPWD" >> /var/www/$USER/.passwords
 
 chmod 600 /var/www/$USER/.passwords
+
+ln -s /opt/scripts/.htpasswd /var/www/$USER/.htpasswd
