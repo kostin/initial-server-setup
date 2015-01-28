@@ -24,7 +24,7 @@ rpm -Uvh http://nginx.org/packages/centos/6/noarch/RPMS/nginx-release-centos-6-0
 yum -y install epel-release
 sed -i "s/mirrorlist=https/mirrorlist=http/" /etc/yum.repos.d/epel.repo
 yum -y update
-yum -y install nano git mc mailx pwgen nginx mysql-server phpMyAdmin proftpd psmisc net-tools httpd-itk mod_ssl php
+yum -y install nano git mc rsync mailx pwgen nginx mysql-server phpMyAdmin proftpd psmisc net-tools httpd-itk mod_ssl php
 rpm -Uvh http://centalt.prounixadmin.ru/repository/centos/6/x86_64/mod_rpaf-0.6-2.el6.x86_64.rpm
 
 sed -i "s/#HTTPD=\/usr\/sbin\/httpd.worker/HTTPD=\/usr\/sbin\/httpd.itk/" /etc/sysconfig/httpd
