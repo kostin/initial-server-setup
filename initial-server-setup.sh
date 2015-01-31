@@ -102,6 +102,12 @@ echo "<?php print rand(); ?>" > /var/www/000default/public/index.php
 echo "#!/bin/bash" > /etc/profile.d/php-cli.sh
 echo "alias php=\"php -c /etc/php-cli.ini\"" >> /etc/profile.d/php-cli.sh
 
-yum -y install php-pear php-devel pear upgrade-all
-pear channel-discover pear.drush.org
-pear install drush/drush
+#yum -y install php-pear php-devel pear upgrade-all
+#pear channel-discover pear.drush.org
+#pear install drush/drush
+
+cd /usr/local/share/ && \
+wget http://ftp.drupal.org/files/projects/drush-7.x-5.9.tar.gz && \
+tar zxvf drush-7.x-5.9.tar.gz && \
+ln -s /usr/local/share/drush/drush /usr/local/bin/drush && \
+rm -f drush-7.x-5.9.tar.gz
