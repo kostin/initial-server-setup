@@ -28,9 +28,12 @@ yum -y install nano git mc rsync screen mailx pwgen nginx mysql-server phpMyAdmi
 
 if [ `uname -m` == 'x86_64' ]
 then
-	rpm -Uvh http://centalt.prounixadmin.ru/repository/centos/6/x86_64/mod_rpaf-0.6-2.el6.x86_64.rpm
+	rpm -Uvh http://repo.x-api.net/centos6/x86_64/mod_rpaf-0.6-2.el6.x86_64.rpm
+	#  http://centalt.prounixadmin.ru/repository/centos/6/x86_64/mod_rpaf-0.6-2.el6.x86_64.rpm
+	yum -y install ftp://linuxsoft.cern.ch/cern/updates/slc6X/x86_64/RPMS/php-pecl-uploadprogress-1.0.1-1.slc6.x86_64.rpm
 else
-	rpm -Uvh http://www6.atomicorp.com/channels/atomic/centos/6/i386/RPMS/mod_rpaf-0.6-2.el6.art.i686.rpm
+	rpm -Uvh http://repo.x-api.net/centos6/i386/mod_rpaf-0.6-2.el6.i686.rpm
+	yum -y install ftp://linuxsoft.cern.ch/cern/updates/slc6X/x86_64/RPMS/php-pecl-uploadprogress-1.0.1-1.slc6.i686.rpm
 fi
 
 sed -i "s/#HTTPD=\/usr\/sbin\/httpd.worker/HTTPD=\/usr\/sbin\/httpd.itk/" /etc/sysconfig/httpd
@@ -44,6 +47,7 @@ wget -O /etc/httpd/conf.d/php.conf $DLPATH/php.conf
 wget -O /etc/httpd/conf.d/phpMyAdmin.conf $DLPATH/phpMyAdmin.conf
 wget -O /etc/httpd/conf/httpd.conf $DLPATH/httpd.conf
 wget -O /etc/php.ini $DLPATH/php.ini
+wget -O /etc/php-cli.ini $DLPATH/php-cli.ini
 wget -O /etc/my.cnf $DLPATH/my.cnf
 wget -O /etc/proftpd.conf $DLPATH/proftpd.conf
 wget -O /etc/nginx/nginx.conf $DLPATH/nginx.conf
@@ -94,3 +98,10 @@ echo "Password (.htpasswd) for user 269 is $DEVPASS"
 
 /opt/scripts/hostadd.sh 000default
 echo "<?php print rand(); ?>" > /var/www/000default/public/index.php
+
+echo "#!/bin/bash" > /etc/profile.d/php-cli.sh
+echo "alias php=\"php -c /etc/php-cli.ini\"" >> /etc/profile.d/php-cli.sh
+
+yum -y install php-pear php-devel pear upgrade-all
+pear channel-discover pear.drush.org
+pear install drush/drush
