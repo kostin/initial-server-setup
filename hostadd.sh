@@ -77,8 +77,8 @@ sed -i "s/HOSTNAME/$HOST/g" /etc/httpd/conf/vhosts/$USER.conf
 echo "User password: $USRPWD" 
 echo "MySQL password for user $USER: $DBPWD"
 
-echo "USRPWD=$USRPWD" > /var/www/$USER/.hostconf/.password-user
-echo "DBPWD=$DBPWD" >> /var/www/$USER/.hostconf/.password-db
+echo "$USRPWD" > /var/www/$USER/.hostconf/.password-user
+echo "$DBPWD" >> /var/www/$USER/.hostconf/.password-db
 
 chown -R root:root /var/www/$USER/.hostconf
 chmod -R 400 /var/www/$USER/.hostconf
