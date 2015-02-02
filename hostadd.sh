@@ -15,18 +15,6 @@ then
 	exit 0
 fi
 
-if [ "$2" ]
-then
-	touch /var/www/$USER/.domains
-	for i in $2
-	do
-		ALIASES="$ALIASES $i www.$i"
-		echo $i >> /var/www/$USER/.domains
-	done
-else
-	ALIASES="www.$USER.$HOST"
-fi
-
 #Check Virtual Host
 if [ -a /etc/httpd/conf/vhosts/$USER.conf ]
 then
@@ -67,6 +55,17 @@ DBPWD=`tr -dc a-zA-Z0-9 < /dev/urandom | head -c16 | xargs`
 mysql -p$MYSQLPWD -B -N -e "create database $MAINDB; grant all on $MAINDB.* to $USER@localhost identified by '$DBPWD'; create database $DEVDB; grant all on $DEVDB.* to $USER@localhost;"
 
 #Create HTTPD vhost
+if [ "$2" ]
+then
+	touch /var/www/$USER/.domains
+	for i in $2
+	do
+		ALIASES="$ALIASES $i www.$i"
+		echo $i >> /var/www/$USER/.domains
+	done
+else
+	ALIASES="www.$USER.$HOST"
+fi
 cp /opt/scripts/vhost_template /etc/httpd/conf/vhosts/$USER.conf
 sed -i "s/USER/$USER/g" /etc/httpd/conf/vhosts/$USER.conf
 sed -i "s/ALIASES/$ALIASES/g" /etc/httpd/conf/vhosts/$USER.conf
