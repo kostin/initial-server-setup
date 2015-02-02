@@ -44,9 +44,9 @@ then
 fi
 
 #Create user
-PWD=`tr -dc a-zA-Z0-9 < /dev/urandom | head -c16 | xargs`
+USRPWD=`tr -dc a-zA-Z0-9 < /dev/urandom | head -c16 | xargs`
 useradd -b /var/www --shell /sbin/nologin --create-home --skel /etc/www.skel $USER
-echo $PWD | passwd --stdin $USER
+echo $USRPWD | passwd --stdin $USER
 
 #Create database
 MAINDB=$USER"_pub"
@@ -74,10 +74,10 @@ sed -i "s/HOSTNAME/$HOST/g" /etc/httpd/conf/vhosts/$USER.conf
 
 /etc/init.d/httpd restart
 
-echo "User password: $PWD" 
+echo "User password: $USRPWD" 
 echo "MySQL password for user $USER: $DBPWD"
 
-echo "PWD=$PWD" > /var/www/$USER/.passwords
+echo "USRPWD=$USRPWD" > /var/www/$USER/.passwords
 echo "DBPWD=$DBPWD" >> /var/www/$USER/.passwords
 
 chmod 400 /var/www/$USER/.passwords
