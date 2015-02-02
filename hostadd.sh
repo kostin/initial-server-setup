@@ -47,6 +47,7 @@ fi
 USRPWD=`tr -dc a-zA-Z0-9 < /dev/urandom | head -c16 | xargs`
 useradd -b /var/www --shell /sbin/nologin --create-home --skel /etc/www.skel $USER
 echo $USRPWD | passwd --stdin $USER
+mkdir /var/www/$USER/.hostconf
 
 #Create database
 MAINDB=$USER"_pub"
@@ -57,13 +58,12 @@ mysql -p$MYSQLPWD -B -N -e "create database $MAINDB; grant all on $MAINDB.* to $
 #Create HTTPD vhost
 if [ "$2" ]
 then
-	touch /var/www/$USER/.domains
+	touch /var/www/$USER/.hostconf/.domains
 	for i in $2
 	do
 		ALIASES="$ALIASES $i www.$i"
-		echo $i >> /var/www/$USER/.domains
+		echo $i >> /var/www/$USER/.hostconf/.domains
 	done
-	chmod 400 /var/www/$USER/.domains
 else
 	ALIASES="www.$USER.$HOST"
 fi
@@ -77,9 +77,11 @@ sed -i "s/HOSTNAME/$HOST/g" /etc/httpd/conf/vhosts/$USER.conf
 echo "User password: $USRPWD" 
 echo "MySQL password for user $USER: $DBPWD"
 
-echo "USRPWD=$USRPWD" > /var/www/$USER/.passwords
-echo "DBPWD=$DBPWD" >> /var/www/$USER/.passwords
+echo "USRPWD=$USRPWD" > /var/www/$USER/.hostconf/.password-user
+echo "DBPWD=$DBPWD" >> /var/www/$USER/.hostconf/.password-db
 
-chmod 400 /var/www/$USER/.passwords
+chown -R root:root /var/www/$USER/.hostconf
+chmod 500 /var/www/$USER/.hostconf
+chmod 400 /var/www/$USER/.hostconf/*
 
 ln -s /opt/scripts/.htpasswd /var/www/$USER/.htpasswd
