@@ -5,10 +5,16 @@ wget https://github.com/kostin/initial-server-setup/raw/master/initial-server-se
 && ./initial-server-setup.sh
 ```
 
-Update scripts and conf:
+Update scripts:
 ```
-wget https://github.com/kostin/initial-server-setup/raw/master/update-scripts-and-conf.sh \
-&& chmod +x update-scripts-and-conf.sh \
-&& ./update-scripts-and-conf.sh
+wget https://github.com/kostin/initial-server-setup/raw/master/update-scripts.sh \
+&& chmod +x update-scripts.sh \
+&& ./update-scripts.sh
+```
 
+Update configuration files:
+```
+wget https://github.com/kostin/initial-server-setup/raw/master/update-conf.sh \
+&& chmod +x update-conf.sh \
+&& ./update-conf.sh
 ```
