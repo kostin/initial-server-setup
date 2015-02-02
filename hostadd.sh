@@ -63,6 +63,7 @@ then
 		ALIASES="$ALIASES $i www.$i"
 		echo $i >> /var/www/$USER/.domains
 	done
+	chmod 400 /var/www/$USER/.domains
 else
 	ALIASES="www.$USER.$HOST"
 fi
@@ -79,6 +80,6 @@ echo "MySQL password for user $USER: $DBPWD"
 echo "PWD=$PWD" > /var/www/$USER/.passwords
 echo "DBPWD=$DBPWD" >> /var/www/$USER/.passwords
 
-chmod 600 /var/www/$USER/.passwords
+chmod 400 /var/www/$USER/.passwords
 
 ln -s /opt/scripts/.htpasswd /var/www/$USER/.htpasswd
