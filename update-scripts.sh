@@ -2,23 +2,23 @@
 
 DLPATH='https://github.com/kostin/initial-server-setup/raw/master'
 
-wget $DLPATH/backup.sh -O /opt/scripts/backup.sh 
-wget -q $DLPATH/backup.sh -O /opt/scripts/backup.sh 
+rm -rf /opt/scripts/backup.sh
+wget -O /opt/scripts/backup.sh $DLPATH/backup.sh
 
-wget $DLPATH/hostadd.sh -O /opt/scripts/hostadd.sh 
-wget -q $DLPATH/hostadd.sh -O /opt/scripts/hostadd.sh 
+rm -rf /opt/scripts/hostadd.sh
+wget -O /opt/scripts/hostadd.sh $DLPATH/hostadd.sh 
 
-wget $DLPATH/hostdel.sh -O /opt/scripts/hostdel.sh 
-wget -q $DLPATH/hostdel.sh -O /opt/scripts/hostdel.sh 
+rm -rf /opt/scripts/hostdel.sh
+wget -O /opt/scripts/hostdel.sh $DLPATH/hostdel.sh
 
-wget $DLPATH/hostexport.sh -O /opt/scripts/hostexport.sh 
-wget -q $DLPATH/hostexport.sh -O /opt/scripts/hostexport.sh 
+rm -rf /opt/scripts/hostexport.sh
+wget -O /opt/scripts/hostexport.sh $DLPATH/hostexport.sh
 
-wget $DLPATH/hostshow.sh -O /opt/scripts/hostexport.sh 
-wget -q $DLPATH/hostshow.sh -O /opt/scripts/hostexport.sh 
+rm -rf /opt/scripts/hostexport.sh
+wget -O /opt/scripts/hostexport.sh $DLPATH/hostshow.sh
 
-wget $DLPATH/vhost_template -O /opt/scripts/vhost_template 
-wget -q $DLPATH/vhost_template -O /opt/scripts/vhost_template 
+rm -rf /opt/scripts/vhost_template
+wget -O /opt/scripts/vhost_template $DLPATH/vhost_template
 
 chmod +x /opt/scripts/*.sh
 
