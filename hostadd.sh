@@ -81,7 +81,7 @@ echo "USRPWD=$USRPWD" > /var/www/$USER/.hostconf/.password-user
 echo "DBPWD=$DBPWD" >> /var/www/$USER/.hostconf/.password-db
 
 chown -R root:root /var/www/$USER/.hostconf
+chmod -R 400 /var/www/$USER/.hostconf
 chmod 500 /var/www/$USER/.hostconf
-chmod 400 /var/www/$USER/.hostconf/*
 
 ln -s /opt/scripts/.htpasswd /var/www/$USER/.htpasswd
