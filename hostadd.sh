@@ -78,7 +78,7 @@ echo "User password: $USRPWD"
 echo "MySQL password for user $USER: $DBPWD"
 
 echo "$USRPWD" > /var/www/$USER/.hostconf/.password-user
-echo "$DBPWD" >> /var/www/$USER/.hostconf/.password-db
+echo "$DBPWD" > /var/www/$USER/.hostconf/.password-db
 
 chown -R root:root /var/www/$USER/.hostconf
 chmod -R 400 /var/www/$USER/.hostconf
