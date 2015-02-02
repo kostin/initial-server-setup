@@ -14,8 +14,8 @@ wget -O /opt/scripts/hostdel.sh $DLPATH/hostdel.sh
 rm -rf /opt/scripts/hostexport.sh
 wget -O /opt/scripts/hostexport.sh $DLPATH/hostexport.sh
 
-rm -rf /opt/scripts/hostexport.sh
-wget -O /opt/scripts/hostexport.sh $DLPATH/hostshow.sh
+rm -rf /opt/scripts/hostshow.sh
+wget -O /opt/scripts/hostshow.sh $DLPATH/hostshow.sh
 
 rm -rf /opt/scripts/vhost_template
 wget -O /opt/scripts/vhost_template $DLPATH/vhost_template
