@@ -27,8 +27,11 @@ POSTFIX="_pub"
 TOBASE=$TOUSER$POSTFIX
 echo $TOBASE
 ssh root@$TOSERVER "mysql -u root -p$TOSQLPASS $TOBASE < /var/www/$TOUSER/base.sql"
-PWDLINE=$(ssh root@$TOSERVER "grep 'DBPWD' /var/www/$TOUSER/.passwords | tail -1")
-TOSQLUSERPASS=$(echo $PWDLINE | awk -F "=" '/DBPWD/ {print $2}')
+
+#PWDLINE=$(ssh root@$TOSERVER "grep 'DBPWD' /var/www/$TOUSER/.passwords | tail -1")
+#TOSQLUSERPASS=$(echo $PWDLINE | awk -F "=" '/DBPWD/ {print $2}')
+
+TOSQLUSERPASS=$(ssh root@$TOSERVER "cat /var/www/$TOUSER/.hostconf/.password-db")
 ssh root@$TOSERVER "sed -i \"s/^      'database' => '[^']*',/	   'database' => '$TOBASE',/g\" /var/www/$TOUSER/public/sites/default/settings.php"
 ssh root@$TOSERVER "sed -i \"s/^      'password' => '[^']*',/	   'password' => '$TOSQLUSERPASS',/g\" /var/www/$TOUSER/public/sites/default/settings.php"
 ssh root@$TOSERVER "sed -i \"s/^      'username' => '[^']*',/	   'username' => '$TOUSER',/g\" /var/www/$TOUSER/public/sites/default/settings.php"
