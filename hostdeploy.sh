@@ -1,0 +1,40 @@
+#!/bin/bash
+
+if [ ! "$1" ] && [ ! "$2" ];
+then
+  echo "There are 2 required agruments: valid site name, script working mode: d2p, p2d";
+  echo "/opt/scripts/hostdeploy.sh mysite d2p - deploy site from dev to production (from ./dev to ./public directory)";
+  echo "/opt/scripts/hostdeploy.sh mysite p2d - deploy site from production to dev (from ./public to ./dev directory)";
+  echo "Backup of overwritten files and database will be created in both cases automatically and stored in site directory.";
+  exit 0;
+fi
+
+USER=$1
+SQLPASS=`cat /root/.mysql-root-password`
+
+POSTFIX="_pub"
+PUBDB=$USER$POSTFIX
+POSTFIX="_dev"
+DEVDB=$USER$POSTFIX
+
+DATE=`date +%Y-%m-%d_%H-%M`
+tar cfzp /var/www/$USER/$USER-public-files-$DATE.tar.gz /var/www/$USER/public/
+tar cfzp /var/www/$USER/$USER-dev-files-$DATE.tar.gz /var/www/$USER/dev/
+mysqldump -u root -p$SQLPASS $PUBDB | gzip > /var/www/$USER/$USER-public-db-$DATE.tar.gz
+mysqldump -u root -p$SQLPASS $DEVDB | gzip > /var/www/$USER/$USER-dev-db-$DATE.tar.gz
+
+if [ "$2" == "d2p" ];
+then
+  rsync -azhv -e ssh /var/www/$USER/dev/ /var/www/$USER/public/
+  mysqldump -u root -p$SQLPASS $DEVDB > /var/www/$USER/base.sql
+  mysql -u root -p$SQLPASS $PUBDB < /var/www/$USER/base.sql
+  sed -i "s/^      'database' => '[^']*',/	   'database' => '$PUBDB',/g" /var/www/$USER/public/sites/default/settings.php
+elif [ "$2" == "p2d" ];
+then
+  rsync -azhv -e ssh /var/www/$USER/public/ /var/www/$USER/dev/
+  mysqldump -u root -p$SQLPASS $PUBDB > /var/www/$USER/base.sql
+  mysql -u root -p$SQLPASS $DEVDB < /var/www/$USER/base.sql
+  sed -i "s/^      'database' => '[^']*',/	   'database' => '$DEVDB',/g" /var/www/$USER/dev/sites/default/settings.php  
+else 
+  echo "Incorrect second argument. Must be one of: d2p, p2d";
+fi
