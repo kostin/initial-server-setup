@@ -2,23 +2,14 @@
 
 DLPATH='https://github.com/kostin/initial-server-setup/raw/master'
 
-rm -rf /opt/scripts/backup.sh
-wget -O /opt/scripts/backup.sh $DLPATH/backup.sh
-
-rm -rf /opt/scripts/hostadd.sh
-wget -O /opt/scripts/hostadd.sh $DLPATH/hostadd.sh 
-
-rm -rf /opt/scripts/hostdel.sh
-wget -O /opt/scripts/hostdel.sh $DLPATH/hostdel.sh
-
-rm -rf /opt/scripts/hostexport.sh
-wget -O /opt/scripts/hostexport.sh $DLPATH/hostexport.sh
-
-rm -rf /opt/scripts/hostshow.sh
-wget -O /opt/scripts/hostshow.sh $DLPATH/hostshow.sh
-
-rm -rf /opt/scripts/vhost_template
-wget -O /opt/scripts/vhost_template $DLPATH/vhost_template
+cd /opt/scripts/
+wget -N $DLPATH/backup.sh
+wget -N $DLPATH/hostadd.sh 
+wget -N $DLPATH/hostdel.sh
+wget -N $DLPATH/hostexport.sh
+wget -N $DLPATH/hostshow.sh
+wget -N $DLPATH/hostdeploy.sh
+wget -N $DLPATH/vhost_template
 
 chmod +x /opt/scripts/*.sh
 
