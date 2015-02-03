@@ -30,13 +30,13 @@ then
   rsync -azhv -e ssh /var/www/$USER/dev/ /var/www/$USER/public/
   mysqldump -u root -p$SQLPASS $DEVDB > /var/www/$USER/base.sql
   mysql -u root -p$SQLPASS $PUBDB < /var/www/$USER/base.sql
-  sed -i "s/^      'database' => '[^']*',/	   'database' => '$PUBDB',/g" /var/www/$USER/public/sites/default/settings.php
+  sed -i "s/^[[:space:]]*'database' => '[^']*',/      'database' => '$PUBDB',/g" /var/www/$USER/public/sites/default/settings.php
 elif [ "$2" == "p2d" ];
 then
   rsync -azhv -e ssh /var/www/$USER/public/ /var/www/$USER/dev/
   mysqldump -u root -p$SQLPASS $PUBDB > /var/www/$USER/base.sql
   mysql -u root -p$SQLPASS $DEVDB < /var/www/$USER/base.sql
-  sed -i "s/^      'database' => '[^']*',/	   'database' => '$DEVDB',/g" /var/www/$USER/dev/sites/default/settings.php  
-else 
+  sed -i "s/^[[:space:]]*'database' => '[^']*',/      'database' => '$DEVDB',/g" /var/www/$USER/dev/sites/default/settings.php
+else
   echo "Incorrect second argument. Must be one of: d2p, p2d";
 fi
