@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PASS=`cat /root/mysql-root-password.txt`
+PASS=`cat /root/.mysql-root-password`
 DATE=`date +%Y-%m-%d_%H-%M`
 
 cd /var/www
