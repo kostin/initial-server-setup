@@ -17,11 +17,13 @@ PUBDB=$USER$POSTFIX
 POSTFIX="_dev"
 DEVDB=$USER$POSTFIX
 
+if [ ! -d "/var/www/$USER/backups/" ]; then mkdir /var/www/$USER/backups/; fi
+
 DATE=`date +%Y-%m-%d_%H-%M`
-tar cfzp /var/www/$USER/$USER-public-files-$DATE.tar.gz /var/www/$USER/public/
-tar cfzp /var/www/$USER/$USER-dev-files-$DATE.tar.gz /var/www/$USER/dev/
-mysqldump -u root -p$SQLPASS $PUBDB | gzip > /var/www/$USER/$USER-public-db-$DATE.tar.gz
-mysqldump -u root -p$SQLPASS $DEVDB | gzip > /var/www/$USER/$USER-dev-db-$DATE.tar.gz
+tar cfzp /var/www/$USER/backups/$USER-public-files-$DATE.tar.gz /var/www/$USER/public/
+tar cfzp /var/www/$USER/backups/$USER-dev-files-$DATE.tar.gz /var/www/$USER/dev/
+mysqldump -u root -p$SQLPASS $PUBDB | gzip > /var/www/$USER/backups/$USER-public-db-$DATE.sql.gz
+mysqldump -u root -p$SQLPASS $DEVDB | gzip > /var/www/$USER/backups/$USER-dev-db-$DATE.sql.gz
 
 if [ "$2" == "d2p" ];
 then
