@@ -12,10 +12,8 @@ fi
 USER=$1
 SQLPASS=`cat /root/.mysql-root-password`
 
-POSTFIX="_pub"
-PUBDB="$USER_pub"
-POSTFIX="_dev"
-DEVDB=$USER$POSTFIX
+PUBDB=$USER"_pub"
+DEVDB=$USER"_dev"
 
 if [ ! -d "/var/www/$USER/backups/" ]; then mkdir /var/www/$USER/backups/; fi
 
