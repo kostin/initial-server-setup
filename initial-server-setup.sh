@@ -147,17 +147,16 @@ then
     exit 0;
 fi
 
-MYSQLPASS=""
-if [[ -a /root/.mysql-root-password ]] ;
+if [ -a /root/.mysql-root-password ] ;
 then 
 	MYSQLPASS=`cat /root/.mysql-root-password`	
 	echo 'Already set up'
 	scriptupdate
 	confupdate
 else
-	MYSQLPASS=`pwgen 16 1`
-	scriptupdate
 	softinstall
-	confupdate
+	MYSQLPASS=`pwgen 16 1`
 	mysqlpostinstall
+	scriptupdate
+	confupdate
 fi
