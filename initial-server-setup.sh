@@ -13,7 +13,7 @@ function softinstall {
 	sed -i "s/mirrorlist=https/mirrorlist=http/" /etc/yum.repos.d/epel.repo
 	
 	yum -y update
-	yum -y install nano git mc rsync screen mailx pwgen nginx mysql mysql-server postgresql-libs phpMyAdmin proftpd psmisc net-tools httpd-itk mod_ssl php
+	yum -y install sshguard nano git mc rsync screen mailx pwgen nginx mysql mysql-server postgresql-libs phpMyAdmin proftpd psmisc net-tools httpd-itk mod_ssl php
 	
 	if [ `uname -m` == 'x86_64' ]; then
 		rpm -Uvh http://repo.x-api.net/centos6/x86_64/mod_rpaf-0.6-2.el6.x86_64.rpm
@@ -87,21 +87,37 @@ function confupdate {
 	htpasswd -b -c /opt/scripts/.htpasswd $HTUSER $HTPASS
 	echo "Password (.htpasswd) for user $HTUSER is $HTPASS"
 	
+	iptables -F
+	
+	iptables -A INPUT -p tcp --tcp-flags ALL NONE -j DROP
+	iptables -A INPUT -p tcp ! --syn -m state --state NEW -j DROP
+	iptables -A INPUT -p tcp --tcp-flags ALL ALL -j DROP
+	iptables -A INPUT -i lo -j ACCEPT
+	iptables -A INPUT -p tcp -m tcp --dport 22 -j ACCEPT
+	iptables -A INPUT -p tcp -m tcp --dport 21 -j ACCEPT
+	iptables -A INPUT -p tcp -m tcp --dport 80 -j ACCEPT
+	iptables -A INPUT -p tcp -m tcp --dport 443 -j ACCEPT
+	iptables -P OUTPUT ACCEPT
+	iptables -P INPUT DROP
+	
+	iptables -N sshguard
+	iptables -A INPUT -m multiport -p tcp --destination-ports 21,22 -j sshguard
+	
+	service iptables save	
+	service iptables restart
+	
 	service httpd restart
 	service mysqld restart
 	service nginx restart
 	service proftpd restart
 	service searchd restart
-	
+
 	chkconfig httpd on
 	chkconfig mysqld on
 	chkconfig nginx on
 	chkconfig proftpd on
 	chkconfig searchd on
 
-	iptables -F
-	service iptables save	
-	
 	echo '05 03 * * * /opt/scripts/backup.sh' > /var/spool/cron/root
 	echo '04 03 * * * /usr/bin/indexer --rotate --all' > /var/spool/cron/sphinx
 }
