@@ -1,7 +1,7 @@
 # initial-server-setup
 ```
 cd /root \
-&& wget -N https://github.com/kostin/initial-server-setup/raw/master/initial-server-setup.sh \
+&& wget -N --no-check-certificate https://github.com/kostin/initial-server-setup/raw/master/initial-server-setup.sh \
 && chmod +x initial-server-setup.sh \
 && ./initial-server-setup.sh
 ```
