@@ -2,30 +2,7 @@
 
 DLPATH='https://github.com/kostin/initial-server-setup/raw/master'
 
-if [ ! `cat /etc/redhat-release | grep 'CentOS release 6'` ]
-then
-    echo 'Wrong OS!'
-    exit 0
-fi
-
-MYSQLPASS=""
-if [[ -a /root/.mysql-root-password ]];
-then 
-	MYSQLPASS=`cat /root/.mysql-root-password`	
-	echo 'Already set up'
-	scriptinstall
-	confinstall
-else
-	MYSQLPASS=`pwgen 16 1`
-	scriptinstall
-	softinstall
-	confinstall
-	mysqlpostinstall
-fi
-
-
 function softinstall {
-
 	echo 'Installing software...'
 	
 	echo 'nameserver 8.8.8.8' > /etc/resolv.conf
@@ -49,7 +26,11 @@ function softinstall {
 		rpm -Uhv http://sphinxsearch.com/files/sphinx-2.0.10-1.rhel5.i386.rpm
 		yum -y install ftp://linuxsoft.cern.ch/cern/updates/slc6X/x86_64/RPMS/php-pecl-uploadprogress-1.0.1-1.slc6.i686.rpm
 	fi
-
+	service httpd start
+	service mysqld start
+	service nginx start
+	service proftpd start
+	service searchd start
 }
 
 function scriptupdate {
@@ -78,7 +59,6 @@ function scriptupdate {
 }
 
 function confupdate {
-
 	echo 'Updating conf...'
 	
 	cd /etc/httpd/conf.d
@@ -128,12 +108,7 @@ function confupdate {
 	service mysqld restart
 	service nginx restart
 	service proftpd restart
-	chkconfig searchd restart
-	chkconfig httpd on
-	chkconfig mysqld on
-	chkconfig nginx on
-	chkconfig proftpd on
-	chkconfig searchd on
+	service searchd restart
 
 	iptables -F
 	service iptables save
@@ -151,10 +126,32 @@ function confupdate {
 }
 
 function mysqlpostinstall {
-
 	mysqladmin -u root password $MYSQLPASS
 	mysql -p$MYSQLPASS -B -N -e "drop database test"
 	echo $MYSQLPASS > /root/.mysql-root-password
 	echo "MySQL root password is $MYSQLPASS and it stored in /root/.mysql-root-password"	
-	
 }
+
+
+if [ ! `cat /etc/redhat-release | grep 'CentOS release 6'` ] ;
+then
+    echo 'Wrong OS!'
+    exit 0
+fi
+
+MYSQLPASS=""
+if [[ -a /root/.mysql-root-password ]];
+then 
+	MYSQLPASS=`cat /root/.mysql-root-password`	
+	echo 'Already set up'
+	scriptinstall
+	confinstall
+else
+	MYSQLPASS=`pwgen 16 1`
+	scriptinstall
+	softinstall
+	confinstall
+	mysqlpostinstall
+fi
+
+
