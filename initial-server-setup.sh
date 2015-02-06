@@ -41,10 +41,7 @@ fi
 sed -i "s/#HTTPD=\/usr\/sbin\/httpd.worker/HTTPD=\/usr\/sbin\/httpd.itk/" /etc/sysconfig/httpd
 MYSQLPASS=`pwgen 16 1`
 
-if [ `uname -m` == 'x86_64' ]
-then
-	wget -O /etc/httpd/conf.d/rpaf.conf $DLPATH/rpaf.conf
-fi	
+wget -O /etc/httpd/conf.d/rpaf.conf $DLPATH/rpaf.conf
 wget -O /etc/httpd/conf.d/php.conf $DLPATH/php.conf
 wget -O /etc/httpd/conf.d/phpMyAdmin.conf $DLPATH/phpMyAdmin.conf
 wget -O /etc/httpd/conf/httpd.conf $DLPATH/httpd.conf
@@ -68,6 +65,8 @@ chmod +x /opt/scripts/*.sh
 mkdir /etc/httpd/conf/vhosts
 sed -i "s/IPS/$RPAF_IPS/" /etc/httpd/conf.d/rpaf.conf
 rm -f /etc/nginx/conf.d/*.conf
+
+chown -R sphinx:sphinx /var/log/sphinx/*
 
 service httpd start
 service mysqld start
