@@ -30,39 +30,11 @@ function softinstall {
 	fi
 }
 
-function scriptupdate {
-	echo 'Installing or updating scripts...'
-
-	if [ ! -d /opt/scripts ]; then
-		mkdir -p /opt/scripts
-	fi
-	
-	if [ ! -d /backups/.deleted ]; then
-		mkdir -p /backups/.deleted
-	fi
-	
-	cd /opt/scripts
-
-	wget -N $DLPATH/backup.sh
-	wget -N $DLPATH/hostadd.sh 
-	wget -N $DLPATH/hostdel.sh
-	wget -N $DLPATH/hostexport.sh
-	wget -N $DLPATH/hostshow.sh
-	wget -N $DLPATH/hostdeploy.sh
-	wget -N $DLPATH/vhost_template
-	wget -N $DLPATH/sphinxrestart.sh
-
-	chmod +x /opt/scripts/*.sh
-	
-	mkdir /etc/httpd/conf/vhosts
-	/opt/scripts/hostadd.sh 000default
-	echo "<?php print rand(); ?>" > /var/www/000default/public/index.php		
-
-	cd /usr/local/share/ && \
-	wget -N http://ftp.drupal.org/files/projects/drush-7.x-5.9.tar.gz && \
-	tar zxvf drush-7.x-5.9.tar.gz && \
-	ln -s /usr/local/share/drush/drush /usr/local/bin/drush && \
-	rm -f drush-7.x-5.9.tar.gz
+function mysqlpostinstall {
+	mysqladmin -u root password $MYSQLPASS
+	mysql -p$MYSQLPASS -B -N -e "drop database test"
+	echo $MYSQLPASS > /root/.mysql-root-password
+	echo "MySQL root password is $MYSQLPASS and it stored in /root/.mysql-root-password"	
 }
 
 function confupdate {
@@ -81,15 +53,13 @@ function confupdate {
 	wget -N $DLPATH/httpd.conf
 
 	cd /etc/
+	wget -N $DLPATH/my.cnf
+	wget -N $DLPATH/proftpd.conf
 	wget -N $DLPATH/php.ini
 	wget -N $DLPATH/php-cli.ini
 	echo "#!/bin/bash" > /etc/profile.d/php-cli.sh
 	echo 'alias php="php -c /etc/php-cli.ini"' >> /etc/profile.d/php-cli.sh
 	
-	cd /etc/
-	wget -N $DLPATH/my.cnf
-	wget -N $DLPATH/proftpd.conf
-
 	cd /etc/nginx
 	wget -N $DLPATH/nginx.conf
 
@@ -135,13 +105,40 @@ function confupdate {
 	service iptables save	
 }
 
-function mysqlpostinstall {
-	mysqladmin -u root password $MYSQLPASS
-	mysql -p$MYSQLPASS -B -N -e "drop database test"
-	echo $MYSQLPASS > /root/.mysql-root-password
-	echo "MySQL root password is $MYSQLPASS and it stored in /root/.mysql-root-password"	
-}
+function scriptupdate {
+	echo 'Installing or updating scripts...'
 
+	if [ ! -d /opt/scripts ]; then
+		mkdir -p /opt/scripts
+	fi
+	
+	if [ ! -d /backups/.deleted ]; then
+		mkdir -p /backups/.deleted
+	fi
+	
+	cd /opt/scripts
+
+	wget -N $DLPATH/backup.sh
+	wget -N $DLPATH/hostadd.sh 
+	wget -N $DLPATH/hostdel.sh
+	wget -N $DLPATH/hostexport.sh
+	wget -N $DLPATH/hostshow.sh
+	wget -N $DLPATH/hostdeploy.sh
+	wget -N $DLPATH/vhost_template
+	wget -N $DLPATH/sphinxrestart.sh
+
+	chmod +x /opt/scripts/*.sh
+	
+	mkdir /etc/httpd/conf/vhosts
+	/opt/scripts/hostadd.sh 000default
+	echo "<?php print rand(); ?>" > /var/www/000default/public/index.php		
+
+	cd /usr/local/share/ && \
+	wget -N http://ftp.drupal.org/files/projects/drush-7.x-5.9.tar.gz && \
+	tar zxvf drush-7.x-5.9.tar.gz && \
+	ln -s /usr/local/share/drush/drush /usr/local/bin/drush && \
+	rm -f drush-7.x-5.9.tar.gz
+}
 
 if [ ! `cat /etc/redhat-release | grep 'CentOS release 6'` ] ;
 then
