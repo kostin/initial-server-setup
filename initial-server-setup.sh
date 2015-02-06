@@ -100,7 +100,7 @@ function confupdate {
 	iptables -F
 	service iptables save	
 	
-	echo '05 03 * * * /opt/scripts/backup.sh' >> /var/spool/cron/root
+	echo '05 03 * * * /opt/scripts/backup.sh' > /var/spool/cron/root
 	echo '04 03 * * * /usr/bin/indexer --rotate --all' >> /var/spool/cron/root	
 }
 
@@ -128,7 +128,10 @@ function scriptupdate {
 
 	chmod +x /opt/scripts/*.sh
 	
-	mkdir /etc/httpd/conf/vhosts
+	if [ ! -d /etc/httpd/conf/vhosts ]; then
+		mkdir /etc/httpd/conf/vhosts
+	fi
+	
 	/opt/scripts/hostadd.sh 000default
 	echo "<?php print rand(); ?>" > /var/www/000default/public/index.php		
 
