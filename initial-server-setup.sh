@@ -14,6 +14,8 @@ function softinstall {
 	
 	yum -y update
 	yum -y install nano git mc rsync screen mailx pwgen nginx mysql-server phpMyAdmin proftpd psmisc net-tools httpd-itk mod_ssl php
+	
+	service mysqld start
 
 	if [ `uname -m` == 'x86_64' ]
 	then
@@ -23,8 +25,8 @@ function softinstall {
 		yum -y install ftp://linuxsoft.cern.ch/cern/updates/slc6X/x86_64/RPMS/php-pecl-uploadprogress-1.0.1-1.slc6.x86_64.rpm
 	else
 		rpm -Uvh http://repo.x-api.net/centos6/i386/mod_rpaf-0.6-2.el6.i686.rpm
-		rpm -Uhv http://sphinxsearch.com/files/sphinx-2.0.10-1.rhel5.i386.rpm
-		yum -y install ftp://linuxsoft.cern.ch/cern/updates/slc6X/x86_64/RPMS/php-pecl-uploadprogress-1.0.1-1.slc6.i686.rpm
+		rpm -Uhv http://sphinxsearch.com/files/sphinx-2.0.10-1.rhel6.i386.rpm
+		yum -y install ftp://linuxsoft.cern.ch/cern/updates/slc6X/i386/RPMS/php-pecl-uploadprogress-1.0.1-1.slc6.i686.rpm
 	fi
 }
 
