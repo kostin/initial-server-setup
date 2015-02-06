@@ -60,9 +60,13 @@ function confupdate {
 	echo 'Updating conf...'
 	
 	cd /etc/httpd/conf.d
-	wget -N $DLPATH/rpaf.conf
 	wget -N $DLPATH/php.conf
 	wget -N $DLPATH/phpMyAdmin.conf
+	wget -N $DLPATH/rpaf.conf
+	if [ `uname -m` == 'i686' ]
+	then
+		sed -i 's/lib64/lib/g' /etc/httpd/conf.d/rpaf.conf
+	fi	
 
 	cd /etc/httpd/conf
 	wget -N $DLPATH/httpd.conf
