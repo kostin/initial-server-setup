@@ -88,6 +88,7 @@ echo $MYSQLPASS > /root/.mysql-root-password
 echo "MySQL root password is $MYSQLPASS and it stored in /root/.mysql-root-password"
 
 echo '05 03 * * * /opt/scripts/backup.sh' >> /var/spool/cron/root
+echo '04 03 * * * /usr/bin/indexer --rotate --all' >> /var/spool/cron/root
 
 mkdir /etc/www.skel
 mkdir /etc/www.skel/public
