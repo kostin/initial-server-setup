@@ -110,6 +110,8 @@ function confupdate {
 	chown -R sphinx:sphinx /var/log/sphinx/*
 	rm -f /etc/nginx/conf.d/*.conf
 	sed -i "s/#HTTPD=\/usr\/sbin\/httpd.worker/HTTPD=\/usr\/sbin\/httpd.itk/" /etc/sysconfig/httpd
+	
+	rm -rf /var/www/html /var/www/error /var/www/icons /var/www/cgi-bin
 
 	/opt/scripts/hostadd.sh 000default
 	echo "<?php print rand(); ?>" > /var/www/000default/public/index.php
