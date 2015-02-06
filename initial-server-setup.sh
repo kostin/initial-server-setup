@@ -148,7 +148,7 @@ function confupdate {
 	echo "Password (.htpasswd) for user $HTUSER is $HTPASS"
 }
 
-mysqlpostinstall {
+function mysqlpostinstall {
 
 	mysqladmin -u root password $MYSQLPASS
 	mysql -p$MYSQLPASS -B -N -e "drop database test"
