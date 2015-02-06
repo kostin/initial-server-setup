@@ -34,7 +34,6 @@ function softinstall {
 }
 
 function scriptupdate {
-
 	echo 'Installing or updating scripts...'
 
 	cd /opt/scripts
@@ -55,7 +54,6 @@ function scriptupdate {
 	tar zxvf drush-7.x-5.9.tar.gz && \
 	ln -s /usr/local/share/drush/drush /usr/local/bin/drush && \
 	rm -f drush-7.x-5.9.tar.gz
-
 }
 
 function confupdate {
@@ -135,23 +133,21 @@ function mysqlpostinstall {
 
 if [ ! `cat /etc/redhat-release | grep 'CentOS release 6'` ] ;
 then
-    echo 'Wrong OS!'
-    exit 0
+    echo 'Wrong OS!';
+    exit 0;
 fi
 
 MYSQLPASS=""
-if [[ -a /root/.mysql-root-password ]];
+if [[ -a /root/.mysql-root-password ]] ;
 then 
 	MYSQLPASS=`cat /root/.mysql-root-password`	
 	echo 'Already set up'
-	scriptinstall
-	confinstall
+	scriptupdate
+	confupdate
 else
 	MYSQLPASS=`pwgen 16 1`
-	scriptinstall
+	scriptupdate
 	softinstall
-	confinstall
+	confupdate
 	mysqlpostinstall
 fi
-
-
