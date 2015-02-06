@@ -29,10 +29,12 @@ yum -y install nano git mc rsync screen mailx pwgen nginx mysql-server phpMyAdmi
 if [ `uname -m` == 'x86_64' ]
 then
 	rpm -Uvh http://repo.x-api.net/centos6/x86_64/mod_rpaf-0.6-2.el6.x86_64.rpm
+	rpm -Uhv http://sphinxsearch.com/files/sphinx-2.0.10-1.rhel6.x86_64.rpm
 	#  http://centalt.prounixadmin.ru/repository/centos/6/x86_64/mod_rpaf-0.6-2.el6.x86_64.rpm
 	yum -y install ftp://linuxsoft.cern.ch/cern/updates/slc6X/x86_64/RPMS/php-pecl-uploadprogress-1.0.1-1.slc6.x86_64.rpm
 else
 	rpm -Uvh http://repo.x-api.net/centos6/i386/mod_rpaf-0.6-2.el6.i686.rpm
+	rpm -Uhv http://sphinxsearch.com/files/sphinx-2.0.10-1.rhel5.i386.rpm
 	yum -y install ftp://linuxsoft.cern.ch/cern/updates/slc6X/x86_64/RPMS/php-pecl-uploadprogress-1.0.1-1.slc6.i686.rpm
 fi
 
@@ -52,6 +54,7 @@ wget -O /etc/my.cnf $DLPATH/my.cnf
 wget -O /etc/proftpd.conf $DLPATH/proftpd.conf
 wget -O /etc/nginx/nginx.conf $DLPATH/nginx.conf
 wget -O /etc/logrotate.d/httpd $DLPATH/httpd
+wget -O /etc/sphinx/spninx-common.conf $DLPATH/sphinx-common.conf
 
 mkdir /opt/scripts
 mkdir -p /backups/.deleted
@@ -70,10 +73,12 @@ service httpd start
 service mysqld start
 service nginx start
 service proftpd start
+chkconfig searchd start
 chkconfig httpd on
 chkconfig mysqld on
 chkconfig nginx on
 chkconfig proftpd on
+chkconfig searchd on
 
 iptables -F
 service iptables save
