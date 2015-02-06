@@ -17,8 +17,7 @@ function softinstall {
 	
 	service mysqld start
 
-	if [ `uname -m` == 'x86_64' ]
-	then
+	if [ `uname -m` == 'x86_64' ]; then
 		rpm -Uvh http://repo.x-api.net/centos6/x86_64/mod_rpaf-0.6-2.el6.x86_64.rpm
 		rpm -Uhv http://sphinxsearch.com/files/sphinx-2.0.10-1.rhel6.x86_64.rpm
 		#  http://centalt.prounixadmin.ru/repository/centos/6/x86_64/mod_rpaf-0.6-2.el6.x86_64.rpm
@@ -78,9 +77,6 @@ function confupdate {
 	RPAF_IPS=`ip a | grep inet | awk '{print $2}' | awk -F/ '{print $1}' | sort -u | tr '\n' ' '`
 	sed -i "s/IPS/$RPAF_IPS/" /etc/httpd/conf.d/rpaf.conf
 	
-	echo '05 03 * * * /opt/scripts/backup.sh' >> /var/spool/cron/root
-	echo '04 03 * * * /usr/bin/indexer --rotate --all' >> /var/spool/cron/root
-
 	mkdir /etc/www.skel /etc/www.skel/public /etc/www.skel/dev /etc/www.skel/logs /etc/www.skel/tmp
 	
 	HTUSER='269'
@@ -103,6 +99,9 @@ function confupdate {
 
 	iptables -F
 	service iptables save	
+	
+	echo '05 03 * * * /opt/scripts/backup.sh' >> /var/spool/cron/root
+	echo '04 03 * * * /usr/bin/indexer --rotate --all' >> /var/spool/cron/root	
 }
 
 function scriptupdate {
@@ -140,14 +139,12 @@ function scriptupdate {
 	rm -f drush-7.x-5.9.tar.gz
 }
 
-if [ ! `cat /etc/redhat-release | grep 'CentOS release 6'` ] ;
-then
+if [ ! `cat /etc/redhat-release | grep 'CentOS release 6'` ]; then
     echo 'Wrong OS!';
     exit 0;
 fi
 
-if [ -a /root/.mysql-root-password ] ;
-then 
+if [ -a /root/.mysql-root-password ]; then 
 	MYSQLPASS=`cat /root/.mysql-root-password`	
 	echo 'Already set up'
 	scriptupdate
