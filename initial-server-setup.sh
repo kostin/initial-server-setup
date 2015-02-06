@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DLPATH='https://github.com/kostin/initial-server-setup/raw/master'
+DLPATH='https://raw.githubusercontent.com/kostin/initial-server-setup/master'
 
 function softinstall {
 	echo 'Installing software...'
