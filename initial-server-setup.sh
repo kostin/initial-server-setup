@@ -44,8 +44,7 @@ function confupdate {
 	wget -N $DLPATH/php.conf
 	wget -N $DLPATH/phpMyAdmin.conf
 	wget -N $DLPATH/rpaf.conf
-	if [ `uname -m` == 'i686' ]
-	then
+	if [ `uname -m` == 'i686' ]; then
 		sed -i 's/lib64/lib/g' /etc/httpd/conf.d/rpaf.conf
 	fi	
 
@@ -68,6 +67,7 @@ function confupdate {
 
 	cd /etc/sphinx/
 	wget -N $DLPATH/sphinx-common.conf
+	cat /etc/sphinx/sphinx-common.conf > /etc/sphinx/sphinx.conf
 
 	chown -R sphinx:sphinx /var/log/sphinx/*
 	rm -f /etc/nginx/conf.d/*.conf
@@ -77,8 +77,6 @@ function confupdate {
 
 	RPAF_IPS=`ip a | grep inet | awk '{print $2}' | awk -F/ '{print $1}' | sort -u | tr '\n' ' '`
 	sed -i "s/IPS/$RPAF_IPS/" /etc/httpd/conf.d/rpaf.conf
-	
-	mkdir /etc/www.skel /etc/www.skel/public /etc/www.skel/dev /etc/www.skel/logs /etc/www.skel/tmp
 	
 	HTUSER='269'
 	HTPASS='4389'
@@ -130,11 +128,17 @@ function scriptupdate {
 	chmod +x /opt/scripts/*.sh
 	
 	if [ ! -d /etc/httpd/conf/vhosts ]; then
-		mkdir /etc/httpd/conf/vhosts
+		mkdir -p /etc/httpd/conf/vhosts
 	fi
 	
+	if [ ! -d /etc/etc/www.skel ]; then
+		mkdir /etc/www.skel /etc/www.skel/public /etc/www.skel/dev /etc/www.skel/logs /etc/www.skel/tmp
+	fi
 	/opt/scripts/hostadd.sh 000default
-	echo "<?php print rand(); ?>" > /var/www/000default/public/index.php		
+	if [ ! -a /var/www/000default/public/index.php ]; then 
+		NOW="$(date +'%Y-%m-%d %H:%i:%s')"
+		echo "<?php print 'Running since $DATE'; ?>" > /var/www/000default/public/index.php		
+	fi
 
 	cd /usr/local/share/ && \
 	wget -N http://ftp.drupal.org/files/projects/drush-7.x-5.9.tar.gz && \
@@ -151,12 +155,12 @@ fi
 if [ -a /root/.mysql-root-password ]; then 
 	MYSQLPASS=`cat /root/.mysql-root-password`	
 	echo 'Already set up'
-	scriptupdate
 	confupdate
+	scriptupdate
 else
 	softinstall
 	MYSQLPASS=`pwgen 16 1`
 	mysqlpostinstall
-	scriptupdate
 	confupdate
+	scriptupdate
 fi
