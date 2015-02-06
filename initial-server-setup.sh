@@ -74,6 +74,9 @@ function confupdate {
 	sed -i "s/#HTTPD=\/usr\/sbin\/httpd.worker/HTTPD=\/usr\/sbin\/httpd.itk/" /etc/sysconfig/httpd
 	
 	rm -rf /var/www/html /var/www/error /var/www/icons /var/www/cgi-bin
+	if [ ! -d /etc/httpd/conf/vhosts ]; then
+		mkdir -p /etc/httpd/conf/vhosts
+	fi
 
 	RPAF_IPS=`ip a | grep inet | awk '{print $2}' | awk -F/ '{print $1}' | sort -u | tr '\n' ' '`
 	sed -i "s/IPS/$RPAF_IPS/" /etc/httpd/conf.d/rpaf.conf
@@ -100,7 +103,7 @@ function confupdate {
 	service iptables save	
 	
 	echo '05 03 * * * /opt/scripts/backup.sh' > /var/spool/cron/root
-	echo '04 03 * * * /usr/bin/indexer --rotate --all' >> /var/spool/cron/root	
+	echo '04 03 * * * /usr/bin/indexer --rotate --all' > /var/spool/cron/sphinx
 }
 
 function scriptupdate {
@@ -126,10 +129,6 @@ function scriptupdate {
 	wget -N $DLPATH/sphinxrestart.sh
 
 	chmod +x /opt/scripts/*.sh
-	
-	if [ ! -d /etc/httpd/conf/vhosts ]; then
-		mkdir -p /etc/httpd/conf/vhosts
-	fi
 	
 	if [ ! -d /etc/etc/www.skel ]; then
 		mkdir /etc/www.skel /etc/www.skel/public /etc/www.skel/dev /etc/www.skel/logs /etc/www.skel/tmp
