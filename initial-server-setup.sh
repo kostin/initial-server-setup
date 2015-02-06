@@ -26,12 +26,6 @@ function softinstall {
 		rpm -Uhv http://sphinxsearch.com/files/sphinx-2.0.10-1.rhel5.i386.rpm
 		yum -y install ftp://linuxsoft.cern.ch/cern/updates/slc6X/x86_64/RPMS/php-pecl-uploadprogress-1.0.1-1.slc6.i686.rpm
 	fi
-	
-	service httpd start
-	service mysqld start
-	service nginx start
-	service proftpd start
-	service searchd start
 }
 
 function scriptupdate {
@@ -57,6 +51,10 @@ function scriptupdate {
 	wget -N $DLPATH/sphinxrestart.sh
 
 	chmod +x /opt/scripts/*.sh
+	
+	mkdir /etc/httpd/conf/vhosts
+	/opt/scripts/hostadd.sh 000default
+	echo "<?php print rand(); ?>" > /var/www/000default/public/index.php		
 
 	cd /usr/local/share/ && \
 	wget -N http://ftp.drupal.org/files/projects/drush-7.x-5.9.tar.gz && \
@@ -66,7 +64,7 @@ function scriptupdate {
 }
 
 function confupdate {
-	echo 'Updating conf...'
+	echo 'Installing or updating conf...'
 	
 	cd /etc/httpd/conf.d
 	wget -N $DLPATH/php.conf
@@ -83,6 +81,10 @@ function confupdate {
 	cd /etc/
 	wget -N $DLPATH/php.ini
 	wget -N $DLPATH/php-cli.ini
+	echo "#!/bin/bash" > /etc/profile.d/php-cli.sh
+	echo 'alias php="php -c /etc/php-cli.ini"' >> /etc/profile.d/php-cli.sh
+	
+	cd /etc/
 	wget -N $DLPATH/my.cnf
 	wget -N $DLPATH/proftpd.conf
 
@@ -101,26 +103,9 @@ function confupdate {
 	
 	rm -rf /var/www/html /var/www/error /var/www/icons /var/www/cgi-bin
 
-	/opt/scripts/hostadd.sh 000default
-	echo "<?php print rand(); ?>" > /var/www/000default/public/index.php
-
-	echo "#!/bin/bash" > /etc/profile.d/php-cli.sh
-	echo 'alias php="php -c /etc/php-cli.ini"' >> /etc/profile.d/php-cli.sh
-
-	mkdir /etc/httpd/conf/vhosts
-	
 	RPAF_IPS=`ip a | grep inet | awk '{print $2}' | awk -F/ '{print $1}' | sort -u | tr '\n' ' '`
 	sed -i "s/IPS/$RPAF_IPS/" /etc/httpd/conf.d/rpaf.conf
 	
-	service httpd restart
-	service mysqld restart
-	service nginx restart
-	service proftpd restart
-	service searchd restart
-
-	iptables -F
-	service iptables save
-
 	echo '05 03 * * * /opt/scripts/backup.sh' >> /var/spool/cron/root
 	echo '04 03 * * * /usr/bin/indexer --rotate --all' >> /var/spool/cron/root
 
@@ -131,6 +116,21 @@ function confupdate {
 	#HTPASS=`pwgen 16 1`
 	htpasswd -b -c /opt/scripts/.htpasswd $HTUSER $HTPASS
 	echo "Password (.htpasswd) for user $HTUSER is $HTPASS"
+	
+	service httpd restart
+	service mysqld restart
+	service nginx restart
+	service proftpd restart
+	service searchd restart
+	
+	chkconfig httpd on
+	chkconfig mysqld on
+	chkconfig nginx on
+	chkconfig proftpd on
+	chkconfig searchd on
+
+	iptables -F
+	service iptables save	
 }
 
 function mysqlpostinstall {
