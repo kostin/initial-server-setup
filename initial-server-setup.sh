@@ -26,6 +26,7 @@ function softinstall {
 		rpm -Uhv http://sphinxsearch.com/files/sphinx-2.0.10-1.rhel5.i386.rpm
 		yum -y install ftp://linuxsoft.cern.ch/cern/updates/slc6X/x86_64/RPMS/php-pecl-uploadprogress-1.0.1-1.slc6.i686.rpm
 	fi
+	
 	service httpd start
 	service mysqld start
 	service nginx start
@@ -36,6 +37,14 @@ function softinstall {
 function scriptupdate {
 	echo 'Installing or updating scripts...'
 
+	if [ ! -d /opt/scripts ]; then
+		mkdir -p /opt/scripts
+	fi
+	
+	if [ ! -d /backups/.deleted ]; then
+		mkdir -p /backups/.deleted
+	fi
+	
 	cd /opt/scripts
 
 	wget -N $DLPATH/backup.sh
@@ -50,7 +59,7 @@ function scriptupdate {
 	chmod +x /opt/scripts/*.sh
 
 	cd /usr/local/share/ && \
-	wget http://ftp.drupal.org/files/projects/drush-7.x-5.9.tar.gz && \
+	wget -N http://ftp.drupal.org/files/projects/drush-7.x-5.9.tar.gz && \
 	tar zxvf drush-7.x-5.9.tar.gz && \
 	ln -s /usr/local/share/drush/drush /usr/local/bin/drush && \
 	rm -f drush-7.x-5.9.tar.gz
@@ -85,9 +94,6 @@ function confupdate {
 
 	cd /etc/sphinx/
 	wget -N $DLPATH/sphinx-common.conf
-
-	mkdir /opt/scripts
-	mkdir -p /backups/.deleted	
 
 	chown -R sphinx:sphinx /var/log/sphinx/*
 	rm -f /etc/nginx/conf.d/*.conf
