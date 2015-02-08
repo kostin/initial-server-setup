@@ -6,6 +6,7 @@ function softinstall {
 	echo 'Installing software...'
 	
 	echo 'nameserver 8.8.8.8' > /etc/resolv.conf
+	echo 'nameserver 77.88.8.8' >> /etc/resolv.conf
 	killall -9 httpd
 
 	rpm -Uvh http://nginx.org/packages/centos/6/noarch/RPMS/nginx-release-centos-6-0.el6.ngx.noarch.rpm
