@@ -6,18 +6,7 @@ cd /root \
 && ./initial-server-setup.sh
 ```
 
-Update scripts:
-```
-cd /root \
-&& wget -N https://github.com/kostin/initial-server-setup/raw/master/update-scripts.sh \
-&& chmod +x update-scripts.sh \
-&& ./update-scripts.sh
-```
+If you run the script again, it will only be updated configuration files and scripts.
 
-Update configuration files:
-```
-cd /root \
-&& wget -N https://github.com/kostin/initial-server-setup/raw/master/update-conf.sh \
-&& chmod +x update-conf.sh \
-&& ./update-conf.sh
-```
+TODO:
+1. Generate per user cron files from ./.hostconf/.cron
