@@ -143,6 +143,7 @@ function scriptupdate {
 	wget -N $DLPATH/hostdeploy.sh
 	wget -N $DLPATH/vhost_template
 	wget -N $DLPATH/sphinxrestart.sh
+	wget -N $DLPATH/robots.txt
 
 	chmod +x /opt/scripts/*.sh
 	
