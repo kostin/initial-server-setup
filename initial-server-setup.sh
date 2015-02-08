@@ -163,7 +163,9 @@ function scriptupdate {
 }
 
 if grep -q 'CentOS release 6' /etc/redhat-release; then
-	echo 'Starting...'
+	echo 'Starting with '`hostname`
+	echo 'Press Enter to continue (Ctrl+C to exit)!'
+       	read
 else
 	echo 'Wrong OS!';
 	exit 0;
