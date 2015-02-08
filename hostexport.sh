@@ -31,7 +31,7 @@ ssh root@$TOSERVER "mysql -u root -p$TOSQLPASS $TOBASE < /var/www/$TOUSER/base.s
 
 TOSQLUSERPASS=$(ssh root@$TOSERVER "cat /var/www/$TOUSER/.hostconf/.password-db")
 
-if ssh root@$TOSERVER test -e "/var/www/$TOUSER/public/sites/default/files/settings.php" ; then
+if ssh root@$TOSERVER test -e "/var/www/$TOUSER/public/sites/default/settings.php" ; then
   ssh root@$TOSERVER "sed -i \"s/^[[:space:]]'database' => '[^']*',/	   'database' => '$TOBASE',/g\" /var/www/$TOUSER/public/sites/default/settings.php"
   ssh root@$TOSERVER "sed -i \"s/^[[:space:]]'password' => '[^']*',/	   'password' => '$TOSQLUSERPASS',/g\" /var/www/$TOUSER/public/sites/default/settings.php"
   ssh root@$TOSERVER "sed -i \"s/^[[:space:]]'username' => '[^']*',/	   'username' => '$TOUSER',/g\" /var/www/$TOUSER/public/sites/default/settings.php"
