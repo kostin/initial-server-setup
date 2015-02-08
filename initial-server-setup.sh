@@ -162,7 +162,7 @@ function scriptupdate {
 	rm -f drush-7.x-5.9.tar.gz
 }
 
-if [ ! `cat /etc/redhat-release | grep 'CentOS release 6'` ]; then
+if [ ! grep -q 'CentOS release 6' /etc/redhat-release ]; then
     echo 'Wrong OS!';
     exit 0;
 fi
