@@ -162,9 +162,11 @@ function scriptupdate {
 	rm -f drush-7.x-5.9.tar.gz
 }
 
-if [ ! grep -q 'CentOS release 6' /etc/redhat-release ]; then
-    echo 'Wrong OS!';
-    exit 0;
+if grep -q 'CentOS release 6' /etc/redhat-release; then
+	echo 'Starting...'
+else
+	echo 'Wrong OS!';
+	exit 0;
 fi
 
 if [ -a /root/.mysql-root-password ]; then 
