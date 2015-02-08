@@ -27,6 +27,7 @@ TOBASE=$TOUSER"_pub"
 ssh root@$TOSERVER "mysql -u root -p$TOSQLPASS $TOBASE < /var/www/$TOUSER/base.sql"
 
 #PWDLINE=$(ssh root@$TOSERVER "grep 'DBPWD' /var/www/$TOUSER/.passwords | tail -1")
+
 #TOSQLUSERPASS=$(echo $PWDLINE | awk -F "=" '/DBPWD/ {print $2}') 
 
 TOSQLUSERPASS=$(ssh root@$TOSERVER "cat /var/www/$TOUSER/.hostconf/.password-db")
