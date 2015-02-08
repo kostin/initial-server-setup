@@ -47,10 +47,17 @@ function confupdate {
 	if [ `uname -m` == 'i686' ]; then
 		sed -i 's/lib64/lib/g' /etc/httpd/conf.d/rpaf.conf
 	fi	
+	RPAF_IPS=`ip a | grep inet | awk '{print $2}' | awk -F/ '{print $1}' | sort -u | tr '\n' ' '`
+	sed -i "s/IPS/$RPAF_IPS/" /etc/httpd/conf.d/rpaf.conf		
 
 	cd /etc/httpd/conf
 	wget -N $DLPATH/httpd.conf
-
+	sed -i "s/#HTTPD=\/usr\/sbin\/httpd.worker/HTTPD=\/usr\/sbin\/httpd.itk/" /etc/sysconfig/httpd
+	rm -rf /var/www/html /var/www/error /var/www/icons /var/www/cgi-bin
+	if [ ! -d /etc/httpd/conf/vhosts ]; then
+		mkdir -p /etc/httpd/conf/vhosts
+	fi	
+	
 	cd /etc/
 	wget -N $DLPATH/my.cnf
 	wget -N $DLPATH/proftpd.conf
@@ -61,6 +68,9 @@ function confupdate {
 	
 	cd /etc/nginx
 	wget -N $DLPATH/nginx.conf
+	rm -f /etc/nginx/conf.d/*.conf
+	HOST=`hostname`
+	sed -i "s/HOSTNAME/$HOST/" /etc/nginx/nginx.conf
 
 	cd /etc/logrotate.d
 	wget -N $DLPATH/httpd
@@ -68,18 +78,7 @@ function confupdate {
 	cd /etc/sphinx/
 	wget -N $DLPATH/sphinx-common.conf
 	cat /etc/sphinx/sphinx-common.conf > /etc/sphinx/sphinx.conf
-
 	chown -R sphinx:sphinx /var/log/sphinx/*
-	rm -f /etc/nginx/conf.d/*.conf
-	sed -i "s/#HTTPD=\/usr\/sbin\/httpd.worker/HTTPD=\/usr\/sbin\/httpd.itk/" /etc/sysconfig/httpd
-	
-	rm -rf /var/www/html /var/www/error /var/www/icons /var/www/cgi-bin
-	if [ ! -d /etc/httpd/conf/vhosts ]; then
-		mkdir -p /etc/httpd/conf/vhosts
-	fi
-
-	RPAF_IPS=`ip a | grep inet | awk '{print $2}' | awk -F/ '{print $1}' | sort -u | tr '\n' ' '`
-	sed -i "s/IPS/$RPAF_IPS/" /etc/httpd/conf.d/rpaf.conf
 	
 	HTUSER='269'
 	HTPASS='4389'
