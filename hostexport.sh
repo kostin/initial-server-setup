@@ -30,6 +30,15 @@ ssh root@$TOSERVER "mysql -u root -p$TOSQLPASS $TOBASE < /var/www/$TOUSER/base.s
 #TOSQLUSERPASS=$(echo $PWDLINE | awk -F "=" '/DBPWD/ {print $2}') 
 
 TOSQLUSERPASS=$(ssh root@$TOSERVER "cat /var/www/$TOUSER/.hostconf/.password-db")
-ssh root@$TOSERVER "sed -i \"s/^[[:space:]]'database' => '[^']*',/	   'database' => '$TOBASE',/g\" /var/www/$TOUSER/public/sites/default/settings.php"
-ssh root@$TOSERVER "sed -i \"s/^[[:space:]]'password' => '[^']*',/	   'password' => '$TOSQLUSERPASS',/g\" /var/www/$TOUSER/public/sites/default/settings.php"
-ssh root@$TOSERVER "sed -i \"s/^[[:space:]]'username' => '[^']*',/	   'username' => '$TOUSER',/g\" /var/www/$TOUSER/public/sites/default/settings.php"
+
+if ssh root@$TOSERVER test -e "/var/www/$TOUSER/public/sites/default/files/settings.php" ; then
+  ssh root@$TOSERVER "sed -i \"s/^[[:space:]]'database' => '[^']*',/	   'database' => '$TOBASE',/g\" /var/www/$TOUSER/public/sites/default/settings.php"
+  ssh root@$TOSERVER "sed -i \"s/^[[:space:]]'password' => '[^']*',/	   'password' => '$TOSQLUSERPASS',/g\" /var/www/$TOUSER/public/sites/default/settings.php"
+  ssh root@$TOSERVER "sed -i \"s/^[[:space:]]'username' => '[^']*',/	   'username' => '$TOUSER',/g\" /var/www/$TOUSER/public/sites/default/settings.php"
+fi
+
+if ssh root@$TOSERVER test -e "/var/www/$TOUSER/public/wp-config.php" ; then
+  ssh root@$TOSERVER "sed -i \"s/^define('DB_NAME', '[^']*')/define('DB_NAME', '$TOBASE')/g\" /var/www/$TOUSER/public/wp-config.php"
+  ssh root@$TOSERVER "sed -i \"s/^define('DB_PASSWORD', '[^']*')/define('DB_PASSWORD', '$TOSQLUSERPASS')/g\" /var/www/$TOUSER/public/wp-config.php"
+  ssh root@$TOSERVER "sed -i \"s/^define('DB_USER', '[^']*')/define('DB_USER', '$TOUSER')/g\" /var/www/$TOUSER/public/wp-config.php"
+fi
