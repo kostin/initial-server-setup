@@ -89,9 +89,9 @@ function confupdate {
 	
 	iptables -F
 	
-	iptables -A INPUT -p tcp --tcp-flags ALL NONE -j DROP
-	iptables -A INPUT -p tcp ! --syn -m state --state NEW -j DROP
-	iptables -A INPUT -p tcp --tcp-flags ALL ALL -j DROP
+	#iptables -A INPUT -p tcp --tcp-flags ALL NONE -j DROP
+	#iptables -A INPUT -p tcp ! --syn -m state --state NEW -j DROP
+	#iptables -A INPUT -p tcp --tcp-flags ALL ALL -j DROP
 	iptables -A INPUT -i lo -j ACCEPT
 	iptables -A INPUT -p tcp -m tcp --dport 22 -j ACCEPT
 	iptables -A INPUT -p tcp -m tcp --dport 21 -j ACCEPT
@@ -100,8 +100,8 @@ function confupdate {
 	iptables -P OUTPUT ACCEPT
 	iptables -P INPUT DROP
 	
-	iptables -N sshguard
-	iptables -A INPUT -m multiport -p tcp --destination-ports 21,22 -j sshguard
+	#iptables -N sshguard
+	#iptables -A INPUT -m multiport -p tcp --destination-ports 21,22 -j sshguard
 	
 	service iptables save	
 	service iptables restart
