@@ -10,7 +10,7 @@ HOST=`hostname`
 
 #Check username
 USER_LEN=${#USER}
-if [ $USER_LEN -lt 15 ] && ! [[ "$USER" =~ [^a-zA-Z0-9\ ] ]];
+if [ $USER_LEN -lt 15 ] && ! [[ "$USER" =~ [^a-z0-9\ ] ]];
 then
     	echo "Username set to $USER. It's OK"
 else
