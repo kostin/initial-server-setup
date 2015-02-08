@@ -1,6 +1,6 @@
 #!/bin/bash
 
-usage="To create domains structure and configs you need to use next parameters:\n\t1). Username. \n\t2). Domain or domain names (Ex.: \"test.com test2.com\")."
+usage="To create domains structure and configs you have to use next parameters:\n\t1). Username (lowercase alphabets and digits only, 14 symbols or less). \n\t2). Domain or domains (Ex.: \"test.com test2.com\")."
 
 if [ ! $1 ]; then echo -e $usage; exit 0; fi
 
@@ -8,11 +8,14 @@ MYSQLPWD=`cat /root/.mysql-root-password`
 USER=$1
 HOST=`hostname`
 
-USER_TEST=`echo ${USER} | sed s/[[:punct:]]/x/g`
-if [ ! $USER_TEST == $USER ]
+#Check username
+USER_LEN=${#USER}
+if [ $USER_LEN -lt 15 ] && ! [[ "$USER" =~ [^a-zA-Z0-9\ ] ]];
 then
-	echo 'Bad chars in username!'
-	exit 0
+    	echo "Username set to $USER. It's OK"
+else
+    	echo "Bad chars in username $USER (must be lowercase alphabets and digits only) or too long username (must be 14 symbols or less)!"
+        exit 0
 fi
 
 #Check Virtual Host
