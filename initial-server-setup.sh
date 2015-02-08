@@ -5,7 +5,7 @@ DLPATH='https://github.com/kostin/initial-server-setup/raw/master'
 function softinstall {
 	echo 'Installing software...'
 	
-	echo 'nameserver 8.8.8.8' > /etc/resolv.conf
+	echo 'nameserver 8.8.8.8' >> /etc/resolv.conf
 	echo 'nameserver 77.88.8.8' >> /etc/resolv.conf
 	killall -9 httpd
 
