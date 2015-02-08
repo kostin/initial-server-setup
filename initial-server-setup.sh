@@ -79,7 +79,7 @@ function confupdate {
 	cd /etc/sphinx/
 	wget -N $DLPATH/sphinx-common.conf
 	cat /etc/sphinx/sphinx-common.conf > /etc/sphinx/sphinx.conf
-	chown -R sphinx:sphinx /var/log/sphinx/*
+	#chown -R sphinx:sphinx /var/log/sphinx/*
 	
 	HTUSER='269'
 	HTPASS='4389'
