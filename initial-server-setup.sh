@@ -152,8 +152,8 @@ function scriptupdate {
 	fi
 	/opt/scripts/hostadd.sh 000default
 	if [ ! -a /var/www/000default/public/index.php ]; then 
-		NOW="$(date +'%Y-%m-%d %H:%i:%s')"
-		echo "<?php print 'Running since $NOW'; ?>" > /var/www/000default/public/index.php		
+		NOW="$(date +'%Y-%m-%d')"
+		echo "<?php print '$NOW'; ?>" > /var/www/000default/public/index.php		
 	fi
 
 	cd /usr/local/share/ && \
