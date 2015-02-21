@@ -69,7 +69,9 @@ function confupdate {
 	echo 'alias php="php -c /etc/php-cli.ini"' >> /etc/profile.d/php-cli.sh
 	
 	wget -N $DLPATH/monit.conf
-	openssl req -new -x509 -days 3650 -nodes -subj '/CN=localhost' -out /etc/ssl/certs/monit.pem -keyout /etc/ssl/certs/monit.pem
+	if [ ! -a /etc/ssl/certs/monit.pem ]; then
+		openssl req -new -x509 -days 3650 -nodes -subj '/CN=localhost' -out /etc/ssl/certs/monit.pem -keyout /etc/ssl/certs/monit.pem
+	fi
 	chmod 600 /etc/ssl/certs/monit.pem
 	MONITUSER=`hostname -s`
 	MONITPASS=`pwgen 32 1`
