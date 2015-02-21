@@ -14,7 +14,7 @@ function softinstall {
 	sed -i "s/mirrorlist=https/mirrorlist=http/" /etc/yum.repos.d/epel.repo
 	
 	yum -y update
-	yum -y install sshguard nano screen git mc rsync screen mailx pwgen nginx mysql mysql-server postgresql-libs phpMyAdmin proftpd psmisc net-tools httpd-itk mod_ssl php
+	yum -y install sshguard monit nano screen git mc rsync screen mailx pwgen nginx mysql mysql-server postgresql-libs phpMyAdmin proftpd psmisc net-tools httpd-itk mod_ssl php
 	
 	if [ `uname -m` == 'x86_64' ]; then
 		rpm -Uvh http://repo.x-api.net/centos6/x86_64/mod_rpaf-0.6-2.el6.x86_64.rpm
@@ -59,13 +59,32 @@ function confupdate {
 		mkdir -p /etc/httpd/conf/vhosts
 	fi	
 	
-	cd /etc/
+	cd /etc
 	wget -N $DLPATH/my.cnf
 	wget -N $DLPATH/proftpd.conf
+	
 	wget -N $DLPATH/php.ini
 	wget -N $DLPATH/php-cli.ini
 	echo "#!/bin/bash" > /etc/profile.d/php-cli.sh
 	echo 'alias php="php -c /etc/php-cli.ini"' >> /etc/profile.d/php-cli.sh
+	
+	wget -N $DLPATH/monit.conf
+	openssl req -new -x509 -days 3650 -nodes -subj '/CN=localhost' -out /etc/ssl/certs/monit.pem -keyout /etc/ssl/certs/monit.pem
+	chmod 600 /etc/ssl/certs/monit.pem
+	MONITUSER=`hostname -s`
+	MONITPASS=`pwgen 32 1`
+	if [ ! -a /root/.monit-password ]; then
+		MONITPASS=`cat /root/.monit-password`	
+	fi	
+	sed -i "s/mytestuser/$MONITUSER/g" /etc/monit.conf
+	sed -i "s/mytestpassword/$MONITPASS/g" /etc/monit.conf	
+	
+	cd /etc/monit.d
+	wget -N $DLPATH/monit-httpd.conf
+	wget -N $DLPATH/monit-mysqld.conf
+	wget -N $DLPATH/monit-nginx.conf
+	wget -N $DLPATH/monit-sshd.conf
+	wget -N $DLPATH/monit-hddfree.conf
 	
 	cd /etc/nginx
 	wget -N $DLPATH/nginx.conf
@@ -111,12 +130,14 @@ function confupdate {
 	service nginx restart
 	service proftpd restart
 	service searchd restart
+	service monit restart
 
 	chkconfig httpd on
 	chkconfig mysqld on
 	chkconfig nginx on
 	chkconfig proftpd on
 	chkconfig searchd on
+	chkconfig monit on
 
 	echo '05 03 * * * /opt/scripts/backup.sh' > /var/spool/cron/root
 	echo '04 03 * * * /usr/bin/indexer --rotate --all' > /var/spool/cron/sphinx
