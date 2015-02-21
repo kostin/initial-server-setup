@@ -73,8 +73,10 @@ function confupdate {
 	chmod 600 /etc/ssl/certs/monit.pem
 	MONITUSER=`hostname -s`
 	MONITPASS=`pwgen 32 1`
-	if [ ! -a /root/.monit-password ]; then
-		MONITPASS=`cat /root/.monit-password`	
+	if [ -a /root/.monit-password ]; then
+		MONITPASS=`cat /root/.monit-password`
+	else
+		echo $MONITPASS > /root/.monit-password
 	fi	
 	sed -i "s/mytestuser/$MONITUSER/g" /etc/monit.conf
 	sed -i "s/mytestpassword/$MONITPASS/g" /etc/monit.conf	
