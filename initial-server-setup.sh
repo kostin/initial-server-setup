@@ -104,8 +104,8 @@ function confupdate {
 	cat /etc/sphinx/sphinx-common.conf > /etc/sphinx/sphinx.conf
 	#chown -R sphinx:sphinx /var/log/sphinx/*
 	
-	HTUSER='269'
-	HTPASS='4389'
+	HTUSER="269"
+	HTPASS="4389"
 	#HTPASS=`pwgen 16 1`
 	htpasswd -b -c /opt/scripts/.htpasswd $HTUSER $HTPASS
 	echo "Password (.htpasswd) for user $HTUSER is $HTPASS"
