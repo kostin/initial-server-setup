@@ -107,6 +107,9 @@ function confupdate {
 	HTUSER="269"
 	HTPASS="4389"
 	#HTPASS=`pwgen 16 1`
+	if [ ! -d /opt/scripts ]; then
+		mkdir -p /opt/scripts
+	fi	
 	htpasswd -b -c /opt/scripts/.htpasswd $HTUSER $HTPASS
 	echo "Password (.htpasswd) for user $HTUSER is $HTPASS"
 	
