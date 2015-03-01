@@ -5,8 +5,7 @@ USER="$1"
 SRC=/var/www/$USER/public
 DST=/var/www/$USER/.backups/public
 
-if [ ! "$1" ] || [ ! -d $SRC ];
-then
+if [ ! "$1" ] || [ ! -d $SRC ]; then
   echo "You have to set argument with valid site user for this script";
   exit 0;
 fi
