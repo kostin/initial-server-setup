@@ -28,7 +28,7 @@ rm -f /etc/httpd/conf/vhosts/$USER.conf
 tar cfzp $STORE_DIR$USER-$DATE-files.tar.gz /var/www/$USER
 for DB in `mysql -u root -p$MYSQLPWD -B -N -e "select Db from mysql.db where user = $USER"`
 do
-        mysqldump -u root -p$MYSQLPWD $DB | gzip > $STORE_DIR$DB-db-$DATE.sql.gz
+        mysqldump -u root -p$MYSQLPWD $DB | gzip -9 > $STORE_DIR$DB-db-$DATE.sql.gz
         mysql -u root -p$MYSQLPWD -B -N -e "drop database $DB;"
 done
 
