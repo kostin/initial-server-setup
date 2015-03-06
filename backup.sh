@@ -15,7 +15,7 @@ do
 		mysqldump -p$PASS $k | gzip -9 > /var/www/$i/.backups/$k-db-$DATE.sql.gz
 	done
 	cd /var/www/$i/.backups
-	for j in `find . -mtime +60 -print`
+	for j in `find . -mtime +14 -print`
 	do
 		rm -f $j
 	done	
