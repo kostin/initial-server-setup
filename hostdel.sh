@@ -9,6 +9,11 @@ MYSQLPWD=`cat /root/.mysql-root-password`
 DATE=`date +%Y-%m-%d_%H-%M`
 USER=$1
 
+if [ ! -d STORE_DIR ]
+then
+        mkdir -p $STORE_DIR
+fi
+
 if [ ! -d /var/www/$USER ]
 then
         echo "Directory /var/www/$USER not exist!"
@@ -20,7 +25,7 @@ read
 
 rm -f /etc/httpd/conf/vhosts/$USER.conf
 /etc/init.d/httpd restart
-tar zcf $STORE_DIR$USER-$DATE-files.tar.gz /var/www/$USER
+tar cfzp $STORE_DIR$USER-$DATE-files.tar.gz /var/www/$USER
 for DB in `mysql -u root -p$MYSQLPWD -B -N -e "select Db from mysql.db where user = $USER"`
 do
         mysqldump -u root -p$MYSQLPWD $DB | gzip > $STORE_DIR$DB-db-$DATE.sql.gz
