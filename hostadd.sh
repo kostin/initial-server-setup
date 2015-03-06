@@ -40,7 +40,7 @@ then
 fi
 
 #Check mysql user
-if [ "`mysql -p$MYSQLPWD -B -N -e "select * from mysql.user where user = '$USER'"`" ]
+if [ "`mysql -u root -p$MYSQLPWD -B -N -e "select * from mysql.user where user = $USER"`" ]
 then
         echo "MySQL user $USER already exist!"
         exit 0
@@ -56,7 +56,7 @@ mkdir /var/www/$USER/.hostconf
 MAINDB=$USER"_pub"
 DEVDB=$USER"_dev"
 DBPWD=`tr -dc a-zA-Z0-9 < /dev/urandom | head -c16 | xargs`
-mysql -p$MYSQLPWD -B -N -e "create database $MAINDB; grant all on $MAINDB.* to $USER@localhost identified by '$DBPWD'; create database $DEVDB; grant all on $DEVDB.* to $USER@localhost;"
+mysql -u root -p$MYSQLPWD -B -N -e "create user '$USER'@'localhost' identified by '$DBPWD'; create database $MAINDB; grant all on $MAINDB.* to '$USER'@'localhost'; create database $DEVDB; grant all on $DEVDB.* to '$USER'@'localhost';"
 
 #Create HTTPD vhost
 if [ "$2" ]
