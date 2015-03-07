@@ -1,5 +1,4 @@
 #!/bin/bash
-
 usage="To create domains structure and configs you have to use next parameters:\n\t1). Username (lowercase alphabets and digits only, 14 symbols or less). \n\t2). Domain or domains (Ex.: \"test.com test2.com\")."
 
 if [ ! $1 ]; then echo -e $usage; exit 0; fi
@@ -35,12 +34,12 @@ fi
 #Check system user
 if [ "`grep '$USER:x' /etc/passwd`" ]
 then
-        echo "User $USER already exist in system!"
+        echo "User $USER already exists in system!"
         exit 0
 fi
 
 #Check mysql user
-if [ "`mysql -u root -p$MYSQLPWD -B -N -e "select * from mysql.user where user = $USER"`" ]
+if [ -n "$( mysql -u root -p$MYSQLPWD -B -N -e "select * from mysql.user where user = '$USER'" )" ]
 then
         echo "MySQL user $USER already exist!"
         exit 0
@@ -59,16 +58,14 @@ DBPWD=`tr -dc a-zA-Z0-9 < /dev/urandom | head -c16 | xargs`
 mysql -u root -p$MYSQLPWD -B -N -e "create user '$USER'@'localhost' identified by '$DBPWD'; create database $MAINDB; grant all on $MAINDB.* to '$USER'@'localhost'; create database $DEVDB; grant all on $DEVDB.* to '$USER'@'localhost';"
 
 #Create HTTPD vhost
-if [ "$2" ]
-then
+ALIASES="www.$USER.$HOST"
+if [ "$2" ]; then
 	touch /var/www/$USER/.hostconf/.domains
 	for i in $2
 	do
 		ALIASES="$ALIASES $i www.$i"
 		echo $i >> /var/www/$USER/.hostconf/.domains
 	done
-else
-	ALIASES="www.$USER.$HOST"
 fi
 cp /opt/scripts/vhost_template /etc/httpd/conf/vhosts/$USER.conf
 sed -i "s/USER/$USER/g" /etc/httpd/conf/vhosts/$USER.conf
