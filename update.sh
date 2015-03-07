@@ -1,13 +1,13 @@
 #!/bin/bash
 DLPATH='https://github.com/kostin/initial-server-setup/raw/master'
 
-cd /etc \
-&& wget -N $DLPATH/my.cnf \
-&& touch /var/log/mysql-slow.log \
-&& chmod 666 /var/log/mysql-slow.log \
-&& service mysqld stop \
-&& rm -f /var/lib/mysql/ib_logfile* \
-&& service mysqld start
+#cd /etc \
+#&& wget -N $DLPATH/my.cnf \
+#&& touch /var/log/mysql-slow.log \
+#&& chmod 666 /var/log/mysql-slow.log \
+#&& service mysqld stop \
+#&& rm -f /var/lib/mysql/ib_logfile* \
+#&& service mysqld start
 
 cd /opt/scripts \
 && wget -N $DLPATH/backup.sh \
