@@ -20,14 +20,21 @@ fi
 for DB in `mysql -u root -p$MYSQLPWD -B -N -e "select Db from mysql.db where user = '$USER'"`
 do
   mysqldump -u root -p$MYSQLPWD $DB | gzip -9 > $STORE_DIR/$DB-db-$DATE.sql.gz
-  mysql -u root -p$MYSQLPWD -B -N -e "drop database $DB;"
+  mysql -u root -p$MYSQLPWD -e "drop database $DB;"
 done
-mysql -u root -p$MYSQLPWD -B -N -e "DROP USER '$USER'@'localhost';"
+
+if test -n "$( mysql -u root -p$MYSQLPWD -B -N -e "select * from mysql.user where User = '$USER'" )" ; then
+  mysql -u root -p$MYSQLPWD -e "drop user '$USER'@'localhost'"
+fi
 
 DBPUB=$USER"_pub"
 DBDEV=$USER"_dev"
-mysql -u root -p$MYSQLPWD -B -N -e "drop database $DBPUB;"
-mysql -u root -p$MYSQLPWD -B -N -e "drop database $DBDEV;"
+if [ -n "$( mysql -u root -p$MYSQLPWD -B -N -e "show databases like '$DBPUB'" )" ]; then
+  mysql -u root -p$MYSQLPWD -e "drop database $DBPUB;"
+fi
+if [ -n "$( mysql -u root -p$MYSQLPWD -B -N -e "show databases like '$DBDEV'" )" ]; then
+  mysql -u root -p$MYSQLPWD -e "drop database $DBDEV;"
+fi
 
 if [ ! -d /var/www/$USER ]
 then
