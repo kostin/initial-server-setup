@@ -19,7 +19,7 @@ fi
 
 for DB in `mysql -u root -p$MYSQLPWD -B -N -e "select Db from mysql.db where user = '$USER'"`
 do
-  mysqldump -u root -p$MYSQLPWD $DB | gzip -9 > $STORE_DIR/$DB-db-$DATE.sql.gz
+  mysqldump -u root -p$MYSQLPWD $DB | gzip > $STORE_DIR/$DB-db-$DATE.sql.gz
   mysql -u root -p$MYSQLPWD -e "drop database $DB;"
 done
 
