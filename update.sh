@@ -2,7 +2,7 @@
 DLPATH='https://github.com/kostin/initial-server-setup/raw/master'
 
 
-if [ "$1" = "mycnf" ] then;
+if [ "$1" = "mycnf" ]; then
   cd /etc \
   && wget -N $DLPATH/my.cnf \
   && touch /var/log/mysql-slow.log \
@@ -12,7 +12,7 @@ if [ "$1" = "mycnf" ] then;
   && service mysqld start
 fi
 
-if [ "$1" = "scripts" ] then;
+if [ "$1" = "scripts" ]; then
   cd /opt/scripts \
   && wget -N $DLPATH/backup.sh \
   && wget -N $DLPATH/hostadd.sh \
