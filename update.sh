@@ -1,10 +1,9 @@
 #!/bin/bash
 DLPATH='https://github.com/kostin/initial-server-setup/raw/master'
 
-
 if [ "$1" = "mycnf" ]; then
   cd /etc \
-  && wget -N $DLPATH/my.cnf \
+  && wget --quiet -N $DLPATH/my.cnf \
   && touch /var/log/mysql-slow.log \
   && chmod 666 /var/log/mysql-slow.log \
   && service mysqld stop \
@@ -14,10 +13,10 @@ fi
 
 if [ "$1" = "scripts" ]; then
   cd /opt/scripts \
-  && wget -N $DLPATH/backup.sh \
-  && wget -N $DLPATH/hostadd.sh \
-  && wget -N $DLPATH/hostdel.sh \
-  && wget -N $DLPATH/hostexport.sh \
-  && wget -N $DLPATH/hostshow.sh \
-  && wget -N $DLPATH/hostdeploy.sh
+  && wget --quiet -N $DLPATH/backup.sh \
+  && wget --quiet -N $DLPATH/hostadd.sh \
+  && wget --quiet -N $DLPATH/hostdel.sh \
+  && wget --quiet -N $DLPATH/hostexport.sh \
+  && wget --quiet -N $DLPATH/hostshow.sh \
+  && wget --quiet -N $DLPATH/hostdeploy.sh
 fi
