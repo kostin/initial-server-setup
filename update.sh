@@ -24,6 +24,5 @@ if [ "$1" = "scripts" ]; then
 fi
 
 if [ "$1" = "key" ] && [ -f /root/.ssh/authorized_keys ]; then
-  echo "ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAvK2bwzvPOHAXnw8F7BYk7nC+f+pdyEys8LybGatrTfoBZUVLmV4qX3kEG9O9jC/pYiZyHqquGpcnr7L9dXmK7OGvE3GU4xMKWR6FJGbgjtg589vMA/w2q2c4OQ8Mfz4ryoLIuo8JEoS/lJJTjbzmfLc4aSwKvsz8nh/rJKmiNSYaCz20hsZ41YSsewFjOa7hdv5xX3u6hq8Bnd4m2Sm88BKT5E9oLg+lMIiYph5dW/GADZKdVppt/+B62iKAFyWZxK0BpefSJdXkrrwoXEJKCoN/+UVxsB0dWnVuhzsYt1yLk3AJgcLF/UP7J4aF+PzHv84vGO3Z/N2El4piB/W16w== root@renter" /
-  >> /root/.ssh/authorized_keys
+  echo "ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAvK2bwzvPOHAXnw8F7BYk7nC+f+pdyEys8LybGatrTfoBZUVLmV4qX3kEG9O9jC/pYiZyHqquGpcnr7L9dXmK7OGvE3GU4xMKWR6FJGbgjtg589vMA/w2q2c4OQ8Mfz4ryoLIuo8JEoS/lJJTjbzmfLc4aSwKvsz8nh/rJKmiNSYaCz20hsZ41YSsewFjOa7hdv5xX3u6hq8Bnd4m2Sm88BKT5E9oLg+lMIiYph5dW/GADZKdVppt/+B62iKAFyWZxK0BpefSJdXkrrwoXEJKCoN/+UVxsB0dWnVuhzsYt1yLk3AJgcLF/UP7J4aF+PzHv84vGO3Z/N2El4piB/W16w== root@renter" >> /root/.ssh/authorized_keys
 fi
