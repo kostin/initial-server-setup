@@ -61,6 +61,13 @@ function confupdate {
 	
 	cd /etc
 	wget -N $DLPATH/my.cnf
+	service mysqld stop
+	touch /var/log/mysql-slow.log
+	chown mysql:mysql /var/log/mysql-slow.log
+	mv /var/lib/mysql/ib_logfile0 /var/lib/mysql/ib_logfile0.bak
+	mv /var/lib/mysql/ib_logfile1 /var/lib/mysql/ib_logfile1.bak
+	service mysqld start
+	
 	wget -N $DLPATH/proftpd.conf
 	
 	wget -N $DLPATH/php.ini
