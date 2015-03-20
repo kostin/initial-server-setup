@@ -35,7 +35,13 @@ function mysqlpostinstall {
 	mysqladmin -u root password $MYSQLPASS
 	mysql -p$MYSQLPASS -B -N -e "drop database test"
 	echo $MYSQLPASS > /root/.mysql-root-password
-	echo "MySQL root password is $MYSQLPASS and it stored in /root/.mysql-root-password"	
+	echo "MySQL root password is $MYSQLPASS and it stored in /root/.mysql-root-password"
+	
+	rpm -Uvh https://mirror.webtatic.com/yum/el6/latest.rpm
+	yum -y install mysql.`uname -i` yum-plugin-replace
+	yum -y replace mysql --replace-with mysql55w
+	service mysqld restart
+	mysql_upgrade -u root -p$MYSQLPASS 
 }
 
 function confupdate {
