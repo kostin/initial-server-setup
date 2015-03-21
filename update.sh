@@ -40,3 +40,12 @@ if [ "$1" = "mysql55" ]; then
   service mysqld restart 
   mysql_upgrade -u root -p`cat /root/.mysql-root-password`   
 fi
+
+if [ "$1" = "mysqltuner" ]; then
+  rm -rf /root/mysqltuner.pl \
+  && cd /root \
+  && wget -N https://raw.githubusercontent.com/major/MySQLTuner-perl/master/mysqltuner.pl \
+  && chmod +x mysqltuner.pl \
+  && test -f /root/.mysql-root-password \
+  && ./mysqltuner.pl --user root --pass `cat /root/.mysql-root-password`
+fi
