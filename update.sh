@@ -31,11 +31,11 @@ if [ "$1" = "mysql55" ]; then
   rm -rf /etc/my/cnf \
   && cd /etc \
   && wget --quiet -N $DLPATH/my.cnf
-  service mysqld stop \
-  && rm -f /var/lib/mysql/ib_logfile* 
-  rpm -Uvh https://mirror.webtatic.com/yum/el6/latest.rpm
-  yum -y install mysql.`uname -i` yum-plugin-replace
-  yum -y replace mysql --replace-with mysql55w
+  service mysqld stop 
+  rm -f /var/lib/mysql/ib_logfile* 
+  #rpm -Uvh https://mirror.webtatic.com/yum/el6/latest.rpm
+  #yum -y install mysql.`uname -i` yum-plugin-replace
+  #yum -y replace mysql --replace-with mysql55w
   service mysqld restart
   mysql_upgrade -u root -p`cat /root/.mysql-root-password`   
 fi
