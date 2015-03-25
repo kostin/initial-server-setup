@@ -77,6 +77,8 @@ function confupdate {
 	wget -N $DLPATH/proftpd.conf
 	
 	wget -N $DLPATH/php.ini
+	touch /var/log/phpmail.log
+	chmod 666 /var/log/phpmail.log
 	wget -N $DLPATH/php-cli.ini
 	echo "#!/bin/bash" > /etc/profile.d/php-cli.sh
 	echo 'alias php="php -c /etc/php-cli.ini"' >> /etc/profile.d/php-cli.sh
