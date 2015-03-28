@@ -2,7 +2,7 @@
 
 MYSQLPASS=`cat /root/.mysql-root-password`
 
-if [ ! -z $MYSQLPASS ]; then
+if [ -z $MYSQLPASS ]; then
   echo "Wrong password file";
   exit 0;
 fi
