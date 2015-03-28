@@ -51,3 +51,11 @@ if [ "$1" = "mysqltuner" ]; then
   && test -f /root/.mysql-root-password \
   && ./mysqltuner.pl --user root --pass `cat /root/.mysql-root-password`
 fi
+
+if [ "$1" = "phpmail" ]; then
+  touch /var/log/phpmail.log
+  chmod 666 /var/log/phpmail.log
+  cd /etc
+	wget --quiet -N $DLPATH/php.ini 
+	service httpd restart
+fi  
