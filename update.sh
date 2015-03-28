@@ -56,6 +56,6 @@ if [ "$1" = "phpmail" ]; then
   touch /var/log/phpmail.log
   chmod 666 /var/log/phpmail.log
   cd /etc
-	wget --quiet -N $DLPATH/php.ini 
-	service httpd restart
+  wget --quiet -N $DLPATH/php.ini 
+  service httpd restart
 fi  
