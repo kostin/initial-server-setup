@@ -21,6 +21,7 @@ if [ "$1" = "scripts" ]; then
   && wget --quiet -N $DLPATH/hostexport.sh \
   && wget --quiet -N $DLPATH/hostshow.sh \
   && wget --quiet -N $DLPATH/hostdeploy.sh
+  wget --quiet -N $DLPATH/mysql55w_to_mariadb10.sh
 fi
 
 if [ "$1" = "key" ] && [ -f /root/.ssh/authorized_keys ]; then
