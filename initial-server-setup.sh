@@ -99,11 +99,12 @@ function confupdate {
 	sed -i "s/mytestpassword/$MONITPASS/g" /etc/monit.conf	
 	
 	cd /etc/monit.d
-	wget -N $DLPATH/monit-httpd.conf
-	wget -N $DLPATH/monit-mysqld.conf
-	wget -N $DLPATH/monit-nginx.conf
-	wget -N $DLPATH/monit-sshd.conf
-	wget -N $DLPATH/monit-hddfree.conf
+	wget --quiet -N $DLPATH/monit-httpd.conf
+        wget --quiet -N $DLPATH/monit-mariadb.conf
+        wget --quiet -N $DLPATH/monit-nginx.conf
+        wget --quiet -N $DLPATH/monit-sshd.conf
+        wget --quiet -N $DLPATH/monit-hddfree.conf
+        wget --quiet -N $DLPATH/monit-main.conf
 	
 	cd /etc/nginx
 	wget -N $DLPATH/nginx.conf
