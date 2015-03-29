@@ -73,7 +73,7 @@ if [ "$1" = "installmonit" ]; then
   cd /etc
   wget --quiet -N $DLPATH/monit.conf
 	
-  if [ ! -a /etc/ssl/certs/monit.pem ]; then
+  if [ ! -f /etc/ssl/certs/monit.pem ]; then
     openssl req -new -x509 -days 3650 -nodes -subj '/CN=localhost' -out /etc/ssl/certs/monit.pem -keyout /etc/ssl/certs/monit.pem
   fi
   chmod 600 /etc/ssl/certs/monit.pem
