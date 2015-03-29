@@ -18,8 +18,13 @@ gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
 gpgcheck=1
 EOF
 else
-  echo "Wrong Arc";
-  exit 0;
+cat > /etc/yum.repos.d/MariaDB.repo <<EOF
+[mariadb]
+name = MariaDB
+baseurl = http://yum.mariadb.org/10.0/centos6-x86
+gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
+gpgcheck=1
+EOF
 fi
 
 yum -y update
