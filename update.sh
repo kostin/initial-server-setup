@@ -47,9 +47,9 @@ if [ "$1" = "toinnodb" ]; then
   rm -rf /var/lib/mysql/*
   /usr/bin/mysql_install_db --user=mysql
   service mysql start
-  mysql < /root/all-dbs-schema.sql 
-  mysql < /root/all-dbs-data.sql
-  mysql mysql < /root/all-dbs-mysql.sql
+  mysql --init-command="SET SQL_LOG_BIN = 0;" < /root/all-dbs-schema.sql 
+  mysql --init-command="SET SQL_LOG_BIN = 0;" < /root/all-dbs-data.sql
+  mysql --init-command="SET SQL_LOG_BIN = 0;" mysql < /root/all-dbs-mysql.sql
   mysql -e "FLUSH PRIVILEGES;"
   mysql -p`cat /root/.mysql-root-password` -e "DROP DATABASE test;"
 fi
