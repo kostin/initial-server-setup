@@ -97,4 +97,6 @@ if [ "$1" = "installmonit" ]; then
   
   service monit restart
   chkconfig monit on
+  
+  echo "Monit user and pass: "$MONITUSER" "$MONITPASS
 fi
