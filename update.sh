@@ -2,7 +2,7 @@
 DLPATH='https://github.com/kostin/initial-server-setup/raw/master'
 
 uptime
-free -m
+#free -tm | tail -1
 
 if [ "$1" = "update" ]; then
   yum -y update
