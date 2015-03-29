@@ -3,6 +3,8 @@ DLPATH='https://github.com/kostin/initial-server-setup/raw/master'
 
 uptime
 #free -tm | tail -1
+service monit stop
+
 
 if [ "$1" = "update" ]; then
   yum -y update
@@ -107,3 +109,6 @@ if [ "$1" = "installmonit" ]; then
   
   echo "Monit user and pass for "`hostname`" are: "$MONITUSER" "$MONITPASS
 fi
+
+
+service monit start
