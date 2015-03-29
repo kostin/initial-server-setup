@@ -13,10 +13,11 @@ if [ "$1" = "mycnf" ]; then
   cd /etc \
   && wget --quiet -N $DLPATH/my.cnf \
   && touch /var/log/mysql-slow.log \
-  && chmod 666 /var/log/mysql-slow.log \
-  && service mysqld stop \
+  && chown mysql:mysql /var/log/mysql-slow.log \
+  && chmod 640 /var/log/mysql-slow.log \
+  && service mysql stop \
   && rm -f /var/lib/mysql/ib_logfile* \
-  && service mysqld start
+  && service mysql start
 fi
 
 if [ "$1" = "scripts" ]; then
