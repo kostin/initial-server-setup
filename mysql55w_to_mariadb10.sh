@@ -26,6 +26,7 @@ yum -y update
 yum -y clean all
 
 service mysqld stop
+mkdir /root/mysql-files-copy 
 cp -ar /var/lib/mysql/* /root/mysql-files-copy
 
 yum -y yum-plugin-replace
