@@ -26,6 +26,34 @@ if [ "$1" = "mycnf" ]; then
   && mysql -p`cat /root/.mysql-root-password` -B -N -e "SELECT CONCAT('ALTER TABLE ',table_schema,'.',table_name,' ENGINE=InnoDB;') FROM information_schema.tables WHERE 1=1 AND engine = 'MyISAM' AND table_schema NOT IN ('information_schema', 'mysql', 'performance_schema');"
 fi
 
+if [ "$1" = "toinnodb" ]; then
+  mysql -p`cat /root/.mysql-root-password` -B -N -e "SHOW DATABASES;" \
+  | grep -v '^mysql$' | grep -v '^information_schema$' | grep -v '^performance_schema$' \
+  | xargs mysqldump -p`cat /root/.mysql-root-password` --force --databases --no-data \
+  | sed 's/ENGINE=MyISAM/ENGINE=InnoDB/' > /root/all-dbs-schema.sql
+  mysql -p`cat /root/.mysql-root-password` -B -N -e "SHOW DATABASES;" \
+  | grep -v '^mysql$' | grep -v '^information_schema$' | grep -v '^performance_schema$' \
+  | xargs mysqldump -p`cat /root/.mysql-root-password` --force --databases --no-create-info > /root/all-dbs-data.sql
+  mysqldump -p`cat /root/.mysql-root-password` --force mysql > /root/all-dbs-mysql.sql
+  service mysql stop
+  killall -9 mysqld
+  cd /etc \
+  rm -rf /root/mysql-files-copy/* \
+  cp -ar /var/lib/mysql/* /root/mysql-files-copy \
+  wget --quiet -N $DLPATH/my.cnf \
+  touch /var/log/mysql-slow.log \
+  chown mysql:mysql /var/log/mysql-slow.log \
+  chmod 640 /var/log/mysql-slow.log \  
+  rm -rf /var/lib/mysql/*
+  /usr/bin/mysql_install_db --user=mysql
+  service mysql start
+  mysql < /root/all-dbs-schema.sql 
+  mysql < /root/all-dbs-data.sql
+  mysql mysql < /root/all-dbs-mysql.sql
+  mysql -e "FLUSH PRIVILEGES;"
+  mysql -p`cat /root/.mysql-root-password` -e "DROP DATABASE test;"
+fi
+
 if [ "$1" = "scripts" ]; then
   cd /opt/scripts \
   && wget --quiet -N $DLPATH/backup.sh \
