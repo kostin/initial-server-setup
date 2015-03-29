@@ -89,11 +89,13 @@ if [ "$1" = "installmonit" ]; then
   sed -i "s/mytestpassword/$MONITPASS/g" /etc/monit.conf	
   
   cd /etc/monit.d
+  rm -rf /etc/monit.d/monit-mysqld.conf
   wget --quiet -N $DLPATH/monit-httpd.conf
-  wget --quiet -N $DLPATH/monit-mysqld.conf
+  wget --quiet -N $DLPATH/monit-mariadb.conf
   wget --quiet -N $DLPATH/monit-nginx.conf
   wget --quiet -N $DLPATH/monit-sshd.conf
   wget --quiet -N $DLPATH/monit-hddfree.conf
+  wget --quiet -N $DLPATH/monit-main.conf
   
   service monit restart
   chkconfig monit on
