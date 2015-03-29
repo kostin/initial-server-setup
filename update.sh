@@ -3,6 +3,11 @@ DLPATH='https://github.com/kostin/initial-server-setup/raw/master'
 
 uptime
 
+if [ "$1" = "update" ]; then
+  yum -y update
+  yum -y clean all
+fi
+
 if [ "$1" = "mycnf" ]; then
   cd /etc \
   && wget --quiet -N $DLPATH/my.cnf \
@@ -58,4 +63,37 @@ if [ "$1" = "phpmail" ]; then
   cd /etc
   wget --quiet -N $DLPATH/php.ini 
   service httpd restart
+fi  
+
+if [ "$1" = "installmonit" ]; then
+  yum -y install monit
+  
+  cd /etc
+  wget --quiet -N $DLPATH/monit.conf
+	
+	if [ ! -a /etc/ssl/certs/monit.pem ]; then
+		openssl req -new -x509 -days 3650 -nodes -subj '/CN=localhost' -out /etc/ssl/certs/monit.pem -keyout /etc/ssl/certs/monit.pem
+	fi
+	chmod 600 /etc/ssl/certs/monit.pem
+	
+	MONITUSER=`hostname -s`
+	MONITPASS=`pwgen 32 1`
+	if [ -a /root/.monit-password ]; then
+		MONITPASS=`cat /root/.monit-password`
+	else
+		echo $MONITPASS > /root/.monit-password
+	fi	
+	
+	sed -i "s/mytestuser/$MONITUSER/g" /etc/monit.conf
+	sed -i "s/mytestpassword/$MONITPASS/g" /etc/monit.conf	
+	
+	cd /etc/monit.d
+	wget --quiet -N $DLPATH/monit-httpd.conf
+	wget --quiet -N $DLPATH/monit-mysqld.conf
+	wget --quiet -N $DLPATH/monit-nginx.conf
+	wget --quiet -N $DLPATH/monit-sshd.conf
+	wget --quiet -N $DLPATH/monit-hddfree.conf
+	
+	service monit restart
+	chkconfig monit on
 fi  
