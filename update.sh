@@ -10,21 +10,22 @@ if [ "$1" = "update" ]; then
   yum -y clean all
 fi
 
-# cp -ar /var/lib/mysql/* /root/mysql-files-copy \
+
 
 if [ "$1" = "mycnf" ]; then
-  if [ ! -d /root/mysql-files-copy ]; then mkdir -p /root/mysql-files-copy; fi \
-  && cd /etc \
-  && service mysql stop \
-  && rm -rf /root/mysql-files-copy/* \
-  && wget --quiet -N $DLPATH/my.cnf \
-  && touch /var/log/mysql-slow.log \
-  && chown mysql:mysql /var/log/mysql-slow.log \
-  && chmod 640 /var/log/mysql-slow.log \
-  && rm -f /var/lib/mysql/ib_logfile* \
-  && rm -f /var/lib/mysql/mysql-bin.* \
-  && service mysql start \
-  && mysql -p`cat /root/.mysql-root-password` -B -N -e "SELECT CONCAT('ALTER TABLE ',table_schema,'.',table_name,' ENGINE=InnoDB;') FROM information_schema.tables WHERE 1=1 AND engine = 'MyISAM' AND table_schema NOT IN ('information_schema', 'mysql', 'performance_schema');"
+  if [ ! -d /root/mysql-files-copy ]; then mkdir -p /root/mysql-files-copy; fi 
+  cd /etc 
+  service mysql stop 
+  rm -rf /root/mysql-files-copy/* 
+  # cp -ar /var/lib/mysql/* /root/mysql-files-copy \
+  wget --quiet -N $DLPATH/my.cnf 
+  touch /var/log/mysql-slow.log 
+  chown mysql:mysql /var/log/mysql-slow.log 
+  chmod 640 /var/log/mysql-slow.log 
+  rm -f /var/lib/mysql/ib_logfile* 
+  rm -f /var/lib/mysql/mysql-bin.*
+  service mysql start
+  # mysql -p`cat /root/.mysql-root-password` -B -N -e "SELECT CONCAT('ALTER TABLE ',table_schema,'.',table_name,' ENGINE=InnoDB;') FROM information_schema.tables WHERE 1=1 AND engine = 'MyISAM' AND table_schema NOT IN ('information_schema', 'mysql', 'performance_schema');"
 fi
 
 if [ "$1" = "toinnodb" ]; then
