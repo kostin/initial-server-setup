@@ -22,6 +22,7 @@ if [ "$1" = "mycnf" ]; then
   && chown mysql:mysql /var/log/mysql-slow.log \
   && chmod 640 /var/log/mysql-slow.log \
   && rm -f /var/lib/mysql/ib_logfile* \
+  && rm -rf /var/lib/mysql/mysql-bin.* \
   && service mysql start \
   && mysql -p`cat /root/.mysql-root-password` -B -N -e "SELECT CONCAT('ALTER TABLE ',table_schema,'.',table_name,' ENGINE=InnoDB;') FROM information_schema.tables WHERE 1=1 AND engine = 'MyISAM' AND table_schema NOT IN ('information_schema', 'mysql', 'performance_schema');"
 fi
