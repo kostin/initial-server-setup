@@ -9,12 +9,13 @@ if [ "$1" = "update" ]; then
   yum -y clean all
 fi
 
+# cp -ar /var/lib/mysql/* /root/mysql-files-copy \
+
 if [ "$1" = "mycnf" ]; then
   if [ ! -d /root/mysql-files-copy ]; then mkdir -p /root/mysql-files-copy; fi \
   && cd /etc \
   && service mysql stop \
   && rm -rf /root/mysql-files-copy/* \
-#  && cp -ar /var/lib/mysql/* /root/mysql-files-copy \
   && wget --quiet -N $DLPATH/my.cnf \
   && touch /var/log/mysql-slow.log \
   && chown mysql:mysql /var/log/mysql-slow.log \
