@@ -2,6 +2,7 @@
 DLPATH='https://github.com/kostin/initial-server-setup/raw/master'
 
 uptime
+service monit stop
 #free -tm | tail -1
 
 if [ "$1" = "update" ]; then
@@ -27,7 +28,6 @@ if [ "$1" = "mycnf" ]; then
 fi
 
 if [ "$1" = "toinnodb" ]; then
-  service monit stop
   mysql -p`cat /root/.mysql-root-password` -B -N -e "SHOW DATABASES;" \
   | grep -v '^mysql$' | grep -v '^information_schema$' | grep -v '^performance_schema$' \
   | xargs mysqldump -p`cat /root/.mysql-root-password` --force --databases --no-data \
@@ -53,7 +53,6 @@ if [ "$1" = "toinnodb" ]; then
   mysql --init-command="SET SQL_LOG_BIN = 0;" mysql < /root/all-dbs-mysql.sql
   mysql -e "FLUSH PRIVILEGES;"
   mysql -p`cat /root/.mysql-root-password` -e "DROP DATABASE test;"
-  service monit start
 fi
 
 if [ "$1" = "scripts" ]; then
@@ -139,3 +138,5 @@ if [ "$1" = "installmonit" ]; then
   
   echo "Monit user and pass for "`hostname`" are: "$MONITUSER" "$MONITPASS
 fi
+
+  service monit start
