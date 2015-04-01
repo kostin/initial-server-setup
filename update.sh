@@ -16,7 +16,7 @@ if [ "$1" = "mycnf" ]; then
   && cd /etc \
   && service mysql stop \
   && rm -rf /root/mysql-files-copy/* \
-  && cp -ar /var/lib/mysql/* /root/mysql-files-copy \
+#  && cp -ar /var/lib/mysql/* /root/mysql-files-copy \
   && wget --quiet -N $DLPATH/my.cnf \
   && touch /var/log/mysql-slow.log \
   && chown mysql:mysql /var/log/mysql-slow.log \
