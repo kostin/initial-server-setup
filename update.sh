@@ -142,4 +142,15 @@ if [ "$1" = "installmonit" ]; then
   echo "Monit user and pass for "`hostname`" are: "$MONITUSER" "$MONITPASS
 fi
 
-  service monit start
+if [ "$1" = "addhoststat" ]; then
+  yum -y install sysstat gnuplot
+  cd /opt/scripts
+  wget --quiet -N $DLPATH/hoststat.sh 
+  wget --quiet -N $DLPATH/hostplot.sh 
+  chmod +x /opt/scripts/*.sh
+  touch /var/log/hoststat.dat
+  echo "*/10 * * * * /opt/scripts/hoststat.sh >> /var/log/hoststat.dat" > /etc/cron.d/hoststat
+  echo "*/10 * * * * /opt/scripts/hostplot.sh > /var/www/000default/public/graph.svg" >> /etc/cron.d/hoststat
+fi
+
+service monit start
