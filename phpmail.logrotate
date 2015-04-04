@@ -1,0 +1,10 @@
+
+/var/log/phpmail.log {
+  missingok  
+  daily
+  rotate 30
+  dateext
+  compress
+  delaycompress
+  create 0666 root root
+}
