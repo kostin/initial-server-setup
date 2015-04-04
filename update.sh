@@ -100,6 +100,8 @@ if [ "$1" = "phpmail" ]; then
   chmod 666 /var/log/phpmail.log
   cd /etc
   wget --quiet -N $DLPATH/php.ini 
+  cd /etc/logrotate.d/
+  wget --quiet -N $DLPATH/phpmail.logrotate
   service httpd restart
 fi  
 
