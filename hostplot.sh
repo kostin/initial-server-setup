@@ -3,7 +3,7 @@
 reset
 set terminal svg size 960,480
 
-set title "Server usage `hostname`"
+set title "Server `hostname` with `hostname -i` usage"
 
 set xdata time
 set timefmt "%Y-%m-%d_%H:%M:%S"
