@@ -8,7 +8,7 @@ set title "Server `hostname` with `hostname -i` usage"
 set xdata time
 set timefmt "%Y-%m-%d_%H:%M:%S"
 set format x "%H:%M"
-set xlabel "Time"
+#set xlabel "Time"
 #set ylabel "Percents %"
 
 set yrange [ 0 : ]
