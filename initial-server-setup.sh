@@ -113,7 +113,8 @@ function confupdate {
 	sed -i "s/HOSTNAME/$HOST/" /etc/nginx/nginx.conf
 
 	cd /etc/logrotate.d
-	wget -N $DLPATH/httpd
+	wget -N $DLPATH/httpd.logrotate
+	wget -N $DLPATH/phpmail.logrotate
 
 	cd /etc/sphinx/
 	wget -N $DLPATH/sphinx-common.conf
