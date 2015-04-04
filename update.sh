@@ -152,6 +152,7 @@ if [ "$1" = "addhoststat" ]; then
   echo "*/3 * * * * /opt/scripts/hoststat.sh >> /var/log/hoststat.dat" > /etc/cron.d/hoststat
   echo "*/15 * * * * /opt/scripts/hostplot.sh > /var/www/000default/public/graph.svg" >> /etc/cron.d/hoststat
   sed -i 's|*/10|*/3|g' /etc/cron.d/sysstat
+  service crond restart
 fi
 
 service monit start
