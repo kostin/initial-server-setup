@@ -36,6 +36,6 @@ echo "$LINE" >> /var/log/hoststat.log
 echo "$LINE" >> /var/log/hoststat.dat
 
 TMPFILE="/tmp/hoststat.$$.tmp"
-cat /var/log/hoststat.dat | tail -100 > $TMPFILE
+cat /var/log/hoststat.dat | tail -500 > $TMPFILE
 cat $TMPFILE > /var/log/hoststat.dat
 rm -f $TMPFILE
