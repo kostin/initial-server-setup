@@ -2,9 +2,9 @@
 
 DATE=$(date +'%Y-%m-%d_%H:%M:%S')
 MAILQ=$(cat /var/log/phpmail.log | wc -l | awk '{print $1 * 10.0}')
-LA1=$(cat /proc/loadavg | cut -d ' ' -f 1)
-LA5=$(cat /proc/loadavg | cut -d ' ' -f 2)
-LA15=$(cat /proc/loadavg | cut -d ' ' -f 3)
+LA1=$(cat /proc/loadavg | cut -d ' ' -f 1 | awk '{print $1 * 100.0}')
+LA5=$(cat /proc/loadavg | cut -d ' ' -f 2 | awk '{print $1 * 100.0}')
+LA15=$(cat /proc/loadavg | cut -d ' ' -f 3 | awk '{print $1 * 100.0}')
 DISKFREEM=$(df -m / | tail -1 | awk '{print $4}')
 DISKUSEDP=$(df -m / | tail -1 | awk '{print $(NF - 1)}' | cut -d '%' -f1)
 MEMTOTALM=$(free -m | grep 'Mem:' | awk '{print $2}')
