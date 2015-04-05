@@ -11,7 +11,7 @@ set format x "%H:%M"
 #set xlabel "Time"
 #set ylabel "Percents %"
 
-set yrange [ 0 : ]
+set yrange [ 0 : 150 ]
 set grid
 set key under
 
