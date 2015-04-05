@@ -151,7 +151,7 @@ if [ "$1" = "addhoststat" ]; then
   chmod +x /opt/scripts/*.sh
   touch /var/log/hoststat.dat
   echo "*/3 * * * * root /opt/scripts/hoststat.sh > /dev/null" > /etc/cron.d/hoststat
-  echo "*/12 * * * * root /opt/scripts/hostplot.sh > /var/www/000default/public/graph.svg" >> /etc/cron.d/hoststat
+  echo "*/10 * * * * root /opt/scripts/hostplot.sh > /var/www/000default/public/graph.svg" >> /etc/cron.d/hoststat
   sed -i 's|*/10|*/3|g' /etc/cron.d/sysstat
   service crond restart
   cd /etc/logrotate.d/
