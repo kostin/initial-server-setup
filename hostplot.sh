@@ -3,7 +3,7 @@
 reset
 set terminal svg size 960,480
 
-set title "Server `hostname` with IP `hostname -i` usage"
+set title "Server `hostname` with IP `hostname -i`\nUptime: `uptime`"
 
 set xdata time
 set timefmt "%Y-%m-%d_%H:%M:%S"
