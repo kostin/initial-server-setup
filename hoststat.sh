@@ -1,7 +1,7 @@
 #!/bin/bash
 
 DATE=$(date +'%Y-%m-%d_%H:%M:%S')
-MAILQ=$(cat /var/log/phpmail.log | wc -l)
+MAILQ=$(cat /var/log/phpmail.log | wc -l | awk '{print $1 * 10.0}')
 LA1=$(cat /proc/loadavg | cut -d ' ' -f 1)
 LA5=$(cat /proc/loadavg | cut -d ' ' -f 2)
 LA15=$(cat /proc/loadavg | cut -d ' ' -f 3)
