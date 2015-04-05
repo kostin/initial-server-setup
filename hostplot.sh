@@ -1,7 +1,7 @@
 #!/usr/bin/gnuplot
 
 reset
-set terminal svg size 960,480
+set terminal svg size 1440,640
 
 set title "Server `hostname` with IP `hostname -i`\nUptime: `uptime`"
 
