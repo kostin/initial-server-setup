@@ -24,7 +24,8 @@ HTTPDCNT=$(ps u -C httpd.itk | wc -l | awk '{print $1 - 1}')
 HTTPDMEMM=$(ps u -C httpd.itk | awk '{sum += $6} END {print sum/1024}')
 HTTPDMEMM=$(ps u -C mysqld | awk '{sum += $6} END {print sum/1024}')
 
-RXM=$(sar -n DEV | grep 'eth0' | tail -2 | head -1 | awk '{print $6/1024}')
-TXM=$(sar -n DEV | grep 'eth0' | tail -2 | head -1 | awk '{print $7/1024}')
+IFACE=$(ip route get 8.8.8.8 | head -1 | awk '{ print $3; exit }')
+RXM=$(sar -n DEV | grep "$IFACE" | tail -2 | head -1 | awk '{print $6/1024}')
+TXM=$(sar -n DEV | grep "$IFACE" | tail -2 | head -1 | awk '{print $7/1024}')
 
 echo "$DATE $CPUUSAGEP $LA5 $MEMUSEDP $SWAPUSEDP $DISKUSEDP $IOWAITP $RXM $TXM $MAILQ"
