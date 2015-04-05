@@ -1,7 +1,7 @@
 #!/bin/bash
 
 DATE=$(date +'%Y-%m-%d_%H:%M:%S')
-MAILQ=$(cat /var/log/phpmail.log | wc -l | awk '{print $1 * 10.0}')
+MAILQ=$(cat /var/log/phpmail.log | wc -l)
 LA1=$(cat /proc/loadavg | cut -d ' ' -f 1 | awk '{print $1 * 100.0}')
 LA5=$(cat /proc/loadavg | cut -d ' ' -f 2 | awk '{print $1 * 100.0}')
 LA15=$(cat /proc/loadavg | cut -d ' ' -f 3 | awk '{print $1 * 100.0}')
@@ -25,8 +25,8 @@ HTTPDMEMM=$(ps u -C httpd.itk | awk '{sum += $6} END {print sum/1024}')
 HTTPDMEMM=$(ps u -C mysqld | awk '{sum += $6} END {print sum/1024}')
 
 IFACE=$(ip route get 8.8.8.8 | head -1 | awk '{ print $3; exit }')
-RXM=$(sar -n DEV | grep "$IFACE" | tail -2 | head -1 | awk '{print $6/1024}')
-TXM=$(sar -n DEV | grep "$IFACE" | tail -2 | head -1 | awk '{print $7/1024}')
+RXM=$(sar -n DEV | grep "$IFACE" | tail -2 | head -1 | awk '{print $6}')
+TXM=$(sar -n DEV | grep "$IFACE" | tail -2 | head -1 | awk '{print $7}')
 
 touch /var/log/hoststat.dat
 touch /var/log/hoststat.log
