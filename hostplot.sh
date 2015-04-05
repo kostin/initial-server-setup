@@ -23,4 +23,4 @@ plot '/var/log/hoststat.dat' using 1:2 t 'Cpu usage %' with lines, \
      '/var/log/hoststat.dat' using 1:7 t 'IO wait %' with lines, \
      '/var/log/hoststat.dat' using 1:8 t 'RX, Mb/s' with lines, \
      '/var/log/hoststat.dat' using 1:9 t 'TX, Mb/s' with lines, \
-     '/var/log/hoststat.dat' using 1:10 t 'PHP mail queue lines' with lines
+     '/var/log/hoststat.dat' using 1:10 t 'PHP mail queue x 10' with lines
