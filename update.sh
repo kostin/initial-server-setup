@@ -102,6 +102,7 @@ if [ "$1" = "phpmail" ]; then
   wget --quiet -N $DLPATH/php.ini 
   cd /etc/logrotate.d/
   wget --quiet -N $DLPATH/phpmail.logrotate
+  logrotate --force /etc/logrotate.d/phpmail.logrotate
   service httpd restart
 fi  
 
