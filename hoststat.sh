@@ -28,4 +28,14 @@ IFACE=$(ip route get 8.8.8.8 | head -1 | awk '{ print $3; exit }')
 RXM=$(sar -n DEV | grep "$IFACE" | tail -2 | head -1 | awk '{print $6/1024}')
 TXM=$(sar -n DEV | grep "$IFACE" | tail -2 | head -1 | awk '{print $7/1024}')
 
-echo "$DATE $CPUUSAGEP $LA5 $MEMUSEDP $SWAPUSEDP $DISKUSEDP $IOWAITP $RXM $TXM $MAILQ"
+touch /var/log/hoststat.dat
+touch /var/log/hoststat.log
+LINE="$DATE $CPUUSAGEP $LA5 $MEMUSEDP $SWAPUSEDP $DISKUSEDP $IOWAITP $RXM $TXM $MAILQ"
+echo "$LINE"
+echo "$LINE" >> /var/log/hoststat.log
+echo "$LINE" >> /var/log/hoststat.dat
+
+TMPFILE="/tmp/hoststat.$$.tmp"
+cat /var/log/hoststat.dat | tail -100 > $TMPFILE
+cat $TMPFILE > /var/log/hoststat.dat
+rm -f $TMPFILE
