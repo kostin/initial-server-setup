@@ -20,8 +20,8 @@ set key under
 set style fill solid 0.4 noborder
 
 plot '/var/log/hoststat.dat' using 1:10 t 'PHP mail queue' with filledcurves y1=0 lc rgb "#cc0066", \
-     '/var/log/hoststat.dat' using 1:8 t 'RX, Kb/s' with filledcurves y1=0 lc rgb "#eecc66", \
-     '/var/log/hoststat.dat' using 1:9 t 'TX, Kb/s' with filledcurves y1=0 lc rgb "#99eeee", \
+#     '/var/log/hoststat.dat' using 1:8 t 'RX, Kb/s' with filledcurves y1=0 lc rgb "#eecc66", \
+#     '/var/log/hoststat.dat' using 1:9 t 'TX, Kb/s' with filledcurves y1=0 lc rgb "#99eeee", \
      '/var/log/hoststat.dat' using 1:2 t 'Cpu usage %' with lines lt 1 lw 1 lc rgb "#ff0000", \
      '/var/log/hoststat.dat' using 1:3 t 'Load Average x 100' with lines lt 8 lw 1 lc rgb "#ff0000", \
      '/var/log/hoststat.dat' using 1:4 t 'Memory usage %' with lines lt 8 lw 1 lc rgb "#0000ff", \
