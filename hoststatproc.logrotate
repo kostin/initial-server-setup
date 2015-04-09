@@ -1,0 +1,9 @@
+/var/log/hoststatproc.log {
+  missingok  
+  weekly
+  rotate 10
+  dateext
+  compress
+  delaycompress
+  create 0666 root root
+}
