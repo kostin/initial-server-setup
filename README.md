@@ -10,3 +10,12 @@ If you run the script again, it will only be updated configuration files and scr
 
 TODO:
 1. Generate per user cron files from ./.hostconf/.cron
+
+```
+cd /root \
+&& wget -N --no-check-certificate https://github.com/kostin/initial-server-setup/archive/master.zip \
+&& unzip master.zip \
+&& cd initial-server-setup-master \
+&& cp -ar scripts/* /opt/scripts/
+&& chmod +x /opt/scripts/*.sh
+```
