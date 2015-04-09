@@ -17,7 +17,7 @@ set key under
 set style fill solid 0.4 noborder
 
 plot '/var/log/hoststatproc.dat' using 1:4 t 'Apache Procs Num' with filledcurves y1=0 lc rgb "#ffcc00", \
-     '/var/log/hoststatproc.dat' using 1:2 t 'Apache CPU Usage %' with lines lt 8 lw 1 lc rgb "#сс0000", \
-     '/var/log/hoststatproc.dat' using 1:3 t 'Apache Memory Usage %' with lines lt 1 lw 2 lc rgb "#сс0000", \
-     '/var/log/hoststatproc.dat' using 1:5 t 'MariaDB CPU Usage %' with lines lt 8 lw 1 lc rgb "#0000сс", \
-     '/var/log/hoststatproc.dat' using 1:6 t 'MariaDB Memory Usage %' with lines lt 1 lw 2 lc rgb "#0000сс"
+     '/var/log/hoststatproc.dat' using 1:2 t 'Apache CPU Usage %' with lines lt 8 lw 1 lc rgb "#cc0000", \
+     '/var/log/hoststatproc.dat' using 1:3 t 'Apache Memory Usage %' with lines lt 1 lw 2 lc rgb "#cc0000", \
+     '/var/log/hoststatproc.dat' using 1:5 t 'MariaDB CPU Usage %' with lines lt 8 lw 1 lc rgb "#0000cc", \
+     '/var/log/hoststatproc.dat' using 1:6 t 'MariaDB Memory Usage %' with lines lt 1 lw 2 lc rgb "#0000cc"
