@@ -16,8 +16,8 @@ set key under
 
 set style fill solid 0.4 noborder
 
-plot '/var/log/hoststatproc.dat' using 1:4 t 'Apache Procs Num' with filledcurves y1=0 lc rgb "orange", \
-     '/var/log/hoststatproc.dat' using 1:2 t 'Apache CPU Usage %' with lines lt 8 lw 1 lc rgb "red", \
-     '/var/log/hoststatproc.dat' using 1:3 t 'Apache Memory Usage %' with lines lt 1 lw 2 lc rgb "red", \
-     '/var/log/hoststatproc.dat' using 1:5 t 'MySQL CPU Usage %' with lines lt 8 lw 1 lc rgb "blue", \
-     '/var/log/hoststatproc.dat' using 1:6 t 'MySQL Memory Usage %' with lines lt 1 lw 2 lc rgb "blue"
+plot '/var/log/hoststatproc.dat' using 1:4 t 'httpd Procs Num' with filledcurves y1=0 lc rgb "gold", \
+     '/var/log/hoststatproc.dat' using 1:6 t 'mysqld Mem Usage %' with lines lt 1 lw 3 lc rgb "turquoise", \
+     '/var/log/hoststatproc.dat' using 1:3 t 'httpd Mem Usage %' with lines lt 1 lw 3 lc rgb "coral", \
+     '/var/log/hoststatproc.dat' using 1:5 t 'mysqld CPU Usage %' with lines lt 1 lw 1 lc rgb "navy", \
+     '/var/log/hoststatproc.dat' using 1:2 t 'httpd CPU Usage %' with lines lt 1 lw 1 lc rgb "blue"
