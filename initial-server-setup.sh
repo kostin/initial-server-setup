@@ -13,23 +13,13 @@ function softinstall {
 	yum -y install epel-release
 	sed -i "s/mirrorlist=https/mirrorlist=http/" /etc/yum.repos.d/epel.repo
 	
+	echo -e "[mariadb]\nname = MariaDB" > /etc/yum.repos.d/MariaDB.repo
 	if [ `uname -m` == 'x86_64' ]; then
-		cat > /etc/yum.repos.d/MariaDB.repo <<EOF
-			[mariadb]
-			name = MariaDB
-			baseurl = http://yum.mariadb.org/10.0/centos6-amd64
-			gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
-			gpgcheck=1
-		EOF
+		echo -e "baseurl = http://yum.mariadb.org/10.0/centos6-amd64" >> /etc/yum.repos.d/MariaDB.repo
 	else
-		cat > /etc/yum.repos.d/MariaDB.repo <<EOF
-			[mariadb]
-			name = MariaDB
-			baseurl = http://yum.mariadb.org/10.0/centos6-x86
-			gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
-			gpgcheck=1
-		EOF
+		echo -e "baseurl = http://yum.mariadb.org/10.0/centos6-x86" >> /etc/yum.repos.d/MariaDB.repo
 	fi
+	echo -e "gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB\ngpgcheck=1" >> /etc/yum.repos.d/MariaDB.repo
 
 	yum -y update
 	yum -y clean all
