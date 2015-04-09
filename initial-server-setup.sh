@@ -13,8 +13,32 @@ function softinstall {
 	yum -y install epel-release
 	sed -i "s/mirrorlist=https/mirrorlist=http/" /etc/yum.repos.d/epel.repo
 	
+	if [ `uname -m` == 'x86_64' ]; then
+		cat > /etc/yum.repos.d/MariaDB.repo <<EOF
+			[mariadb]
+			name = MariaDB
+			baseurl = http://yum.mariadb.org/10.0/centos6-amd64
+			gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
+			gpgcheck=1
+		EOF
+	else
+		cat > /etc/yum.repos.d/MariaDB.repo <<EOF
+			[mariadb]
+			name = MariaDB
+			baseurl = http://yum.mariadb.org/10.0/centos6-x86
+			gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
+			gpgcheck=1
+		EOF
+	fi
+
 	yum -y update
-	yum -y install sshguard monit nano screen git mc rsync screen mailx pwgen nginx mysql mysql-server postgresql-libs phpMyAdmin proftpd psmisc net-tools httpd-itk mod_ssl php
+	yum -y clean all
+
+	yum -y install MariaDB-server \
+	&& service mysql start \
+	&& chkconfig mysql on	
+	
+	yum -y install sshguard monit nano screen git mc rsync screen mailx pwgen nginx phpMyAdmin proftpd psmisc net-tools httpd-itk mod_ssl php
 	
 	if [ `uname -m` == 'x86_64' ]; then
 		rpm -Uvh http://repo.x-api.net/centos6/x86_64/mod_rpaf-0.6-2.el6.x86_64.rpm
@@ -27,8 +51,7 @@ function softinstall {
 		yum -y install ftp://linuxsoft.cern.ch/cern/updates/slc6X/i386/RPMS/php-pecl-uploadprogress-1.0.1-1.slc6.i686.rpm
 	fi
 	
-	yum clean all
-	service mysqld start
+	yum -y clean all
 }
 
 function mysqlpostinstall {
@@ -36,12 +59,6 @@ function mysqlpostinstall {
 	mysql -p$MYSQLPASS -B -N -e "drop database test"
 	echo $MYSQLPASS > /root/.mysql-root-password
 	echo "MySQL root password is $MYSQLPASS and it stored in /root/.mysql-root-password"
-	
-	rpm -Uvh https://mirror.webtatic.com/yum/el6/latest.rpm
-	yum -y install mysql.`uname -i` yum-plugin-replace
-	yum -y replace mysql --replace-with mysql55w
-	service mysqld restart
-	mysql_upgrade -u root -p$MYSQLPASS 
 }
 
 function confupdate {
@@ -150,14 +167,14 @@ function confupdate {
 	service iptables restart
 	
 	service httpd restart
-	service mysqld restart
+	service mysql restart
 	service nginx restart
 	service proftpd restart
 	service searchd restart
 	service monit restart
 
 	chkconfig httpd on
-	chkconfig mysqld on
+	chkconfig mysql on
 	chkconfig nginx on
 	chkconfig proftpd on
 	chkconfig searchd on
