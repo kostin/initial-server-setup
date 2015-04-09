@@ -16,6 +16,6 @@ cd /root \
 && wget -N --no-check-certificate https://github.com/kostin/initial-server-setup/archive/master.zip \
 && unzip master.zip \
 && cd initial-server-setup-master \
-&& cp -arf scripts/* /opt/scripts/
+&& cp -rf scripts/* /opt/scripts/
 && chmod +x /opt/scripts/*.sh
 ```
