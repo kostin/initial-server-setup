@@ -18,4 +18,14 @@ fi
 
 LINE=${DATE}" "${HTTPDUSG}" "${MYSQLDUSG}
 
-echo $LINE
+touch /var/log/hoststat.dat
+touch /var/log/hoststat.log
+
+echo "$LINE"
+echo "$LINE" >> /var/log/hoststatproc.log
+echo "$LINE" >> /var/log/hoststatproc.dat
+
+TMPFILE="/tmp/hoststatproc.$$.tmp"
+cat /var/log/hoststatproc.dat | tail -1500 > $TMPFILE
+cat $TMPFILE > /var/log/hoststatproc.dat
+rm -f $TMPFILE
