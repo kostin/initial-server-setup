@@ -164,6 +164,10 @@ if [ "$1" = "addhoststat" ]; then
   logrotate --force /etc/logrotate.d/hoststat.logrotate
   wget --quiet -N $DLPATH/hoststatproc.logrotate
   logrotate --force /etc/logrotate.d/hoststatproc.logrotate  
+  /opt/scripts/hoststat.sh
+  /opt/scripts/hostplot.sh > /var/www/000default/public/graph.svg
+  /opt/scripts/hoststatproc.sh
+  /opt/scripts/hostplotproc.sh > /var/www/000default/public/graph-proc.svg  
 fi
 
 service monit start
