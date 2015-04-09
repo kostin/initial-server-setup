@@ -157,7 +157,7 @@ if [ "$1" = "addhoststat" ]; then
   cd /etc/logrotate.d/
   wget --quiet -N $DLPATH/hoststat.logrotate
   logrotate --force /etc/logrotate.d/hoststat.logrotate
-  /opt/scripts/hoststat.sh > /dev/null > /etc/cron.d/hoststat
+  /opt/scripts/hoststat.sh
   /opt/scripts/hostplot.sh > /var/www/000default/public/graph.svg
 fi
 
