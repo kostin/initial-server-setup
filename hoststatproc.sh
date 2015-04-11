@@ -38,7 +38,7 @@ echo "$LINE"
 echo "$LINE" >> ${DATFILE}
 echo "$LINE" >> ${LOGFILE}
 
-if [ $(cat ${DATFILE} | wc -l) -gt 1500 ]; then
+if [ $(cat ${DATFILE} | wc -l) -gt 4500 ]; then
   TMPFILE="/tmp/hoststatproc.$$.tmp"
   cat ${DATFILE} | tail -1500 > $TMPFILE
   cat $TMPFILE > ${DATFILE}
