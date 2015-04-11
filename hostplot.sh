@@ -1,7 +1,7 @@
 #!/usr/bin/gnuplot
 
 reset
-set terminal svg size 960,480 dashed rounded enhanced
+set terminal svg size 600,400 dashed rounded enhanced font "Arial,10"
 
 set title "Server `hostname` with IP `hostname -i`. Cores: `grep -c ^processor /proc/cpuinfo`. Memory: `grep MemTotal /proc/meminfo | awk '{print $2/1024}'` MB. \nLocal graph date: `date`\nUptime: `uptime`"
 
