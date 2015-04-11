@@ -173,3 +173,4 @@ if [ "$1" = "addhoststat" ]; then
 fi
 
 service monit start
+monit monitor all
