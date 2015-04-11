@@ -1,7 +1,7 @@
 #!/bin/bash
 
-DATFILE="/var/log/hoststat.dat"
-LOGFILE="/var/log/hoststat.dat"
+DATFILE="/var/log/hoststatproc.dat"
+LOGFILE="/var/log/hoststatproc.dat"
 
 TIME=0
 TIMES=58
