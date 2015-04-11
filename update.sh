@@ -153,7 +153,8 @@ if [ "$1" = "addhoststat" ]; then
   chmod +x /opt/scripts/*.sh
   touch /var/log/hoststat.dat
   touch /var/log/hoststatproc.dat
-  > /var/log/hoststatproc.dat
+#  > /var/log/hoststat.dat  
+#  > /var/log/hoststatproc.dat
   echo "*/3 * * * * root /opt/scripts/hoststat.sh > /dev/null" > /etc/cron.d/hoststat
   echo "*/10 * * * * root /opt/scripts/hostplot.sh > /var/www/000default/public/graph.svg" >> /etc/cron.d/hoststat
   echo "* * * * * root /opt/scripts/hoststatproc.sh > /dev/null" > /etc/cron.d/hoststatproc
@@ -165,9 +166,9 @@ if [ "$1" = "addhoststat" ]; then
   logrotate --force /etc/logrotate.d/hoststat.logrotate
   wget --quiet -N $DLPATH/hoststatproc.logrotate
   logrotate --force /etc/logrotate.d/hoststatproc.logrotate  
-  /opt/scripts/hoststat.sh
+#  /opt/scripts/hoststat.sh
   /opt/scripts/hostplot.sh > /var/www/000default/public/graph.svg
-  /opt/scripts/hoststatproc.sh
+#  /opt/scripts/hoststatproc.sh
   /opt/scripts/hostplotproc.sh > /var/www/000default/public/graph-proc.svg  
 fi
 
