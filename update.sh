@@ -87,6 +87,10 @@ if [ "$1" = "mysql55" ]; then
   mysql_upgrade -u root -p`cat /root/.mysql-root-password`   
 fi
 
+if [ "$1" = "mysqlcheck" ]; then
+  mysqlcheck -Ao -p`cat /root/.mysql-root-password`
+fi
+
 if [ "$1" = "mysqltuner" ]; then
   rm -rf /root/mysqltuner.pl
   cd /root \
