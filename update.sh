@@ -19,7 +19,7 @@ if [ "$1" = "mycnf" ]; then
   rm -rf /root/mysql-files-copy/* 
   # cp -ar /var/lib/mysql/* /root/mysql-files-copy \
   wget --quiet -N $DLPATH/my.cnf
-  rm -rf /var/log/mysql.log  
+  rm -rf /var/log/mysql-error.log  
   touch /var/log/mysql-slow.log 
   chown mysql:mysql /var/log/mysql-slow.log 
   chmod 640 /var/log/mysql-slow.log 
