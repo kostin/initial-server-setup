@@ -12,7 +12,7 @@ TODO:
 1. Generate per user cron files from ./.hostconf/.cron
 
 ```
-mkdip -p /opt/scripts
+mkdip -p /opt/scripts \
 cd /tmp \
 && wget -N --no-check-certificate https://github.com/kostin/initial-server-setup/archive/master.zip \
 && unzip -o master.zip \
