@@ -19,5 +19,5 @@ cd /tmp \
 && cd initial-server-setup-master \
 && rsync scripts/* /opt/scripts/ \
 && chmod +x /opt/scripts/*.sh \
-&& ./initial-server-setup.sh
+&& /opt/scripts/initial-server-setup.sh
 ```
