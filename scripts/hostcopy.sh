@@ -22,8 +22,7 @@ fi
 RSQLPASS=$(ssh root@${RSERV} "cat /root/.mysql-root-password")
 RBASES=$(ssh root@${RSERV} "mysql -p${RSQLPASS} -B -N -e \"select Db from mysql.db where user = '${RSITE}'\"")
 
-for DB in ${RBASES}
-do
+for DB in ${RBASES}; do
   ssh root@${RSERV} "mysqldump --force -p${RSQLPASS} $DB | gzip > /var/www/${RSITE}/$DB-db.sql.gz"
 done
 
