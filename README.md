@@ -15,7 +15,8 @@ TODO:
 mkdir -p /opt/scripts; \
 yum install -y rsync unzip \
 && cd /tmp \
-&& wget -N --no-check-certificate https://github.com/kostin/initial-server-setup/archive/master.zip \
+&& wget --no-check-certificate -O /tmp/master.zip \
+   https://github.com/kostin/initial-server-setup/archive/master.zip \
 && unzip -o master.zip \
 && cd initial-server-setup-master \
 && rsync scripts/* /opt/scripts/ \
