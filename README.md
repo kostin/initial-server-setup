@@ -18,8 +18,7 @@ yum install -y rsync unzip \
 && wget --no-check-certificate -O /tmp/master.zip \
    https://github.com/kostin/initial-server-setup/archive/master.zip \
 && unzip -o master.zip \
-&& cd initial-server-setup-master \
-&& rsync scripts/* /opt/scripts/ \
+&& rsync /tmp/initial-server-setup-master/ /opt/scripts/ \
 && chmod +x /opt/scripts/*.sh \
 && /opt/scripts/initial-server-setup.sh
 ```
