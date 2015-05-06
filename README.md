@@ -12,7 +12,7 @@ TODO:
 1. Generate per user cron files from ./.hostconf/.cron
 
 ```
-mkdir -p /opt/scripts \
+mkdir -p /opt/scripts; \
 yum install -y rsync unzip \
 && cd /tmp \
 && wget -N --no-check-certificate https://github.com/kostin/initial-server-setup/archive/master.zip \
