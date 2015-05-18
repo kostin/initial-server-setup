@@ -1,6 +1,7 @@
 /var/www/*/logs/*.log {
-  copytruncate
   missingok
+  copytruncate
+  delaycompress
   notifempty
   dateext
   compress
