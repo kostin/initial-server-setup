@@ -1,6 +1,7 @@
 
 /var/log/phpmail.log {
   missingok  
+  copytruncate
   daily
   rotate 30
   dateext
