@@ -23,9 +23,10 @@ function softinstall {
 
 	yum -y update
 	yum -y clean all
-
-	yum -y install MariaDB-server \
-	&& service mysql start \
+	
+	yum -y install MariaDB-server
+	chown -R mysql:mysql /var/lib/mysql
+	service mysql start \
 	&& chkconfig mysql on	
 	
 	yum -y install sshguard monit nano screen git mc rsync screen mailx pwgen nginx phpMyAdmin postgresql-libs proftpd psmisc net-tools httpd-itk mod_ssl php
