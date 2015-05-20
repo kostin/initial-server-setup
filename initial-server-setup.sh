@@ -25,7 +25,6 @@ function softinstall {
 	yum -y clean all
 	
 	yum -y install MariaDB-server
-	chown -R mysql:mysql /var/lib/mysql
 	service mysql start \
 	&& chkconfig mysql on	
 	
@@ -76,6 +75,7 @@ function confupdate {
 	cd /etc
 	wget -N $DLPATH/my.cnf
 	service mysqld stop
+	chown -R mysql:mysql /var/lib/mysql
 	touch /var/log/mysql-slow.log
 	chown mysql:mysql /var/log/mysql-slow.log
 	mv /var/lib/mysql/ib_logfile0 /var/lib/mysql/ib_logfile0.bak
