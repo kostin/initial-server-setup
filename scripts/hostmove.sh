@@ -27,7 +27,6 @@ ssh root@${FROMSERVER} "mysqldump -u root -p${FROMSQLPASS} ${FROMUSER}_pub > /va
 rsync -azh -e ssh root@${FROMSERVER}:/var/www/$FROMUSER/public/ /tmp/${FROMSERVER}/${FROMUSER}/public/
 ssh root@${FROMSERVER} "rm -rf /var/www/$FROMUSER/public/base_pub.sql"
 rsync -azh -e ssh /tmp/${FROMSERVER}/${FROMUSER}/public/ root@${TOSERVER}:/var/www/${TOUSER}/public/
-#rm -rf /tmp/${FROMSERVER}
 ssh root@${TOSERVER} "chown -R ${TOUSER}:${TOUSER} /var/www/${TOUSER}/public/"
 ssh root@${TOSERVER} "mysql -u root -p${TOSQLPASS} ${TOUSER}_pub < /var/www/$TOUSER/public/base_pub.sql && rm -rf /var/www/$TOUSER/public/base_bub.sql"
 
@@ -47,3 +46,6 @@ if ssh root@$TOSERVER test -e "/var/www/$TOUSER/public/wp-config.php" ; then
   ssh root@$TOSERVER "sed -i \"s/^define('DB_PASSWORD', '[^']*')/define('DB_PASSWORD', '$TOSQLUSERPASS')/g\" /var/www/$TOUSER/public/wp-config.php"
   ssh root@$TOSERVER "sed -i \"s/^define('DB_USER', '[^']*')/define('DB_USER', '$TOUSER')/g\" /var/www/$TOUSER/public/wp-config.php"
 fi
+
+#ssh root@${FROMSERVER} "/opt/scripts/hostdel.sh ${FROMUSER}"
+#rm -rf /tmp/${FROMSERVER}
