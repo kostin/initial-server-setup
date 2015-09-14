@@ -123,6 +123,8 @@ function confupdate {
 	cd /etc/logrotate.d
 	wget -N $DLPATH/httpd.logrotate
 	wget -N $DLPATH/phpmail.logrotate
+	wget -N $DLPATH/btmp.logrotate
+	
 
 	cd /etc/sphinx/
 	wget -N $DLPATH/sphinx-common.conf
