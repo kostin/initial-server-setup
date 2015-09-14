@@ -1,0 +1,6 @@
+/var/log/btmp {
+  weekly
+  minsize 1M
+  create 0600 root utmp
+  rotate 1
+}
