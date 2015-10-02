@@ -13,7 +13,7 @@ TODO:
 
 ```
 mkdir -p /opt/scripts; \
-yum install -y rsync unzip \
+yum install -y rsync unzip wget \
 && cd /tmp \
 && wget --no-check-certificate -O /tmp/master.zip \
    https://github.com/kostin/initial-server-setup/archive/master.zip \
