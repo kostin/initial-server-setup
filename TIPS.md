@@ -1,9 +1,3 @@
-hostname меняется в файле:
-```
-/etc/sysconfig/network
-```
+hostname меняется в файле: ```/etc/sysconfig/network```
 
-selinux отключается в файле (надо установить ```SELINUX=disabled``` и перезапустить систему)
-```
-/etc/selinux/config
-```
+selinux отключается в файле ```/etc/selinux/config``` (надо установить ```SELINUX=disabled``` и перезапустить систему) 
