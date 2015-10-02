@@ -41,6 +41,11 @@ function softinstall {
 		yum -y install ftp://linuxsoft.cern.ch/cern/updates/slc6X/i386/RPMS/php-pecl-uploadprogress-1.0.1-1.slc6.i686.rpm
 	fi
 	
+	yum -y install ntp
+	chkconfig ntpd on
+	ntpdate pool.ntp.org
+	/etc/init.d/ntpd start
+	
 	yum -y clean all
 }
 
