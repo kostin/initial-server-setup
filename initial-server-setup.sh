@@ -147,6 +147,9 @@ function confupdate {
 	
 	iptables -F
 	
+	# disable selinux (optional)
+	sed -i 's/^SELINUX=.*/SELINUX=disabled/g' /etc/sysconfig/selinux
+	
 	#iptables -A INPUT -p tcp --tcp-flags ALL NONE -j DROP
 	#iptables -A INPUT -p tcp ! --syn -m state --state NEW -j DROP
 	#iptables -A INPUT -p tcp --tcp-flags ALL ALL -j DROP
