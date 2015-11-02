@@ -150,31 +150,32 @@ fi
 
 if [ "$1" = "addhoststat" ]; then
   yum -y install sysstat gnuplot
-  cd /opt/scripts
-  wget --quiet -N $DLPATH/hoststat.sh 
-  wget --quiet -N $DLPATH/hostplot.sh 
-  wget --quiet -N $DLPATH/hoststatproc.sh 
-  wget --quiet -N $DLPATH/hostplotproc.sh   
+  mkdir /opt/scripts/hoststat
+  cd /opt/scripts/hoststat
+  wget --quiet -N $DLPATH/hoststat/hoststat.sh 
+  wget --quiet -N $DLPATH/hoststat/hostplot.sh 
+  wget --quiet -N $DLPATH/hoststat/hoststatproc.sh 
+  wget --quiet -N $DLPATH/hoststat/hostplotproc.sh   
   chmod +x /opt/scripts/*.sh
   touch /var/log/hoststat.dat
   touch /var/log/hoststatproc.dat
 #  > /var/log/hoststat.dat  
 #  > /var/log/hoststatproc.dat
-  echo "*/3 * * * * root /opt/scripts/hoststat.sh > /dev/null" > /etc/cron.d/hoststat
-  echo "*/10 * * * * root /opt/scripts/hostplot.sh > /var/www/000default/public/graph.svg" >> /etc/cron.d/hoststat
-  echo "* * * * * root /opt/scripts/hoststatproc.sh > /dev/null" > /etc/cron.d/hoststatproc
-  echo "*/10 * * * * root /opt/scripts/hostplotproc.sh > /var/www/000default/public/graph-proc.svg" >> /etc/cron.d/hoststatproc
+  echo "*/3 * * * * root /opt/scripts/hoststat/hoststat.sh > /dev/null" > /etc/cron.d/hoststat
+  echo "*/10 * * * * root /opt/scripts/hoststat/hostplot.sh > /var/www/000default/public/graph.svg" >> /etc/cron.d/hoststat
+  echo "* * * * * root /opt/scripts/hoststat/hoststatproc.sh > /dev/null" > /etc/cron.d/hoststatproc
+  echo "*/10 * * * * root /opt/scripts/hoststat/hostplotproc.sh > /var/www/000default/public/graph-proc.svg" >> /etc/cron.d/hoststatproc
   sed -i 's|*/10|*/3|g' /etc/cron.d/sysstat
   service crond restart
   cd /etc/logrotate.d/
-  wget --quiet -N $DLPATH/hoststat.logrotate
+  wget --quiet -N $DLPATH/hoststat/hoststat.logrotate
   logrotate --force /etc/logrotate.d/hoststat.logrotate
-  wget --quiet -N $DLPATH/hoststatproc.logrotate
+  wget --quiet -N $DLPATH/hoststat/hoststatproc.logrotate
   logrotate --force /etc/logrotate.d/hoststatproc.logrotate  
 #  /opt/scripts/hoststat.sh
-  /opt/scripts/hostplot.sh > /var/www/000default/public/graph.svg
+  /opt/scripts/hoststat/hostplot.sh > /var/www/000default/public/graph.svg
 #  /opt/scripts/hoststatproc.sh
-  /opt/scripts/hostplotproc.sh > /var/www/000default/public/graph-proc.svg  
+  /opt/scripts/hoststat/hostplotproc.sh > /var/www/000default/public/graph-proc.svg  
 fi
 
 service monit start
