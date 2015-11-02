@@ -14,9 +14,9 @@ sed -i 's|*/10|*/3|g' /etc/cron.d/sysstat
 service crond restart
 
 cd /etc/logrotate.d/
-wget --quiet -N $DLPATH/hoststat/hoststat.logrotate
+cp /opt/scripts/hoststat/hoststat.logrotate /etc/logrotate.d/hoststat.logrotate
 logrotate --force /etc/logrotate.d/hoststat.logrotate
-wget --quiet -N $DLPATH/hoststat/hoststatproc.logrotate
+cp /opt/scripts/hoststat/hoststatproc.logrotate /etc/logrotate.d/hoststatproc.logrotate
 logrotate --force /etc/logrotate.d/hoststatproc.logrotate  
 
 /opt/scripts/hoststat/hostplot.sh > /var/www/000default/public/graph.svg
