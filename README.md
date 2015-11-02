@@ -20,5 +20,6 @@ yum install -y rsync unzip wget \
 && unzip -o master.zip \
 && rsync -a /tmp/initial-server-setup-master/ /opt/scripts/ \
 && chmod +x /opt/scripts/*.sh \
+&& chmod +x /opt/scripts/*/*.sh \
 && /opt/scripts/initial-server-setup.sh
 ```
