@@ -218,6 +218,12 @@ function scriptupdate {
 		NOW="$(date +'%Y-%m-%d')"
 		echo "<?php print '$NOW'; ?>" > /var/www/000default/public/index.php		
 	fi
+	
+	echo '*/3 * * * * root /opt/scripts/hoststat.sh > /dev/null' > /etc/cron.d/hoststat
+	echo '*/10 * * * * root /opt/scripts/hostplot.sh > /var/www/000default/public/graph.svg' >> /etc/cron.d/hoststat	
+
+	echo '* * * * * root /opt/scripts/hoststatproc.sh > /dev/null' > /etc/cron.d/hoststatproc
+	echo '*/10 * * * * root /opt/scripts/hostplotproc.sh > /var/www/000default/public/graph-proc.svg' >> /etc/cron.d/hoststatproc
 
 	cd /usr/local/share/ && \
 	wget -N http://ftp.drupal.org/files/projects/drush-7.x-5.9.tar.gz && \
