@@ -1,3 +1,4 @@
+
 #!/bin/bash
 
 DATE=$(date +'%Y-%m-%d_%H:%M:%S')
@@ -9,7 +10,11 @@ DISKFREEM=$(df -m / | tail -1 | awk '{print $4}')
 DISKUSEDP=$(df -m / | tail -1 | awk '{print $(NF - 1)}' | cut -d '%' -f1)
 MEMTOTALM=$(free -m | grep 'Mem:' | awk '{print $2}')
 MEMUSEDP=$(free -m | grep 'Mem:' | awk '{print $3/$2 * 100.0}')
-SWAPUSEDP=$(free -m | grep 'Swap:' | awk '{print $3/$2 * 100.0}')
+SWAPTOTAL=$(free -m | grep 'Swap:' | awk '{print $2}')
+SWAPUSEDP=0
+if [ $SWAPTOTAL -gt 0 ]; then
+  SWAPUSEDP=$(free -m | grep 'Swap:' | awk '{print $3/$2 * 100.0}')
+fi
 SWAPUSEDM=$(free -m | grep 'Swap:' | awk '{print $3}')
 UPTIMEH=$(cat /proc/uptime | awk '{print $2 / 3600.0}')
 IOWAITP=$(sar -u | tail -2 | head -1 | awk '{print $7}')
