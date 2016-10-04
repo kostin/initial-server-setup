@@ -3,7 +3,7 @@
 reset
 set terminal svg size 600,400 dashed rounded enhanced font "Arial,10"
 
-set title "Server `hostname` with IP `hostname -i`. Cores: `grep -c ^processor /proc/cpuinfo`. Memory: `grep MemTotal /proc/meminfo | awk '{print $2/1024}'` MB. \nLocal graph date: `date`\nUptime: `uptime`"
+set title "Server `hostname` with IP `hostname -i`. Cores: `grep -c ^processor /proc/cpuinfo`. Memory: `grep MemTotal /proc/meminfo | awk '{print $2/1024}'` MB. \nDisk free on /: `df -h / | tail -1 | awk '{print $4}'`. Local graph date: `date`\nUptime: `uptime`"
 
 set xdata time
 set timefmt "%Y-%m-%d_%H:%M:%S"
