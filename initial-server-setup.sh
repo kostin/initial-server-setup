@@ -28,7 +28,7 @@ function softinstall {
 	service mysql start \
 	&& chkconfig mysql on	
 	
-	yum -y install sshguard monit time nano screen git mc rsync screen mailx pwgen nginx phpMyAdmin postgresql-libs proftpd psmisc net-tools httpd-itk mod_ssl php
+	yum -y install sshguard monit time nano screen git mc rsync screen mailx pwgen nginx phpMyAdmin postgresql-libs proftpd psmisc net-tools httpd-itk mod_ssl php gnuplot
 	
 	if [ `uname -m` == 'x86_64' ]; then
 		rpm -Uvh http://repo.x-api.net/centos6/x86_64/mod_rpaf-0.6-2.el6.x86_64.rpm
