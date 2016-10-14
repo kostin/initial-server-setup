@@ -25,4 +25,3 @@ plot '/var/log/hoststatproc.dat' using 1:4 t 'httpd Procs Num' with filledcurves
      '/var/log/hoststatproc.dat' using 1:5 t ' mysqld CPU Usage %' with lines lt 1 lw 1 lc rgb "blue", \
      '/var/log/hoststatproc.dat' using 1:2:(10.0) t 'httpd CPU Usage %' with lines lt 1 lw 1 lc rgb "magenta", \
      100 t '' with lines lt 3 lw 1 lc rgb "red"
-You have mail in /var/spool/mail/root
