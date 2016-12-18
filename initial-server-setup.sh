@@ -15,9 +15,9 @@ function softinstall {
 	
 	echo -e "[mariadb]\nname = MariaDB" > /etc/yum.repos.d/MariaDB.repo
 	if [ `uname -m` == 'x86_64' ]; then
-		echo -e "baseurl = http://yum.mariadb.org/10.0/centos6-amd64" >> /etc/yum.repos.d/MariaDB.repo
+		echo -e "baseurl = http://yum.mariadb.org/10.1/centos6-amd64" >> /etc/yum.repos.d/MariaDB.repo
 	else
-		echo -e "baseurl = http://yum.mariadb.org/10.0/centos6-x86" >> /etc/yum.repos.d/MariaDB.repo
+		echo -e "baseurl = http://yum.mariadb.org/10.1/centos6-x86" >> /etc/yum.repos.d/MariaDB.repo
 	fi
 	echo -e "gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB\ngpgcheck=1" >> /etc/yum.repos.d/MariaDB.repo
 
