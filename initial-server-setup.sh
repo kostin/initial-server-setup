@@ -28,7 +28,7 @@ function softinstall {
 	service mysql start \
 	&& chkconfig mysql on	
 	
-	yum -y install sshguard monit time nano screen git mc rsync screen mailx pwgen nginx phpMyAdmin postgresql-libs proftpd psmisc net-tools httpd-itk mod_ssl php gnuplot
+	yum -y install sshguard monit time nano screen git mc rsync screen curl mailx pwgen nginx phpMyAdmin postgresql-libs proftpd psmisc net-tools httpd-itk mod_ssl php gnuplot
 	
 	if [ `uname -m` == 'x86_64' ]; then
 		rpm -Uvh http://repo.x-api.net/centos6/x86_64/mod_rpaf-0.6-2.el6.x86_64.rpm
@@ -230,6 +230,10 @@ function scriptupdate {
 	tar zxvf drush-7.x-5.9.tar.gz && \
 	ln -s /usr/local/share/drush/drush /usr/local/bin/drush && \
 	rm -f drush-7.x-5.9.tar.gz
+	
+        cd /tmp
+        curl -sS https://getcomposer.org/installer | php
+        mv composer.phar /usr/local/bin/composer	
 }
 
 if grep -q 'CentOS release 6' /etc/redhat-release; then
