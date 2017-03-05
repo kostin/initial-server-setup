@@ -125,6 +125,8 @@ function confupdate {
 	rm -f /etc/nginx/conf.d/*.conf
 	HOST=`hostname`
 	sed -i "s/HOSTNAME/$HOST/" /etc/nginx/nginx.conf
+	setsebool -P httpd_can_network_connect 1
+        setsebool -P httpd_can_network_relay 1
 
 	cd /etc/logrotate.d
 	wget -N $DLPATH/httpd.logrotate
