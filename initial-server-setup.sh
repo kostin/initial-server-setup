@@ -25,6 +25,8 @@ function softinstall {
 	yum -y clean all
 	
 	yum -y install MariaDB-server
+	touch /var/log/mysql.log 
+        chown mysql:mysql /var/log/mysql.log 
 	service mysql start \
 	&& chkconfig mysql on	
 	
