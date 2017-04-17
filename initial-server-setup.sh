@@ -44,6 +44,10 @@ function softinstall {
 		yum -y install ftp://linuxsoft.cern.ch/cern/updates/slc6X/i386/RPMS/php-pecl-uploadprogress-1.0.1-1.slc6.i686.rpm
 	fi
 	
+	cd /tmp
+	curl -sS https://getcomposer.org/installer | php  
+	mv composer.phar /usr/local/bin/composer  
+	
 	yum -y install ntp
 	chkconfig ntpd on
 	ntpdate pool.ntp.org
