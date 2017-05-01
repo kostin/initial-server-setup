@@ -30,7 +30,7 @@ function softinstall {
 	service mysql start \
 	&& chkconfig mysql on	
 	
-	yum -y install sshguard monit time nano screen git mc rsync screen curl mailx pwgen nginx phpMyAdmin postgresql-libs proftpd psmisc net-tools httpd-itk mod_ssl php gnuplot
+	yum -y install sshguard unzip monit time nano screen git mc rsync screen curl mailx pwgen nginx phpMyAdmin postgresql-libs proftpd psmisc net-tools httpd-itk mod_ssl php gnuplot
 	
 	sed -i '/$i++;/a $cfg[ForceSSL] = true;' /etc/phpMyAdmin/config.inc.php
 	
