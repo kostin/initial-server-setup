@@ -84,7 +84,8 @@ function confupdate {
 	rm -rf /var/www/html /var/www/error /var/www/icons /var/www/cgi-bin
 	if [ ! -d /etc/httpd/conf/vhosts ]; then
 		mkdir -p /etc/httpd/conf/vhosts
-	fi	
+	fi
+	sed -i -e 's/Listen 443/#Listen 443/g' /etc/httpd/conf.d/ssl.conf
 	
 	cd /etc
 	wget -N $DLPATH/my.cnf
