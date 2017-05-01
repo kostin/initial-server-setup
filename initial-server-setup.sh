@@ -133,6 +133,11 @@ function confupdate {
 	sed -i "s/HOSTNAME/$HOST/" /etc/nginx/nginx.conf
 	setsebool -P httpd_can_network_connect 1
         setsebool -P httpd_can_network_relay 1
+	
+	mkdir -p /var/www/certs/.well-known/acme-challenge
+	chown -R root:nginx /var/www/certs
+	curl https://get.acme.sh | sh
+	openssl dhparam -out /root/.acme.sh/dhparam.pem 2048
 
 	cd /etc/logrotate.d
 	wget -N $DLPATH/httpd.logrotate
