@@ -32,6 +32,8 @@ function softinstall {
 	
 	yum -y install sshguard monit time nano screen git mc rsync screen curl mailx pwgen nginx phpMyAdmin postgresql-libs proftpd psmisc net-tools httpd-itk mod_ssl php gnuplot
 	
+	sed -i '/$i++;/a $cfg[ForceSSL] = true;' /etc/phpMyAdmin/config.inc.php
+	
 	if [ `uname -m` == 'x86_64' ]; then
 		rpm -Uvh http://repo.x-api.net/centos6/x86_64/mod_rpaf-0.6-2.el6.x86_64.rpm
 		#yum install unixODBC
