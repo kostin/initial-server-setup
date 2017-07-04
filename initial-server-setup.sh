@@ -242,15 +242,11 @@ function scriptupdate {
 	echo '* * * * * root /opt/scripts/hoststatproc.sh > /dev/null' > /etc/cron.d/hoststatproc
 	echo '*/10 * * * * root /opt/scripts/hostplotproc.sh > /var/www/000default/public/graph-proc.svg' >> /etc/cron.d/hoststatproc
 
-	cd /usr/local/share/ && \
-	wget -N http://ftp.drupal.org/files/projects/drush-7.x-5.9.tar.gz && \
-	tar zxvf drush-7.x-5.9.tar.gz && \
-	ln -s /usr/local/share/drush/drush /usr/local/bin/drush && \
-	rm -f drush-7.x-5.9.tar.gz
-	
         cd /tmp
         curl -sS https://getcomposer.org/installer | php
-        mv composer.phar /usr/local/bin/composer	
+        mv composer.phar /usr/local/bin/composer
+	
+	composer global require webflo/drush-shim
 }
 
 if grep -q 'CentOS release 6' /etc/redhat-release; then
