@@ -46,14 +46,19 @@ function softinstall {
 		yum -y install ftp://linuxsoft.cern.ch/cern/updates/slc6X/i386/RPMS/php-pecl-uploadprogress-1.0.1-1.slc6.i686.rpm
 	fi
 	
-	cd /tmp
-	curl -sS https://getcomposer.org/installer | php  
-	mv composer.phar /usr/local/bin/composer  
-	
 	yum -y install ntp
 	chkconfig ntpd on
 	ntpdate pool.ntp.org
 	/etc/init.d/ntpd start
+	
+	cd /tmp
+	curl -sS https://getcomposer.org/installer | php  
+	mv composer.phar /usr/local/bin/composer  
+	
+	cd /tmp
+	wget http://files.drush.org/drush.phar
+	mv drush.phar usr/local/bin/drush
+	chmod +x /usr/local/bin/drush	
 	
 	yum -y clean all
 }
@@ -241,15 +246,6 @@ function scriptupdate {
 
 	echo '* * * * * root /opt/scripts/hoststatproc.sh > /dev/null' > /etc/cron.d/hoststatproc
 	echo '*/10 * * * * root /opt/scripts/hostplotproc.sh > /var/www/000default/public/graph-proc.svg' >> /etc/cron.d/hoststatproc
-
-        cd /tmp
-        curl -sS https://getcomposer.org/installer | php
-        mv composer.phar /usr/local/bin/composer
-	
-	cd /tmp
-	wget http://files.drush.org/drush.phar
-	mv drush.phar usr/local/bin/drush
-	chmod +x /usr/local/bin/drush
 
 }
 
