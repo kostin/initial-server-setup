@@ -246,9 +246,10 @@ function scriptupdate {
         curl -sS https://getcomposer.org/installer | php
         mv composer.phar /usr/local/bin/composer
 	
-	composer global require drush/drush:dev-master
-	composer global remove drush/drush
-	composer global require webflo/drush-shim
+	cd /tmp
+	wget http://files.drush.org/drush.phar
+	mv drush.phar usr/local/bin/drush
+	chmod +x /usr/local/bin/drush
 
 }
 
