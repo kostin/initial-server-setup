@@ -1,0 +1,32 @@
+  server {
+    server_name DOMAIN www.DOMAIN ALIASES;
+    listen                      443 ssl http2;
+    ssl                         on;
+    ssl_protocols               TLSv1.2 TLSv1.1 TLSv1;
+    ssl_session_cache           shared:SSL:20m;
+    ssl_session_timeout         10m;
+    ssl_ciphers                 'EECDH+ECDSA+AESGCM:AES128+EECDH:AES128+EDH:!RC4:!aNULL:!eNULL:!LOW:!3DES:!MD5:!EXP:!PSK:!SRP:!DSS:!CAMELLIA:!ADH';
+    ssl_prefer_server_ciphers   on;
+    resolver                    8.8.8.8 8.8.4.4 valid=300s;
+    resolver_timeout            10s;
+    add_header                  X-Frame-Options             "SAMEORIGIN";
+    add_header                  X-Content-Type-Options      "nosniff";
+    ssl_stapling            on;
+    ssl_certificate         /var/www/USER/.hostconf/.ssl/DOMAIN.fullchain.cer;
+    ssl_certificate_key     /var/www/USER/.hostconf/.ssl/DOMAIN.key;
+    ssl_dhparam             /etc/ssl/certs/dhparam.pem;
+
+    proxy_set_header https on;
+    proxy_set_header X-Forwarded-Port $server_port;
+    proxy_set_header X_FORWARDED_PROTO $scheme;
+    proxy_set_header SCHEME $scheme;
+
+    location / {
+      proxy_pass http://127.0.0.1:8080;
+      proxy_redirect http:// https://;
+      proxy_set_header Host $host;
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header X-Real-IP $remote_addr;
+      proxy_set_header SCHEME $scheme;
+    }
+  }
