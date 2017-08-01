@@ -49,3 +49,5 @@ sed -i "s/DOMAIN/${DOMAIN}/g" /var/www/${USER}/.hostconf/.nginx
 sed -i "s/ALIASES/${ALIASES}/g" /var/www/${USER}/.hostconf/.nginx
 
 nginx -t && service nginx force-reload
+
+
