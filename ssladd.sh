@@ -1,5 +1,5 @@
 #!/bin/bash
-usage="To install ssl you have to use next parameters:\n\t1). Site name (like /var/www/site_name). \n\t2). Main domain \n\t3) (Optional) Additional domains (Ex.: \"test.com test2.com\")."
+usage="To install ssl you have to use next parameters:\n\t1) Site name (like /var/www/site_name). \n\t2) Main domain \n\t3) (Optional) Additional domains (Ex.: \"test.com test2.com\")."
 
 if [ ! -f "/root/.acme.sh/acme.sh" ] ; then
     	echo "acme.sh doesnt install on this server!"
