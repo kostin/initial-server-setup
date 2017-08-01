@@ -46,5 +46,6 @@ mkdir /var/www/${USER}/.hostconf/.ssl
 cp /opt/scripts/vhost_template_nginx_ssl /var/www/${USER}/.hostconf/.nginx
 sed -i "s/USER/${USER}/g" /var/www/${USER}/.hostconf/.nginx
 sed -i "s/DOMAIN/${DOMAIN}/g" /var/www/${USER}/.hostconf/.nginx
+sed -i "s/ALIASES/${ALIASES}/g" /var/www/${USER}/.hostconf/.nginx
 
 nginx -t && service nginx force-reload
