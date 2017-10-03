@@ -145,7 +145,7 @@ function confupdate {
 	mkdir -p /var/www/certs/.well-known/acme-challenge
 	chown -R root:nginx /var/www/certs
 	curl https://get.acme.sh | sh
-	openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
+	openssl dhparam -out /root/.acme.sh/dhparam.pem 2048
 
 	cd /etc/logrotate.d
 	wget -N $DLPATH/httpd.logrotate
