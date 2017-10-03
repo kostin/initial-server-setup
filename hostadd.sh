@@ -80,8 +80,17 @@ echo "MySQL password for user $USER: $DBPWD"
 echo "$USRPWD" > /var/www/$USER/.hostconf/.password-user
 echo "$DBPWD" > /var/www/$USER/.hostconf/.password-db
 
+mkdir -p /var/www/$USER/.hostconf/.ssl
+
 chown -R root:root /var/www/$USER/.hostconf
 chmod -R 400 /var/www/$USER/.hostconf
 chmod 500 /var/www/$USER/.hostconf
 
 ln -s /opt/scripts/.htpasswd /var/www/$USER/.htpasswd
+
+/root/.acme.sh/acme.sh --issue $SSLDOMAINS -w /var/www/certs
+
+/root/.acme.sh/acme.sh --install-cert -d $SSLDOMAINS \
+--key-file /var/www/$USER/.hostconf/.ssl/$USER.key
+--fullchain-file /var/www/$USER/.hostconf/.ssl/$USER.fullchain.cer \
+--reloadcmd "service nginx force-reload"
