@@ -34,7 +34,8 @@ function softinstall {
 	if [ "$PHPVER" == "php7" ]; then
 	    rpm -Uvh https://mirror.webtatic.com/yum/el6/latest.rpm
 	    yum update
-	    yum -y install php71w-common php71w-opcache php71w-cli mod_php71w php71w-mbstring php71w-mysqlnd php71w-gd php71w-mcrypt php71w-xml
+	    yum -y install php71w-common php71w-opcache php71w-cli mod_php71w php71w-mysqlnd
+	    yum -y install php71w-mbstring php71w-gd php71w-mcrypt php71w-xml
 	    mkdir -p /usr/share/phpMyAdmin/
 	    wget https://files.phpmyadmin.net/phpMyAdmin/4.7.4/phpMyAdmin-4.7.4-all-languages.tar.gz \
             -O /tmp/phpMyAdmin.tar.gz
