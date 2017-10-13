@@ -30,8 +30,6 @@ function softinstall {
 	service mysql start \
 	&& chkconfig mysql on	
 	
-	yum -y install sshguard unzip monit time nano screen git mc rsync screen curl mailx pwgen nginx postgresql-libs proftpd psmisc net-tools httpd-itk mod_ssl gnuplot sysstat
-	
 	if [ "$1" == "php7" ] ; then
 	
 		rpm -Uvh https://mirror.webtatic.com/yum/el6/latest.rpm
@@ -49,7 +47,9 @@ function softinstall {
 		php php-soap
 	fi	
 	
-	sed -i '/$i++;/a $cfg[ForceSSL] = true;' /etc/phpMyAdmin/config.inc.php
+	sed -i '/$i++;/a $cfg[ForceSSL] = true;' /etc/phpMyAdmin/config.inc.php	
+	
+	yum -y install sshguard unzip monit time nano screen git mc rsync screen curl mailx pwgen nginx postgresql-libs proftpd psmisc net-tools httpd-itk mod_ssl gnuplot sysstat
 	
 	if [ `uname -m` == 'x86_64' ]; then
 		rpm -Uvh http://repo.x-api.net/centos6/x86_64/mod_rpaf-0.6-2.el6.x86_64.rpm
