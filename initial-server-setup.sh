@@ -31,26 +31,23 @@ function softinstall {
 	&& chkconfig mysql on	
 	
 	if [ "$1" == "php7" ]; then
-	
-		rpm -Uvh https://mirror.webtatic.com/yum/el6/latest.rpm
-		yum update
-		yum -y install php71w-common php71w-opcache
-		
-		mkdir -p /usr/share/phpMyAdmin/
-		wget https://files.phpmyadmin.net/phpMyAdmin/4.7.4/phpMyAdmin-4.7.4-all-languages.tar.gz \
-		-O /tmp/phpMyAdmin.tar.gz
-		tar xfzp /tmp/phpMyAdmin.tar.gz -C /usr/share/phpMyAdmin --strip-components=1
-		cp /usr/share/phpMyAdmin/config.sample.inc.php /usr/share/phpMyAdmin/config.inc.php
-		sed -ri "s/cfg\['blowfish_secret'\] = ''/cfg['blowfish_secret'] = '`pwgen 32 1`'/" /usr/share/phpMyAdmin/config.inc.php	
-		
+	    rpm -Uvh https://mirror.webtatic.com/yum/el6/latest.rpm
+	    yum update
+	    yum -y install php71w-common php71w-opcache php71w-cli mod_php71w
+	    mkdir -p /usr/share/phpMyAdmin/
+	    wget https://files.phpmyadmin.net/phpMyAdmin/4.7.4/phpMyAdmin-4.7.4-all-languages.tar.gz \
+            -O /tmp/phpMyAdmin.tar.gz
+	    tar xfzp /tmp/phpMyAdmin.tar.gz -C /usr/share/phpMyAdmin --strip-components=1
+	    cp /usr/share/phpMyAdmin/config.sample.inc.php /usr/share/phpMyAdmin/config.inc.php
+	    sed -ri "s/cfg\['blowfish_secret'\] = ''/cfg['blowfish_secret'] = '`pwgen 32 1`'/" /usr/share/phpMyAdmin/config.inc.php
+            sed -i '/$i++;/a $cfg[ForceSSL] = true;' /usr/share/phpMyAdmin/config.inc.php
 	else
-		yum -y install phpMyAdmin
-		php php-soap
+	    yum -y install phpMyAdmin php php-soap
+	    sed -i '/$i++;/a $cfg[ForceSSL] = true;' /etc/phpMyAdmin/config.inc.php
 	fi	
-	
-	sed -i '/$i++;/a $cfg[ForceSSL] = true;' /etc/phpMyAdmin/config.inc.php	
-	
-	yum -y install sshguard unzip monit time nano screen git mc rsync screen curl mailx pwgen nginx postgresql-libs proftpd psmisc net-tools httpd-itk mod_ssl gnuplot sysstat
+		
+	yum -y install sshguard unzip monit time nano screen git mc rsync curl mailx pwgen 
+	yum -y install nginx postgresql-libs proftpd psmisc net-tools httpd-itk mod_ssl gnuplot sysstat
 	
 	if [ `uname -m` == 'x86_64' ]; then
 		rpm -Uvh http://repo.x-api.net/centos6/x86_64/mod_rpaf-0.6-2.el6.x86_64.rpm
