@@ -254,6 +254,7 @@ function scriptupdate {
 	wget -N $DLPATH/hostshow.sh
 	wget -N $DLPATH/hostdeploy.sh
 	wget -N $DLPATH/vhost_template
+	wget -N $DLPATH/ssladd.sh
 	#wget -N $DLPATH/sphinxrestart.sh
 	wget -N $DLPATH/robots.txt
 
