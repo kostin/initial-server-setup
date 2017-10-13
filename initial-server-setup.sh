@@ -89,7 +89,6 @@ function confupdate {
 	echo 'Installing or updating conf...'
 	
 	cd /etc/httpd/conf.d
-	wget -N $DLPATH/php.conf
 
 	if [ "$1" == "php7" ]; then
 		wget -N $DLPATH/php7.conf
