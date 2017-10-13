@@ -33,14 +33,14 @@ function softinstall {
 	if [ "$1" == "php7" ]; then
 	    rpm -Uvh https://mirror.webtatic.com/yum/el6/latest.rpm
 	    yum update
-	    yum -y install php71w-common php71w-opcache php71w-cli mod_php71w
+	    yum -y install php71w-common php71w-opcache php71w-cli mod_php71w php71w-mbstring php71w-mysqlnd
 	    mkdir -p /usr/share/phpMyAdmin/
 	    wget https://files.phpmyadmin.net/phpMyAdmin/4.7.4/phpMyAdmin-4.7.4-all-languages.tar.gz \
             -O /tmp/phpMyAdmin.tar.gz
 	    tar xfzp /tmp/phpMyAdmin.tar.gz -C /usr/share/phpMyAdmin --strip-components=1
 	    cp /usr/share/phpMyAdmin/config.sample.inc.php /usr/share/phpMyAdmin/config.inc.php
 	    sed -ri "s/cfg\['blowfish_secret'\] = ''/cfg['blowfish_secret'] = '`pwgen 32 1`'/" /usr/share/phpMyAdmin/config.inc.php
-            sed -i '/$i++;/a $cfg[ForceSSL] = true;' /usr/share/phpMyAdmin/config.inc.php
+	    sed -i '/$i++;/a $cfg[ForceSSL] = true;' /usr/share/phpMyAdmin/config.inc.php
 	else
 	    yum -y install phpMyAdmin php php-soap
 	    sed -i '/$i++;/a $cfg[ForceSSL] = true;' /etc/phpMyAdmin/config.inc.php
@@ -254,11 +254,16 @@ function scriptupdate {
 	if [ ! -d /etc/etc/www.skel ]; then
 		mkdir /etc/www.skel /etc/www.skel/public /etc/www.skel/dev /etc/www.skel/logs /etc/www.skel/tmp
 	fi
+	
 	/opt/scripts/hostadd.sh 000default
 	if [ ! -a /var/www/000default/public/index.php ]; then 
 		NOW="$(date +'%Y-%m-%d')"
 		echo "<?php print '$NOW'; ?>" > /var/www/000default/public/index.php		
 	fi
+	
+	/opt/scripts/ssladd.sh 000default "000default.$(hostname)"
+	
+	
 	
 	echo '*/3 * * * * root /opt/scripts/hoststat.sh > /dev/null' > /etc/cron.d/hoststat
 	echo '*/10 * * * * root /opt/scripts/hostplot.sh > /var/www/000default/public/graph.svg' >> /etc/cron.d/hoststat	
