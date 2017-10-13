@@ -1,6 +1,7 @@
 #!/bin/bash
 
 DLPATH='https://github.com/kostin/initial-server-setup/raw/master'
+PHPVER="$1"
 
 function softinstall {
 	echo 'Installing software...'
@@ -30,7 +31,7 @@ function softinstall {
 	service mysql start \
 	&& chkconfig mysql on	
 	
-	if [ "$1" == "php7" ]; then
+	if [ "$PHPVER" == "php7" ]; then
 	    rpm -Uvh https://mirror.webtatic.com/yum/el6/latest.rpm
 	    yum update
 	    yum -y install php71w-common php71w-opcache php71w-cli mod_php71w php71w-mbstring php71w-mysqlnd
@@ -90,7 +91,7 @@ function confupdate {
 	
 	cd /etc/httpd/conf.d
 
-	if [ "$1" == "php7" ]; then
+	if [ "$PHPVER" == "php7" ]; then
 		wget -N $DLPATH/php7.conf
 		mv $DLPATH/php7.conf $DLPATH/php.conf
 	else
