@@ -242,20 +242,15 @@ function scriptupdate {
 		mkdir -p /backups/.deleted
 	fi
 	
-	cd /opt/scripts
-
-	wget -N $DLPATH/backup.sh
-	wget -N $DLPATH/hostadd.sh 
-	wget -N $DLPATH/hostdel.sh
-	wget -N $DLPATH/hostexport.sh
-	wget -N $DLPATH/hostshow.sh
-	wget -N $DLPATH/hostdeploy.sh
-	wget -N $DLPATH/vhost_template
-	wget -N $DLPATH/ssladd.sh
-	#wget -N $DLPATH/sphinxrestart.sh
-	wget -N $DLPATH/robots.txt
-
+	yum install -y rsync unzip wget
+	cd /tmp
+	wget --no-check-certificate -O /tmp/master.zip https://github.com/kostin/initial-server-setup/archive/master.zip
+	unzip -o master.zip
+	rsync -a /tmp/initial-server-setup-master/ /opt/scripts/
 	chmod +x /opt/scripts/*.sh
+	chmod +x /opt/scripts/*/*.sh
+	
+	cd /opt/scripts
 	
 	if [ ! -d /etc/etc/www.skel ]; then
 		mkdir /etc/www.skel /etc/www.skel/public /etc/www.skel/dev /etc/www.skel/logs /etc/www.skel/tmp
