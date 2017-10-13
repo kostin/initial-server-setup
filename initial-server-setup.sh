@@ -30,10 +30,11 @@ function softinstall {
 	service mysql start \
 	&& chkconfig mysql on	
 	
-	if [ "$1" == "php7" ] ; then
+	if [ "$1" == "php7" ]; then
 	
 		rpm -Uvh https://mirror.webtatic.com/yum/el6/latest.rpm
-		yum -y install php71-common php71-opcache
+		yum update
+		yum -y install php71w-common php71w-opcache
 		
 		mkdir -p /usr/share/phpMyAdmin/
 		wget https://files.phpmyadmin.net/phpMyAdmin/4.7.4/phpMyAdmin-4.7.4-all-languages.tar.gz \
@@ -93,7 +94,7 @@ function confupdate {
 	cd /etc/httpd/conf.d
 	wget -N $DLPATH/php.conf
 
-	if [ "$1" == "php7" ] ; then
+	if [ "$1" == "php7" ]; then
 		wget -N $DLPATH/php7.conf
 		mv $DLPATH/php7.conf $DLPATH/php.conf
 	else
