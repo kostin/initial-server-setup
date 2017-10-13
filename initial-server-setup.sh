@@ -30,7 +30,24 @@ function softinstall {
 	service mysql start \
 	&& chkconfig mysql on	
 	
-	yum -y install sshguard unzip monit time nano screen git mc rsync screen curl mailx pwgen nginx phpMyAdmin postgresql-libs proftpd psmisc net-tools httpd-itk mod_ssl php php-soap gnuplot sysstat
+	yum -y install sshguard unzip monit time nano screen git mc rsync screen curl mailx pwgen nginx postgresql-libs proftpd psmisc net-tools httpd-itk mod_ssl gnuplot sysstat
+	
+	if [ "$1" == "php7" ] ; then
+	
+		rpm -Uvh https://mirror.webtatic.com/yum/el6/latest.rpm
+		yum -y install php71-common php71-opcache
+		
+		mkdir -p /usr/share/phpMyAdmin/
+		wget https://files.phpmyadmin.net/phpMyAdmin/4.7.4/phpMyAdmin-4.7.4-all-languages.tar.gz \
+		-O /tmp/phpMyAdmin.tar.gz
+		tar xfzp /tmp/phpMyAdmin.tar.gz -C /usr/share/phpMyAdmin --strip-components=1
+		cp /usr/share/phpMyAdmin/config.sample.inc.php /usr/share/phpMyAdmin/config.inc.php
+		sed -ri "s/cfg\['blowfish_secret'\] = ''/cfg['blowfish_secret'] = '`pwgen 32 1`'/" /usr/share/phpMyAdmin/config.inc.php	
+		
+	else
+		yum -y install phpMyAdmin
+		php php-soap
+	fi	
 	
 	sed -i '/$i++;/a $cfg[ForceSSL] = true;' /etc/phpMyAdmin/config.inc.php
 	
@@ -75,6 +92,14 @@ function confupdate {
 	
 	cd /etc/httpd/conf.d
 	wget -N $DLPATH/php.conf
+
+	if [ "$1" == "php7" ] ; then
+		wget -N $DLPATH/php7.conf
+		mv $DLPATH/php7.conf $DLPATH/php.conf
+	else
+		wget -N $DLPATH/php.conf
+	fi		
+	
 	wget -N $DLPATH/phpMyAdmin.conf
 	wget -N $DLPATH/rpaf.conf
 	if [ `uname -m` == 'i686' ]; then
