@@ -14,6 +14,10 @@ fi
 
 USER=$1
 DOMAIN=$(cat /var/www/$1/.hostconf/.domains | head -1)
+if [ -z "$DOMAIN" ];
+then
+	DOMAIN=$(hostname)
+fi
 USRPWD=$(cat /var/www/$1/.hostconf/.password-user | head -1)
 DBPWD=$(cat /var/www/$1/.hostconf/.password-db | head -1)
 
