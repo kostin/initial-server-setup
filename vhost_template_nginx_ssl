@@ -1,6 +1,9 @@
   server {
     server_name DOMAIN www.DOMAIN ALIASES;
     listen                      443 ssl http2;
+    location /.well-known/acme-challenge/ {
+      alias /var/www/certs/.well-known/acme-challenge/;
+    }    
     ssl                         on;
     ssl_protocols               TLSv1.2 TLSv1.1 TLSv1;
     ssl_session_cache           shared:SSL:20m;
