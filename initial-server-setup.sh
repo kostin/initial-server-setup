@@ -254,7 +254,7 @@ function scriptupdate {
 	cd /opt/scripts
 	
 	if [ ! -d /etc/etc/www.skel ]; then
-		mkdir /etc/www.skel /etc/www.skel/public /etc/www.skel/dev /etc/www.skel/logs /etc/www.skel/tmp
+		mkdir -p /etc/www.skel /etc/www.skel/public/web_root /etc/www.skel/dev/web_root /etc/www.skel/logs /etc/www.skel/tmp
 	fi
 	
 	/opt/scripts/hostadd.sh 000default
