@@ -48,7 +48,7 @@ function softinstall {
             yum -y install http://rpms.remirepo.net/enterprise/remi-release-6.rpm	 
 	    yum -y install yum-utils
 	    yum-config-manager --enable remi-php72
-	    yum -y install php php-mcrypt php-cli php-gd php-curl php-mysqlnd php-ldap php-zip php-fileinfo
+	    yum -y install php php-mcrypt php-cli php-gd php-curl php-mysqlnd php-ldap php-zip php-fileinfo php-xml 
 	    yum -y install phpMyAdmin php php-soap
 	    sed -i '/$i++;/a $cfg[ForceSSL] = true;' /etc/phpMyAdmin/config.inc.php
 	else
