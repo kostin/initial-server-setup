@@ -32,17 +32,25 @@ function softinstall {
 	&& chkconfig mysql on	
 	
 	if [ "$PHPVER" == "php7" ]; then
-	    rpm -Uvh https://mirror.webtatic.com/yum/el6/latest.rpm
-	    yum update
-	    yum -y install php71w-common php71w-opcache php71w-cli mod_php71w php71w-mysqlnd
-	    yum -y install php71w-mbstring php71w-gd php71w-mcrypt php71w-xml
-	    mkdir -p /usr/share/phpMyAdmin/
-	    wget https://files.phpmyadmin.net/phpMyAdmin/4.7.4/phpMyAdmin-4.7.4-all-languages.tar.gz \
-            -O /tmp/phpMyAdmin.tar.gz
-	    tar xfzp /tmp/phpMyAdmin.tar.gz -C /usr/share/phpMyAdmin --strip-components=1
-	    cp /usr/share/phpMyAdmin/config.sample.inc.php /usr/share/phpMyAdmin/config.inc.php
-	    sed -ri "s/cfg\['blowfish_secret'\] = ''/cfg['blowfish_secret'] = '`pwgen 32 1`'/" /usr/share/phpMyAdmin/config.inc.php
-	    sed -i '/$i++;/a $cfg[ForceSSL] = true;' /usr/share/phpMyAdmin/config.inc.php
+	    #rpm -Uvh https://mirror.webtatic.com/yum/el6/latest.rpm
+	    #yum update
+	    #yum -y install php71w-common php71w-opcache php71w-cli mod_php71w php71w-mysqlnd
+	    #yum -y install php71w-mbstring php71w-gd php71w-mcrypt php71w-xml
+	    #mkdir -p /usr/share/phpMyAdmin/
+	    #wget https://files.phpmyadmin.net/phpMyAdmin/4.7.4/phpMyAdmin-4.7.4-all-languages.tar.gz \
+            #-O /tmp/phpMyAdmin.tar.gz
+	    #tar xfzp /tmp/phpMyAdmin.tar.gz -C /usr/share/phpMyAdmin --strip-components=1
+	    #cp /usr/share/phpMyAdmin/config.sample.inc.php /usr/share/phpMyAdmin/config.inc.php
+	    #sed -ri "s/cfg\['blowfish_secret'\] = ''/cfg['blowfish_secret'] = '`pwgen 32 1`'/" /usr/share/phpMyAdmin/config.inc.php
+	    #sed -i '/$i++;/a $cfg[ForceSSL] = true;' /usr/share/phpMyAdmin/config.inc.php
+	    
+            yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm
+            yum install http://rpms.remirepo.net/enterprise/remi-release-6.rpm	 
+	    yum install yum-utils
+	    yum-config-manager --enable remi-php72
+	    yum install php php-mcrypt php-cli php-gd php-curl php-mysql php-ldap php-zip php-fileinfo
+	    yum -y install phpMyAdmin php php-soap
+	    sed -i '/$i++;/a $cfg[ForceSSL] = true;' /etc/phpMyAdmin/config.inc.php
 	else
 	    yum -y install phpMyAdmin php php-soap
 	    sed -i '/$i++;/a $cfg[ForceSSL] = true;' /etc/phpMyAdmin/config.inc.php
