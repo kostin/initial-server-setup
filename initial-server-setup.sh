@@ -44,11 +44,11 @@ function softinstall {
 	    #sed -ri "s/cfg\['blowfish_secret'\] = ''/cfg['blowfish_secret'] = '`pwgen 32 1`'/" /usr/share/phpMyAdmin/config.inc.php
 	    #sed -i '/$i++;/a $cfg[ForceSSL] = true;' /usr/share/phpMyAdmin/config.inc.php
 	    
-            yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm
-            yum install http://rpms.remirepo.net/enterprise/remi-release-6.rpm	 
-	    yum install yum-utils
+            yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm
+            yum -y install http://rpms.remirepo.net/enterprise/remi-release-6.rpm	 
+	    yum -y install yum-utils
 	    yum-config-manager --enable remi-php72
-	    yum install php php-mcrypt php-cli php-gd php-curl php-mysql php-ldap php-zip php-fileinfo
+	    yum -y install php php-mcrypt php-cli php-gd php-curl php-mysqlnd php-ldap php-zip php-fileinfo
 	    yum -y install phpMyAdmin php php-soap
 	    sed -i '/$i++;/a $cfg[ForceSSL] = true;' /etc/phpMyAdmin/config.inc.php
 	else
@@ -57,7 +57,7 @@ function softinstall {
 	fi	
 		
 	yum -y install sshguard unzip monit time nano screen git mc rsync curl mailx pwgen 
-	yum -y install nginx postgresql-libs proftpd psmisc net-tools httpd-itk mod_ssl gnuplot sysstat
+	yum -y install nginx postgresql-libs vsftpd psmisc net-tools httpd-itk mod_ssl gnuplot sysstat
 	
 	if [ `uname -m` == 'x86_64' ]; then
 		rpm -Uvh http://repo.x-api.net/centos6/x86_64/mod_rpaf-0.6-2.el6.x86_64.rpm
@@ -134,7 +134,10 @@ function confupdate {
 	mv /var/lib/mysql/ib_logfile1 /var/lib/mysql/ib_logfile1.bak
 	service mysqld start
 	
-	wget -N $DLPATH/proftpd.conf
+	#wget -N $DLPATH/proftpd.conf
+	echo "force_dot_files=YES" >> /etc/vsftpd/vsftpd.conf
+	service vsftpd restart
+	chkconfig vsftpd on
 	
 	wget -N $DLPATH/php.ini
 	touch /var/log/phpmail.log
