@@ -4,7 +4,7 @@
 	<IfModule mpm_itk_module>
 	  AssignUserID USER USER
 	</IfModule>
-	DocumentRoot /var/www/USER/public
+	DocumentRoot /var/www/USER/public/web_root
 	CustomLog /var/www/USER/logs/public-access.log combined
 	ErrorLog /var/www/USER/logs/public-error.log
 </VirtualHost>
@@ -13,16 +13,19 @@
 	<IfModule mpm_itk_module>
 	  AssignUserID USER USER
 	</IfModule>
-  DocumentRoot /var/www/USER/dev
+  DocumentRoot /var/www/USER/dev/web_root
   CustomLog /var/www/USER/logs/dev-access.log combined
   ErrorLog /var/www/USER/logs/dev-error.log
 </VirtualHost>
-<Directory /var/www/USER>
-	php_admin_value open_basedir "/var/www/USER:."
+<Directory /var/www/USER/public>
+	php_admin_value open_basedir "none"
 	php_admin_value upload_tmp_dir "/var/www/USER/tmp"
 	php_admin_value session.save_path "/var/www/USER/tmp"
 </Directory>
 <Directory /var/www/USER/dev>
+	php_admin_value open_basedir "none"
+	php_admin_value upload_tmp_dir "/var/www/USER/tmp"
+	php_admin_value session.save_path "/var/www/USER/tmp"
 	Options +Indexes
 	AuthUserFile /var/www/USER/.htpasswd
 	AuthName "Password please"
