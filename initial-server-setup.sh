@@ -47,7 +47,7 @@ function softinstall {
             yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm
             yum -y install http://rpms.remirepo.net/enterprise/remi-release-6.rpm	 
 	    yum -y install yum-utils
-	    yum-config-manager --enable remi-php72
+	    yum-config-manager --enable remi-php71
 	    yum -y install php php-mcrypt php-cli php-gd php-curl php-mysqlnd php-ldap php-zip php-fileinfo php-xml php-opcache
 	    yum -y install phpMyAdmin php php-soap
 	    sed -i '/$i++;/a $cfg[ForceSSL] = true;' /etc/phpMyAdmin/config.inc.php
