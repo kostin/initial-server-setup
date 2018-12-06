@@ -60,7 +60,8 @@ function softinstall {
 	yum -y install nginx postgresql-libs vsftpd psmisc net-tools httpd-itk mod_ssl gnuplot sysstat
 	
 	if [ `uname -m` == 'x86_64' ]; then
-		rpm -Uvh http://repo.x-api.net/centos6/x86_64/mod_rpaf-0.6-2.el6.x86_64.rpm
+		rpm -ivh http://download.ispsystem.com/repo/centos/release/6/x86_64/mod_rpaf-0.8.2-1.el6.x86_64.rpm
+		#rpm -Uvh http://repo.x-api.net/centos6/x86_64/mod_rpaf-0.6-2.el6.x86_64.rpm
 		#yum install unixODBC
 		#rpm -Uhv http://sphinxsearch.com/files/sphinx-2.2.11-2.rhel6.x86_64.rpm
 		#  http://centalt.prounixadmin.ru/repository/centos/6/x86_64/mod_rpaf-0.6-2.el6.x86_64.rpm
@@ -108,12 +109,12 @@ function confupdate {
 	fi		
 	
 	wget -N $DLPATH/phpMyAdmin.conf
-	wget -N $DLPATH/rpaf.conf
+	#wget -N $DLPATH/rpaf.conf
 	if [ `uname -m` == 'i686' ]; then
 		sed -i 's/lib64/lib/g' /etc/httpd/conf.d/rpaf.conf
 	fi	
 	RPAF_IPS=`ip a | grep inet | awk '{print $2}' | awk -F/ '{print $1}' | sort -u | tr '\n' ' '`
-	sed -i "s/IPS/$RPAF_IPS/" /etc/httpd/conf.d/rpaf.conf		
+	sed -i "s/127.0.0.1 ::1/127.0.0.1 ::1 $RPAF_IPS/" /etc/httpd/conf.d/mod_rpaf.conf		
 
 	cd /etc/httpd/conf
 	wget -N $DLPATH/httpd.conf
