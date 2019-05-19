@@ -1,8 +1,8 @@
 # initial-server-setup
 ```
 cd /root \
-&& wget -N --no-check-certificate https://github.com/kostin/initial-server-setup/raw/master/initial-server-setup.sh \
-&& chmod +x initial-server-setup.sh \
+&& wget -N --no-check-certificate https://github.com/kostin/initial-server-setup/raw/master/initial-server-setup-php7.sh \
+&& chmod +x initial-server-setup-php7.sh \
 && ./initial-server-setup.sh
 ```
 
@@ -21,5 +21,5 @@ yum install -y rsync unzip wget \
 && rsync -a /tmp/initial-server-setup-master/ /opt/scripts/ \
 && chmod +x /opt/scripts/*.sh \
 && chmod +x /opt/scripts/*/*.sh \
-&& /opt/scripts/initial-server-setup.sh
+&& /opt/scripts/initial-server-setup-php7.sh
 ```
