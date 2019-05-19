@@ -38,7 +38,7 @@ function softinstall {
   #rpm -Uvh https://mirror.webtatic.com/yum/el6/latest.rpm
   #yum install -y php71w-common php71w-opcache php71w-cli php71w-fpm php71w-gd php71w-mbstring php71w-mcrypt php71w-mysql php71w-pdo php71w-xml
 	
-	yum -y install sshguard monit time nano screen git mc rsync screen curl mailx pwgen nginx phpMyAdmin postgresql-libs proftpd psmisc net-tools httpd-itk mod_ssl php gnuplot
+	yum -y install pwgen sshguard monit time nano screen git mc rsync screen curl mailx pwgen nginx phpMyAdmin postgresql-libs proftpd psmisc net-tools httpd-itk mod_ssl php gnuplot
 	
 	if [ `uname -m` == 'x86_64' ]; then
 		rpm -Uvh http://repo.x-api.net/centos6/x86_64/mod_rpaf-0.6-2.el6.x86_64.rpm
