@@ -70,7 +70,7 @@ function confupdate {
 	echo 'Installing or updating conf...'
 	
 	cd /etc/httpd/conf.d
-	wget -N $DLPATH/php.conf
+	#wget -N $DLPATH/php.conf
 	wget -N $DLPATH/phpMyAdmin.conf
 	wget -N $DLPATH/rpaf.conf
 	if [ `uname -m` == 'i686' ]; then
