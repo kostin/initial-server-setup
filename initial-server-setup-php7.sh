@@ -27,8 +27,15 @@ function softinstall {
 	yum -y install MariaDB-server
 	service mysql start \
 	&& chkconfig mysql on	
+	
+	yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm
+	yum -y install http://rpms.remirepo.net/enterprise/remi-release-6.rpm
+	yum -y install yum-utils
+	yum-config-manager --enable remi-php71
+	
+	yum -y update
   
-  rpm -Uvh https://mirror.webtatic.com/yum/el6/latest.rpm
+  #rpm -Uvh https://mirror.webtatic.com/yum/el6/latest.rpm
   #yum install -y php71w-common php71w-opcache php71w-cli php71w-fpm php71w-gd php71w-mbstring php71w-mcrypt php71w-mysql php71w-pdo php71w-xml
 	
 	yum -y install sshguard monit time nano screen git mc rsync screen curl mailx pwgen nginx phpMyAdmin postgresql-libs proftpd psmisc net-tools httpd-itk mod_ssl php gnuplot
@@ -228,11 +235,11 @@ function scriptupdate {
 	echo '* * * * * root /opt/scripts/hoststatproc.sh > /dev/null' > /etc/cron.d/hoststatproc
 	echo '*/10 * * * * root /opt/scripts/hostplotproc.sh > /var/www/000default/public/graph-proc.svg' >> /etc/cron.d/hoststatproc
 
-	cd /usr/local/share/ && \
-	wget -N http://ftp.drupal.org/files/projects/drush-7.x-5.9.tar.gz && \
-	tar zxvf drush-7.x-5.9.tar.gz && \
-	ln -s /usr/local/share/drush/drush /usr/local/bin/drush && \
-	rm -f drush-7.x-5.9.tar.gz
+	#cd /usr/local/share/ && \
+	#wget -N http://ftp.drupal.org/files/projects/drush-7.x-5.9.tar.gz && \
+	#tar zxvf drush-7.x-5.9.tar.gz && \
+	#ln -s /usr/local/share/drush/drush /usr/local/bin/drush && \
+	#rm -f drush-7.x-5.9.tar.gz
 	
         cd /tmp
         curl -sS https://getcomposer.org/installer | php
